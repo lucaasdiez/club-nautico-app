@@ -1,13 +1,5 @@
-package com.clubNautico.controller;
-
-import com.clubNautico.model.Socio;
-import com.clubNautico.service.socio.SocioService;
-import jakarta.validation.ValidationException;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -15,36 +7,40 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class SocioController {
 
-    @Autowired
-    private SocioService socioService;
+    private final SocioService socioService;
 
-    @GetMapping
-    public List<Socio> getAll() {
-        return socioService.getAllSocios();
+    public SocioController(SocioService socioService) {
+        this.socioService = socioService;
     }
 
     @PostMapping
-    public ResponseEntity<Socio> create(@RequestBody Socio socio) {
+    public ResponseEntity<?> crearSocio(@RequestBody Socio socio) {
         try {
             Socio nuevo = socioService.createSocio(socio);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
-        } catch (ValidationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.ok(nuevo);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
+    @GetMapping
+    public List<Socio> listarSocios() {
+        return socioService.getAllSocios();
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Socio> update(@PathVariable Long id, @RequestBody Socio socio) {
+    public ResponseEntity<?> actualizarSocio(@PathVariable Long id, @RequestBody Socio socio) {
         try {
-            return ResponseEntity.ok(socioService.updateSocio(id, socio));
-        } catch (ValidationException | EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            Socio actualizado = socioService.updateSocio(id, socio);
+            return ResponseEntity.ok(actualizado);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<?> eliminarSocio(@PathVariable Long id) {
         socioService.deleteSocio(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Socio eliminado correctamente");
     }
 }

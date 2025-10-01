@@ -2,6 +2,7 @@
 const form = document.getElementById('socio-form');
 const tableBody = document.getElementById('socio-table-body');
 const idField = document.getElementById('id');
+const errorDiv = document.getElementById('error-message'); // 🔴 mensaje de error
 
 // Array para guardar socios en memoria (simulación sin backend)
 let socios = [];
@@ -21,9 +22,23 @@ form.addEventListener('submit', (e) => {
     fechaNacimiento: document.getElementById('fechaNacimiento').value,
   };
 
+  // 🔴 Validación de duplicados (DNI o Email)
+  const duplicado = socios.find(
+    (s) =>
+      (s.dni === socio.dni || s.email === socio.email) &&
+      s.id != socio.id // excluir al mismo si es edición
+  );
+
+  if (duplicado) {
+    errorDiv.textContent = "⚠️ Ya existe un socio con este DNI o Email.";
+    return; // detener creación
+  }
+
+  errorDiv.textContent = ""; // limpiar mensajes previos
+
   if (idField.value) {
     // Editar socio existente
-    socios = socios.map(s => (s.id == socio.id ? socio : s));
+    socios = socios.map((s) => (s.id == socio.id ? socio : s));
   } else {
     // Agregar nuevo socio
     socios.push(socio);
@@ -36,7 +51,7 @@ form.addEventListener('submit', (e) => {
 // Renderizar la tabla
 function renderTable() {
   tableBody.innerHTML = '';
-  socios.forEach(socio => {
+  socios.forEach((socio) => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${socio.nombre}</td>
@@ -54,7 +69,7 @@ function renderTable() {
 
 // Editar socio
 function editSocio(id) {
-  const socio = socios.find(s => s.id == id);
+  const socio = socios.find((s) => s.id == id);
   if (!socio) return;
 
   idField.value = socio.id;
@@ -69,7 +84,7 @@ function editSocio(id) {
 
 // Eliminar socio
 function deleteSocio(id) {
-  socios = socios.filter(s => s.id != id);
+  socios = socios.filter((s) => s.id != id);
   renderTable();
 }
 
@@ -77,4 +92,5 @@ function deleteSocio(id) {
 function resetForm() {
   form.reset();
   idField.value = '';
+  errorDiv.textContent = ""; // limpiar error al resetear
 }
