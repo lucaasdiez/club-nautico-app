@@ -1,0 +1,16 @@
+@use "../utils/mixins";
+@use "../utils/variables";
+
+main {
+  display: grid;
+  gap: variables.$space-6;
+
+  // Mobile-first → todo en 1 columna
+  grid-template-columns: 1fr;
+
+  // En pantallas grandes, dos columnas
+  @include mixins.mq(variables.$bp-lg) {
+    grid-template-columns: 1fr 2fr; // formulario 1/3, tabla 2/3
+    align-items: start;
+  }
+}

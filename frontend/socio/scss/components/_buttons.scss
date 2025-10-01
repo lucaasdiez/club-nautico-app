@@ -1,0 +1,23 @@
+@use "../utils/variables";
+@use "../utils/mixins";
+
+button {
+  @include mixins.button-base;
+  background: variables.$primary-color;
+  color: variables.$white;
+  @include mixins.focus-ring;
+
+  &:hover {
+    background: variables.$primary-hover;
+  }
+}
+
+button.secondary {
+  background: transparent;
+  color: variables.$primary-color;
+  border: 1px solid variables.$primary-color;
+
+  &:hover {
+    background: rgba(0, 51, 102, .06);
+  }
+}
