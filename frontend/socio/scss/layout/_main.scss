@@ -1,0 +1,12 @@
+@use "../utils/mixins";
+@use "../utils/helpers";
+
+main {
+  @include helpers.container;
+  padding-bottom: 2rem;
+
+  section {
+    @include mixins.card;
+    margin-bottom: 1.5rem;
+  }
+}

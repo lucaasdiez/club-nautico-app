@@ -1,0 +1,21 @@
+@use "../utils/variables";
+
+body {
+  font-family: variables.$font-stack;
+  font-size: variables.$base-size;
+  color: variables.$text-color;
+  background: variables.$bg-color;
+}
+
+h1 {
+  color: variables.$primary-color;
+  font-weight: 700;
+  margin-bottom: variables.$space-4;
+}
+
+label {
+  font-weight: 600;
+  color: variables.$text-color;
+}
+
+small, .muted { color: variables.$muted-text; }

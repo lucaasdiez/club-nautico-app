@@ -1,0 +1,6 @@
+@use "../utils/helpers";
+
+header {
+  @include helpers.container;
+  padding-block: 1.5rem;
+}

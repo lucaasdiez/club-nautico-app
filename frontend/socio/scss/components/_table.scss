@@ -1,0 +1,38 @@
+@use "sass:color";
+@use "../utils/variables";
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: .75rem .85rem;
+    border: 1px solid variables.$border-color;
+    vertical-align: top;
+  }
+
+  thead th {
+    background: variables.$primary-color;
+    color: variables.$white;
+    text-align: left;
+  }
+
+  tbody tr {
+    background: variables.$white;
+    &:hover {
+      background: color.adjust(variables.$bg-color, $lightness: 3%);
+    }
+  }
+
+  td:last-child {
+    white-space: nowrap;
+  }
+}
+// Scroll horizontal solo en mobile
+@media (max-width: variables.$bp-md) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
