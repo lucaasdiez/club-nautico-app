@@ -1,35 +1,78 @@
-import jakarta.persistence.*;
+package com.clubNautico.model;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "socios", uniqueConstraints = {
     @UniqueConstraint(columnNames = "dni"),
-    @UniqueConstraint(columnNames = "email")
+    @UniqueConstraint(columnNames = "email"),
+    @UniqueConstraint(columnNames = "nro_socio")
 })
 public class Socio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    private String nombre;
-    private String apellido;
+    @Column(name = "nro_socio", insertable = false, updatable = false)
+    private Long nroSocio; // BIGSERIAL en BD, generado automáticamente
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private String dni;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    private String nombre;
+
+    @Column(nullable = false, length = 100)
+    private String apellido;
+
+    @Column(nullable = false, length = 150)
     private String email;
 
+    @Column(length = 30)
     private String telefono;
-    private String direccion;
+
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDate fechaAlta = LocalDate.now();
+
+    @Column(nullable = false)
+    private Boolean activo = true;
+
+    @Column(name = "categoria_id")
+    private UUID categoriaId;
 
     // Getters y Setters
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Long getNroSocio() {
+        return nroSocio;
+    }
+
+    public void setNroSocio(Long nroSocio) {
+        this.nroSocio = nroSocio;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -48,14 +91,6 @@ public class Socio {
         this.apellido = apellido;
     }
 
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -72,11 +107,27 @@ public class Socio {
         this.telefono = telefono;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public UUID getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(UUID categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }

@@ -1,5 +1,12 @@
-import org.springframework.stereotype.Service;
+package com.clubNautico.service.socio;
+
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.clubNautico.model.Socio;
+import com.clubNautico.repository.SocioRepository;
 
 @Service
 public class SocioServiceImpl implements SocioService {
@@ -30,7 +37,7 @@ public class SocioServiceImpl implements SocioService {
     }
 
     @Override
-    public Socio updateSocio(Long id, Socio socio) {
+    public Socio updateSocio(UUID id, Socio socio) {
         Socio existente = socioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Socio no encontrado"));
 
@@ -39,13 +46,14 @@ public class SocioServiceImpl implements SocioService {
         existente.setDni(socio.getDni());
         existente.setEmail(socio.getEmail());
         existente.setTelefono(socio.getTelefono());
-        existente.setDireccion(socio.getDireccion());
+        existente.setActivo(socio.getActivo());
+        existente.setCategoriaId(socio.getCategoriaId());
 
         return socioRepository.save(existente);
     }
 
     @Override
-    public void deleteSocio(Long id) {
+    public void deleteSocio(UUID id) {
         socioRepository.deleteById(id);
     }
 }
