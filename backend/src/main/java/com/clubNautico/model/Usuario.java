@@ -1,65 +1,38 @@
 package com.clubNautico.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.util.UUID;
 
 @MappedSuperclass
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
 public abstract class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
-    @Column(nullable = false)
-    private String nombre;
+    @Column(nullable = false, length = 100)
+    @NotBlank(message = "La contraseña es obligatoria.")
+    @Size(max = 100, message = "La contraseña no puede superar los 100 caracteres.")
+    private String password;
 
-    @Column(nullable = false)
-    private String apellido;
+    @Column(nullable = false, unique = true, length = 50)
+    @NotBlank(message = "El nombre de usuario es obligatorio.")
+    @Size(max = 50, message = "El nombre de usuario no puede superar los 50 caracteres.")
+    private String username;
 
-    @Column(nullable = false, unique = true)
-    private String dni;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    // Getters y Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
