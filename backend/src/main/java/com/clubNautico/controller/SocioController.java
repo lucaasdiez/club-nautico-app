@@ -1,6 +1,11 @@
+package com.clubNautico.controller;
+
+import com.clubNautico.model.Socio;
+import com.clubNautico.service.socio.SocioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/socios")
@@ -29,7 +34,7 @@ public class SocioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable Long id, @RequestBody Socio socio) {
+    public ResponseEntity<?> actualizarSocio(@PathVariable UUID id, @RequestBody Socio socio) {
         try {
             Socio actualizado = socioService.updateSocio(id, socio);
             return ResponseEntity.ok(actualizado);
@@ -39,7 +44,7 @@ public class SocioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarSocio(@PathVariable Long id) {
+    public ResponseEntity<?> eliminarSocio(@PathVariable UUID id) {
         socioService.deleteSocio(id);
         return ResponseEntity.ok("Socio eliminado correctamente");
     }
