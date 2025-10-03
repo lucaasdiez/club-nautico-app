@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.clubNautico.dto.SocioDTO;
+import com.clubNautico.enums.EstadoCuota;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +31,7 @@ public class SocioController {
 
     private final SocioService socioService;
 
-    
+
     @PostMapping
     public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
         try {
@@ -63,6 +65,26 @@ public class SocioController {
         return ResponseEntity.ok("Socio eliminado correctamente");
     }
 
+    @GetMapping("/socio/{nroSocio}")
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable Long nroSocio) {
+        try {
+            SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
+            return ResponseEntity.ok(socioDTO);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @GetMapping("/socio/{estadoCuota}")
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable EstadoCuota estadoCuota) {
+        try {
+            List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
+            return ResponseEntity.ok(socioDTO);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
 
 
+    }
 }
