@@ -3,6 +3,7 @@ package com.clubNautico.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.clubNautico.dto.SocioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,24 +31,26 @@ public class SocioController {
 
     
     @PostMapping
-    public ResponseEntity<?> crearSocio(@RequestBody Socio socio) {
+    public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
         try {
             Socio nuevo = socioService.createSocio(socio);
-            return ResponseEntity.ok(nuevo);
+            SocioDTO socioDTO = socioService.convertirADTO(nuevo);
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @GetMapping
-    public List<Socio> listarSocios() {
-        return socioService.getAllSocios();
+    public List<SocioDTO> listarSocios() {
+        return socioService.convertirADTOS(socioService.getAllSocios());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable UUID id, @RequestBody Socio socio) {
+    @PutMapping("/{nroSocio}")
+    public ResponseEntity<?> actualizarSocio(@PathVariable Long nroSocio, @RequestBody SocioDTO socio) {
         try {
-            Socio actualizado = socioService.updateSocio(id, socio);
+            Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
+            SocioDTO socioDTO = socioService.convertirADTO(actualizado);
             return ResponseEntity.ok(actualizado);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -61,27 +64,5 @@ public class SocioController {
     }
 
 
-    @GetMapping("/buscar")
-    public List<Socio> buscarSocios(@RequestParam(value = "q", required = false) String query) {
-        return socioService.buscarSocios(query);
-    }
 
-    @GetMapping("/con-estado")
-    public List<SocioConEstadoDTO> listarSociosConEstado(
-            @RequestParam(value = "estado", required = false) String estado,
-            @RequestParam(value = "q", required = false) String query) {
-        
-        // Si hay búsqueda por texto
-        if (query != null && !query.trim().isEmpty()) {
-            return socioService.buscarSociosConEstado(query);
-        }
-        
-        // Si hay filtro por estado
-        if (estado != null && !estado.trim().isEmpty()) {
-            return socioService.getSociosPorEstadoCuota(estado);
-        }
-        
-        // Si no hay filtros, devolver todos
-        return socioService.getSociosConEstadoCuota();
-    }
 }
