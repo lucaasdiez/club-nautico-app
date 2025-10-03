@@ -49,7 +49,7 @@ public class SocioController {
     }
 
     @PutMapping("/{nroSocio}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable Long nroSocio, @RequestBody SocioDTO socio) {
+    public ResponseEntity<?> actualizarSocio(@PathVariable String nroSocio, @RequestBody SocioDTO socio) {
         try {
             Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
             SocioDTO socioDTO = socioService.convertirADTO(actualizado);
@@ -66,7 +66,7 @@ public class SocioController {
     }
 
     @GetMapping("/socio/{nroSocio}")
-    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable Long nroSocio) {
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable String nroSocio) {
         try {
             SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
             return ResponseEntity.ok(socioDTO);

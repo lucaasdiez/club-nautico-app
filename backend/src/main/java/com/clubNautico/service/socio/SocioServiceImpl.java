@@ -11,9 +11,9 @@ import com.clubNautico.dto.SocioDTO;
 import com.clubNautico.enums.EstadoCuota;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.clubNautico.dto.SocioConEstadoDTO;
 import com.clubNautico.model.Socio;
 import com.clubNautico.repository.SocioRepository;
 
@@ -26,7 +26,7 @@ public class SocioServiceImpl implements SocioService {
 
 
     @Override
-    public Socio buscarSocioPorNumero(Long nroSocio) {
+    public Socio buscarSocioPorNumero(String nroSocio) {
         return socioRepository.findByNroSocio(nroSocio)
                 .orElseThrow(()-> new NoSuchElementException("El usuario no existe"));
     }
@@ -37,7 +37,7 @@ public class SocioServiceImpl implements SocioService {
     }
 
     @Override
-    public Socio actualizarSocio(Long nroSocio, SocioDTO socio) {
+    public Socio actualizarSocio(String nroSocio, SocioDTO socio) {
         return socioRepository.findByNroSocio(nroSocio)
                 .map(socioExistente -> updateSocioExistente(socioExistente, socio))
                 .map(socioRepository :: save)
@@ -46,6 +46,7 @@ public class SocioServiceImpl implements SocioService {
 
     @Override
     public Socio createSocio(SocioDTO socio) {
+        long count = socioRepository.count() + 1;
         if (socioRepository.findByDni(socio.getDni()).isPresent()) {
             throw new RuntimeException("El DNI ya está registrado en el sistema.");
         }
@@ -65,7 +66,7 @@ public class SocioServiceImpl implements SocioService {
                 .activo(socio.getActivo())
                 .fechaAlta(socio.getFechaAlta())
                 .telefono(socio.getTelefono())
-                .nroSocio(socio.getNroSocio())
+                .nroSocio(String.format("%08d", count))
                 .build();
         return socioRepository.save(socioNuevo);
     }
@@ -103,5 +104,35 @@ public class SocioServiceImpl implements SocioService {
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
+
+    private EstadoCuota calcularEstadoCuota(LocalDate fechaVencimiento) {
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaVencimiento.isBefore(hoy)) {
+            return EstadoCuota.VENCIDA;
+        } else if (fechaVencimiento.isEqual(hoy)) {
+            return EstadoCuota.AL_DIA;
+        } else if (fechaVencimiento.isAfter(hoy) && fechaVencimiento.minusDays(5).isBefore(hoy)) {
+            return EstadoCuota.POR_VENCER; // A 5 días del vencimiento
+        } else {
+            return EstadoCuota.AL_DIA;
+        }
+    }
+
+    public void actualizarEstadosCuotas() {
+        List<Socio> socios = socioRepository.findAll();
+        for (Socio socio : socios) {
+            EstadoCuota nuevoEstado = calcularEstadoCuota(socio.getFechaVencimiento());
+            socio.setEstadoCuota(nuevoEstado);
+            socioRepository.save(socio);
+        }
+    }
+
+
+    @Scheduled(cron = "0 0 2 * * ?") // todos los días a las 2 AM
+    public void actualizarCuotasDiarias() {
+        actualizarEstadosCuotas();
+    }
+
 
 }

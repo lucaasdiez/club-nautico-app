@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 public class Socio extends Usuario {
 
     @Column(name = "nro_socio", insertable = false, updatable = false)
-    private Long nroSocio;
+    private String nroSocio;
     @Column(nullable = false, length = 15)
     private String dni;
     @Column(nullable = false, length = 100)
@@ -35,6 +35,9 @@ public class Socio extends Usuario {
     private Boolean activo = true;
     @Column(name = "categoria_id")
     private UUID categoriaId;
+    @Column(name = "fecha_vencimiento", nullable = false)
+    private LocalDate fechaVencimiento;
+
 
     private EstadoCuota estadoCuota;
 

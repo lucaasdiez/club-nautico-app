@@ -9,9 +9,9 @@ import com.clubNautico.enums.EstadoCuota;
 import com.clubNautico.model.Socio;
 
 public interface SocioService {
-    Socio buscarSocioPorNumero(Long nroSocio);
+    Socio buscarSocioPorNumero(String nroSocio);
     List<Socio> getSociosPorCuota(EstadoCuota estadoCuota);
-    Socio actualizarSocio(Long nroSocio, SocioDTO socio);
+    Socio actualizarSocio(String nroSocio, SocioDTO socio);
     SocioDTO convertirADTO(Socio socio);
     List<SocioDTO> convertirADTOS(List<Socio> socios);
     Socio createSocio(SocioDTO socio);
