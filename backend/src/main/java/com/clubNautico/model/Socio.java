@@ -4,22 +4,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.clubNautico.enums.EstadoCuota;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "socios", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "dni"),
-    @UniqueConstraint(columnNames = "email"),
-    @UniqueConstraint(columnNames = "nro_socio")
-})
+@DiscriminatorValue("SOCIO")
 @Getter
 @Setter
 @NoArgsConstructor
