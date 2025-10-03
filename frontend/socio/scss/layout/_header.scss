@@ -1,6 +1,50 @@
 @use "../utils/helpers";
 
-header {
-  @include helpers.container;
-  padding-block: 1.5rem;
+.header {
+  background: #fff;
+  display: flex;
+  justify-content: space-between; /* logo izq - socio der */
+  align-items: center;            /* alinea todo en la misma fila */
+  padding: 0.8rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    .logo {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .user-name {
+      font-weight: 600;
+    }
+    .user-role {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    .btn-logout {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 6px;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-logout:hover {
+      background: #dc2626;
+    }
+  }
 }

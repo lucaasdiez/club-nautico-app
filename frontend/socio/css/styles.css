@@ -77,11 +77,49 @@ small, .muted {
   color: #666;
 }
 
-header {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding-inline: 1rem;
-  padding-block: 1.5rem;
+.header {
+  background: #fff;
+  display: flex;
+  justify-content: space-between; /* logo izq - socio der */
+  align-items: center; /* alinea todo en la misma fila */
+  padding: 0.8rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.header .header-left {
+  display: flex;
+  flex-direction: column;
+}
+.header .header-left .logo {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.header .header-left .subtitle {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.header .header-right .user-name {
+  font-weight: 600;
+}
+.header .header-right .user-role {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.header .header-right .btn-logout {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}
+.header .header-right .btn-logout:hover {
+  background: #dc2626;
 }
 
 main {
@@ -108,6 +146,42 @@ main {
     grid-template-columns: 1fr 2fr;
     align-items: start;
   }
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+.grid.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+button {
+  appearance: none;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font: inherit;
+  background: #003366;
+  color: #ffffff;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+button:focus-visible {
+  outline-color: #00509e;
+}
+button:hover {
+  background: #00509e;
+}
+
+button.secondary {
+  background: transparent;
+  color: #003366;
+  border: 1px solid #003366;
+}
+button.secondary:hover {
+  background: rgba(0, 51, 102, 0.06);
 }
 
 form#socio-form {
@@ -187,32 +261,41 @@ table td:last-child {
     white-space: nowrap;
   }
 }
-button {
-  appearance: none;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font: inherit;
-  background: #003366;
-  color: #ffffff;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem;
 }
-button:focus-visible {
-  outline-color: #00509e;
+.card .card-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
 }
-button:hover {
-  background: #00509e;
+.card .card-body {
+  font-size: 0.9rem;
+  color: #374151;
 }
 
-button.secondary {
-  background: transparent;
-  color: #003366;
-  border: 1px solid #003366;
+.tabs {
+  display: flex;
+  justify-content: center;
+  background: #f3f4f6;
+  border-radius: 8px;
+  margin: 1rem auto;
+  width: fit-content;
+  padding: 0.2rem;
 }
-button.secondary:hover {
-  background: rgba(0, 51, 102, 0.06);
+.tabs .tab {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+}
+.tabs .tab.active {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /*# sourceMappingURL=styles.css.map */
