@@ -53,7 +53,7 @@ public class SocioController {
         try {
             Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
             SocioDTO socioDTO = socioService.convertirADTO(actualizado);
-            return ResponseEntity.ok(actualizado);
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
