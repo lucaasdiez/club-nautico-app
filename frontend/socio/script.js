@@ -1,96 +1,111 @@
-// Referencias a elementos del DOM
-const form = document.getElementById('socio-form');
-const tableBody = document.getElementById('socio-table-body');
-const idField = document.getElementById('id');
-const errorDiv = document.getElementById('error-message'); // 🔴 mensaje de error
-
-// Array para guardar socios en memoria (simulación sin backend)
-let socios = [];
-
-// Manejar envío del formulario
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const socio = {
-    id: idField.value || Date.now(), // Si no hay id, generar uno
-    nombre: document.getElementById('nombre').value,
-    apellido: document.getElementById('apellido').value,
-    dni: document.getElementById('dni').value,
-    email: document.getElementById('email').value,
-    telefono: document.getElementById('telefono').value,
-    direccion: document.getElementById('direccion').value,
-    fechaNacimiento: document.getElementById('fechaNacimiento').value,
-  };
-
-  // 🔴 Validación de duplicados (DNI o Email)
-  const duplicado = socios.find(
-    (s) =>
-      (s.dni === socio.dni || s.email === socio.email) &&
-      s.id != socio.id // excluir al mismo si es edición
-  );
-
-  if (duplicado) {
-    errorDiv.textContent = "⚠️ Ya existe un socio con este DNI o Email.";
-    return; // detener creación
-  }
-
-  errorDiv.textContent = ""; // limpiar mensajes previos
-
-  if (idField.value) {
-    // Editar socio existente
-    socios = socios.map((s) => (s.id == socio.id ? socio : s));
-  } else {
-    // Agregar nuevo socio
-    socios.push(socio);
-  }
-
-  renderTable();
-  resetForm();
+// =========================================
+// MÓDULO 1: NAVEGACIÓN DE PESTAÑAS
+// (Compartido por todos)
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+    initTabNavigation();
+    initPagosModule();
 });
 
-// Renderizar la tabla
-function renderTable() {
-  tableBody.innerHTML = '';
-  socios.forEach((socio) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${socio.nombre}</td>
-      <td>${socio.apellido}</td>
-      <td>${socio.dni}</td>
-      <td>${socio.email}</td>
-      <td>
-        <button onclick="editSocio(${socio.id})">Editar</button>
-        <button onclick="deleteSocio(${socio.id})">Eliminar</button>
-      </td>
-    `;
-    tableBody.appendChild(row);
-  });
+function initTabNavigation() {
+    const tabs = document.querySelectorAll('.nav-tab');
+    const sections = document.querySelectorAll('.content-section');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.getAttribute('data-tab');
+
+            // Remover clase active de todos los tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Agregar clase active al tab clickeado
+            tab.classList.add('active');
+
+            // Ocultar todas las secciones
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostrar la sección correspondiente
+            const activeSection = document.getElementById(`${tabName}-content`);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+        });
+    });
+
+    // Manejo del botón de logout
+    const logoutBtn = document.querySelector('.header__logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            console.log('Cerrando sesión...');
+            // Aquí agregar lógica de logout
+            // window.location.href = '/logout';
+        });
+    }
 }
 
-// Editar socio
-function editSocio(id) {
-  const socio = socios.find((s) => s.id == id);
-  if (!socio) return;
+// =========================================
+// MÓDULO 2: GESTIÓN DE PAGOS
+// (Tu sección - Lucio)
+// =========================================
+function initPagosModule() {
+    // Aquí va toda la lógica de historial de pagos
+    console.log('Módulo de pagos inicializado');
+    
+    // Ejemplo: Array de pagos (en el futuro vendrá del backend)
+    let pagos = [
+        {
+            id: 1,
+            fecha: '15/03/2024',
+            concepto: 'Cuota Mensual - Marzo',
+            monto: 5000,
+            estado: 'pagado'
+        },
+        {
+            id: 2,
+            fecha: '15/02/2024',
+            concepto: 'Cuota Mensual - Febrero',
+            monto: 5000,
+            estado: 'pagado'
+        },
+        {
+            id: 3,
+            fecha: '15/01/2024',
+            concepto: 'Cuota Mensual - Enero',
+            monto: 5000,
+            estado: 'pendiente'
+        }
+    ];
 
-  idField.value = socio.id;
-  document.getElementById('nombre').value = socio.nombre;
-  document.getElementById('apellido').value = socio.apellido;
-  document.getElementById('dni').value = socio.dni;
-  document.getElementById('email').value = socio.email;
-  document.getElementById('telefono').value = socio.telefono;
-  document.getElementById('direccion').value = socio.direccion;
-  document.getElementById('fechaNacimiento').value = socio.fechaNacimiento;
+    // Aquí puedes agregar funciones para:
+    // - Filtrar pagos por estado
+    // - Buscar pagos por fecha
+    // - Registrar nuevos pagos
+    // - Ver comprobantes
+    // - etc.
 }
 
-// Eliminar socio
-function deleteSocio(id) {
-  socios = socios.filter((s) => s.id != id);
-  renderTable();
-}
+// =========================================
+// MÓDULO 3: RESUMEN
+// (Para tus compañeros)
+// =========================================
+// function initResumenModule() {
+//     // Código del módulo de resumen
+// }
 
-// Resetear formulario
-function resetForm() {
-  form.reset();
-  idField.value = '';
-  errorDiv.textContent = ""; // limpiar error al resetear
-}
+// =========================================
+// MÓDULO 4: DISCIPLINAS
+// (Para tus compañeros)
+// =========================================
+// function initDisciplinasModule() {
+//     // Código del módulo de disciplinas
+// }
+
+// =========================================
+// MÓDULO 5: ACCESO
+// (Para tus compañeros)
+// =========================================
+// function initAccesoModule() {
+//     // Código del módulo de acceso
+// }

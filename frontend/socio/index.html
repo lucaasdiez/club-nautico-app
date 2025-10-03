@@ -1,72 +1,281 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestión de Socios - Club Náutico</title>
-  <!-- Estilos compilados desde SCSS -->
-  <link rel="stylesheet" href="../socio/css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Social - Portal del Socio</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
-    <h1>Gestión de Socios</h1>
-  </header>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__left">
+                <!-- Logo -->
+                <div class="header__logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <!-- Título -->
+                <div class="header__title">
+                    <h1>Club Social</h1>
+                    <p>Portal del Socio</p>
+                </div>
+            </div>
 
-  <main>
-    <!-- Formulario de Alta/Edición de Socio -->
-    <section>
-      <!-- 🔴 Div para mostrar mensajes de error -->
-      <div id="error-message" style="color: red; font-weight: bold; margin-bottom: 10px;"></div>
-
-      <form id="socio-form">
-        <input type="hidden" id="id" />
-        
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" required />
-        
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" required />
-        
-        <label for="dni">DNI</label>
-        <input type="text" id="dni" required />
-        
-        <label for="email">Email</label>
-        <input type="email" id="email" required />
-        
-        <label for="telefono">Teléfono</label>
-        <input type="text" id="telefono" />
-        
-        <label for="direccion">Dirección</label>
-        <input type="text" id="direccion" />
-        
-        <label for="fechaNacimiento">Fecha de nacimiento</label>
-        <input type="date" id="fechaNacimiento" />
-        
-        <div class="form-actions">
-          <button type="submit">Guardar Socio</button>
-          <button type="button" onclick="resetForm()">Cancelar</button>
+            <div class="header__right">
+                <!-- Usuario -->
+                <div class="header__user">
+                    <div class="header__avatar">LB</div>
+                    <div class="header__user-info">
+                        <p class="header__user-name">lucio borda</p>
+                        <p class="header__user-id">Socio #1234</p>
+                    </div>
+                </div>
+                <!-- Botón salir -->
+                <button class="header__logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Salir</span>
+                </button>
+            </div>
         </div>
-      </form>
-    </section>
+    </header>
 
-    <!-- Tabla de Socios -->
-    <section>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>DNI</th>
-            <th>Email</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="socio-table-body"></tbody>
-      </table>
-    </section>
-  </main>
+    <!-- Navegación por pestañas -->
+    <div class="nav-wrapper">
+        <div class="nav-container">
+            <nav class="nav-tabs">
+                <button class="nav-tab" data-tab="resumen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Resumen</span>
+                </button>
+                <button class="nav-tab active" data-tab="pagos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                    <span>Pagos</span>
+                </button>
+                <button class="nav-tab" data-tab="disciplinas">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>
+                    <span>Disciplinas</span>
+                </button>
+                <button class="nav-tab" data-tab="acceso">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <path d="M7 7h.01"></path>
+                        <path d="M17 7h.01"></path>
+                        <path d="M7 17h.01"></path>
+                        <path d="M17 17h.01"></path>
+                    </svg>
+                    <span>Acceso</span>
+                </button>
+            </nav>
+        </div>
+    </div>
 
-  <!-- Scripts -->
-  <script src="script.js"></script>
+    <!-- Contenido principal -->
+    <main class="main">
+        <div class="main__container">
+            <!-- ========================================= -->
+            <!-- Sección RESUMEN (Para tus compañeros) -->
+            <!-- ========================================= -->
+            <section id="resumen-content" class="content-section">
+                <div class="content-card">
+                    <h2>Resumen</h2>
+                    <p>Contenido de resumen - A completar por el equipo</p>
+                    <!-- Aquí va el contenido de resumen -->
+                </div>
+            </section>
+
+            <!-- ========================================= -->
+            <!-- Sección PAGOS (TU SECCIÓN) -->
+            <!-- ========================================= -->
+            <section id="pagos-content" class="content-section active">
+                <!-- Grid de 2 columnas -->
+                <div class="pagos-grid">
+                    <!-- Columna izquierda: Realizar Pago -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                            <h2>Realizar Pago</h2>
+                        </div>
+                        <p class="card-subtitle">Selecciona el tipo de pago que deseas realizar</p>
+
+                        <h3 class="section-title">Tipo de Pago</h3>
+
+                        <!-- Opciones de pago -->
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <div class="payment-info">
+                                    <h4>Cuota Social Mensual</h4>
+                                    <p>Cuota mensual del club</p>
+                                </div>
+                                <span class="payment-price">$25.000</span>
+                            </div>
+
+                            <div class="payment-option">
+                                <div class="payment-info">
+                                    <h4>Cuota Social Anual</h4>
+                                    <p>Cuota anual del club (descuento 17%)</p>
+                                </div>
+                                <span class="payment-price">$250.000</span>
+                            </div>
+
+                            <div class="payment-option">
+                                <div class="payment-info">
+                                    <h4>Pase de Invitado</h4>
+                                    <p>Acceso de invitado por día</p>
+                                </div>
+                                <span class="payment-price">$5.000</span>
+                            </div>
+
+                            <div class="payment-option">
+                                <div class="payment-info">
+                                    <h4>Monto Personalizado</h4>
+                                    <p>Ingresa el monto que deseas pagar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha: Historial de Pagos -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <h2>Historial de Pagos</h2>
+                        </div>
+                        <p class="card-subtitle">Tus últimos pagos realizados</p>
+
+                        <!-- Lista de pagos -->
+                        <div class="payment-history">
+                            <div class="payment-item">
+                                <div class="payment-details">
+                                    <h4>Pase de Invitado</h4>
+                                    <div class="payment-meta">
+                                        <span>📅 03-10-2025</span>
+                                        <span>ID: kg99mkq5</span>
+                                    </div>
+                                </div>
+                                <div class="payment-status">
+                                    <span class="status-badge completed">Completado</span>
+                                    <span class="payment-amount">$5.000</span>
+                                    <span class="payment-method">Card</span>
+                                </div>
+                            </div>
+
+                            <div class="payment-item">
+                                <div class="payment-details">
+                                    <h4>Cuota Social Mensual</h4>
+                                    <div class="payment-meta">
+                                        <span>📅 03-10-2025</span>
+                                        <span>ID: 2qyela9q</span>
+                                    </div>
+                                </div>
+                                <div class="payment-status">
+                                    <span class="status-badge completed">Completado</span>
+                                    <span class="payment-amount">$25.000</span>
+                                    <span class="payment-method">Card</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de resumen -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon" style="color: #10b981;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div class="summary-info">
+                            <p class="summary-label">Total Pagado</p>
+                            <h3 class="summary-value">$30.000</h3>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon" style="color: #3b82f6;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="summary-info">
+                            <p class="summary-label">Último Pago</p>
+                            <h3 class="summary-value">03-10-2025</h3>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon" style="color: #8b5cf6;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div class="summary-info">
+                            <p class="summary-label">Total Pagos</p>
+                            <h3 class="summary-value">2</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================= -->
+            <!-- Sección DISCIPLINAS (Para tus compañeros) -->
+            <!-- ========================================= -->
+            <section id="disciplinas-content" class="content-section">
+                <div class="content-card">
+                    <h2>Disciplinas</h2>
+                    <p>Contenido de disciplinas - A completar por el equipo</p>
+                    <!-- Aquí va el contenido de disciplinas -->
+                </div>
+            </section>
+
+            <!-- ========================================= -->
+            <!-- Sección ACCESO (Para tus compañeros) -->
+            <!-- ========================================= -->
+            <section id="acceso-content" class="content-section">
+                <div class="content-card">
+                    <h2>Acceso</h2>
+                    <p>Contenido de acceso - A completar por el equipo</p>
+                    <!-- Aquí va el contenido de acceso -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
 </body>
 </html>
