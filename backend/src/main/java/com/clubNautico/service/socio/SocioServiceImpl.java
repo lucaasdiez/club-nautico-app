@@ -75,21 +75,6 @@ public class SocioServiceImpl implements SocioService {
         return socioRepository.findAll();
     }
 
-    @Override
-    public Socio updateSocio(UUID id, Socio socio) {
-        Socio existente = socioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Socio no encontrado"));
-
-        existente.setNombre(socio.getNombre());
-        existente.setApellido(socio.getApellido());
-        existente.setDni(socio.getDni());
-        existente.setEmail(socio.getEmail());
-        existente.setTelefono(socio.getTelefono());
-        existente.setActivo(socio.getActivo());
-        existente.setCategoriaId(socio.getCategoriaId());
-
-        return socioRepository.save(existente);
-    }
 
     @Override
     public void deleteSocio(UUID id) {
