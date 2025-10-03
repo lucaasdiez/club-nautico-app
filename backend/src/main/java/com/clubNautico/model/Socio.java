@@ -15,11 +15,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "socios", uniqueConstraints = {
+/*@Table(name = "socios", uniqueConstraints = {
     @UniqueConstraint(columnNames = "dni"),
     @UniqueConstraint(columnNames = "email"),
     @UniqueConstraint(columnNames = "nro_socio")
-})
+})*/
+
 @Getter
 @Setter
 @NoArgsConstructor
