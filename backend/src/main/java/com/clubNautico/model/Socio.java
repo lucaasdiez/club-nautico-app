@@ -3,6 +3,7 @@ package com.clubNautico.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.clubNautico.enums.EstadoCuota;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Socio extends Usuario {
 
     @Column(name = "nro_socio", insertable = false, updatable = false)
@@ -44,5 +45,7 @@ public class Socio extends Usuario {
     private Boolean activo = true;
     @Column(name = "categoria_id")
     private UUID categoriaId;
+
+    private EstadoCuota estadoCuota;
 
 }
