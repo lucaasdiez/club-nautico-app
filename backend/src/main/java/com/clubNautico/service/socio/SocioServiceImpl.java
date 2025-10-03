@@ -47,29 +47,42 @@ public class SocioServiceImpl implements SocioService {
     @Override
     public Socio createSocio(SocioDTO socio) {
         long count = socioRepository.count() + 1;
+
         if (socioRepository.findByDni(socio.getDni()).isPresent()) {
             throw new RuntimeException("El DNI ya está registrado en el sistema.");
         }
         if (socioRepository.findByEmail(socio.getEmail()).isPresent()) {
             throw new RuntimeException("El email ya está registrado en el sistema.");
         }
-        if(socioRepository.findByNroSocio(socio.getNroSocio()).isPresent()) {
+        if (socioRepository.findByNroSocio(socio.getNroSocio()).isPresent()) {
             throw new RuntimeException("El numero de socio ya está registrado en el sistema.");
         }
+
+        LocalDate fechaAlta = socio.getFechaAlta() != null ? socio.getFechaAlta() : LocalDate.now();
+        LocalDate ultimoPagado = socio.getUltimoPagado() != null ? socio.getUltimoPagado() : LocalDate.now();
+        LocalDate fechaVencimiento = ultimoPagado.plusMonths(1);
+        EstadoCuota estadoInicial = calcularEstadoCuota(ultimoPagado);
 
         Socio socioNuevo = Socio.builder()
                 .username(socio.getUsername())
                 .password(socio.getPassword())
                 .dni(socio.getDni())
                 .nombre(socio.getNombre())
+                .apellido(socio.getApellido())
                 .email(socio.getEmail())
-                .activo(socio.getActivo())
-                .fechaAlta(socio.getFechaAlta())
                 .telefono(socio.getTelefono())
+                .activo(socio.getActivo())
+                .fechaAlta(fechaAlta)
+                .ultimoPagado(ultimoPagado)
+                .fechaVencimiento(fechaVencimiento)
+                .estadoCuota(estadoInicial)
+                .mesesAdeudados(0)
                 .nroSocio(String.format("%08d", count))
                 .build();
+
         return socioRepository.save(socioNuevo);
     }
+
 
     @Override
     public List<Socio> getAllSocios() {
@@ -105,28 +118,38 @@ public class SocioServiceImpl implements SocioService {
                 .collect(Collectors.toList());
     }
 
-    private EstadoCuota calcularEstadoCuota(LocalDate fechaVencimiento) {
+    private EstadoCuota calcularEstadoCuota(LocalDate ultimoPagado) {
         LocalDate hoy = LocalDate.now();
-
-        if (fechaVencimiento.isBefore(hoy)) {
+        LocalDate vencimiento = ultimoPagado.plusMonths(1);
+        if (vencimiento.isBefore(hoy)) {
             return EstadoCuota.VENCIDA;
-        } else if (fechaVencimiento.isEqual(hoy)) {
+        } else if (vencimiento.isEqual(hoy)) {
             return EstadoCuota.AL_DIA;
-        } else if (fechaVencimiento.isAfter(hoy) && fechaVencimiento.minusDays(5).isBefore(hoy)) {
-            return EstadoCuota.POR_VENCER; // A 5 días del vencimiento
+        } else if (vencimiento.minusDays(5).isBefore(hoy)) {
+            return EstadoCuota.POR_VENCER;
         } else {
             return EstadoCuota.AL_DIA;
         }
     }
 
+
     public void actualizarEstadosCuotas() {
         List<Socio> socios = socioRepository.findAll();
         for (Socio socio : socios) {
-            EstadoCuota nuevoEstado = calcularEstadoCuota(socio.getFechaVencimiento());
+            EstadoCuota nuevoEstado = calcularEstadoCuota(socio.getUltimoPagado());
             socio.setEstadoCuota(nuevoEstado);
+
+            if (nuevoEstado == EstadoCuota.VENCIDA) {
+                int meses = (int) java.time.temporal.ChronoUnit.MONTHS.between(socio.getUltimoPagado(), LocalDate.now());
+                socio.setMesesAdeudados(meses);
+            } else {
+                socio.setMesesAdeudados(0);
+            }
+
             socioRepository.save(socio);
         }
     }
+
 
 
     @Scheduled(cron = "0 0 2 * * ?") // todos los días a las 2 AM

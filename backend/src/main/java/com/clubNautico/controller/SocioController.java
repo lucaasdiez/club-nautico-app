@@ -32,7 +32,7 @@ public class SocioController {
     private final SocioService socioService;
 
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
         try {
             Socio nuevo = socioService.createSocio(socio);

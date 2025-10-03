@@ -17,28 +17,43 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Socio extends Usuario {
 
-    @Column(name = "nro_socio", insertable = false, updatable = false)
+    @Column(name = "nro_socio", nullable = false, unique = true)
     private String nroSocio;
+
     @Column(nullable = false, length = 15)
     private String dni;
+
     @Column(nullable = false, length = 100)
     private String nombre;
+
     @Column(nullable = false, length = 100)
     private String apellido;
+
     @Column(nullable = false, length = 150)
     private String email;
+
     @Column(length = 30)
     private String telefono;
+
     @Column(name = "fecha_alta", nullable = false)
     private LocalDate fechaAlta;
+
     @Column(nullable = false)
     private Boolean activo = true;
+
     @Column(name = "categoria_id")
     private UUID categoriaId;
+
     @Column(name = "fecha_vencimiento", nullable = false)
     private LocalDate fechaVencimiento;
 
+    @Column(name = "ultimo_pagado", nullable = false)
+    private LocalDate ultimoPagado;
 
+    @Column(name = "meses_adeudados", nullable = false)
+    private Integer mesesAdeudados;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoCuota estadoCuota;
-
 }
