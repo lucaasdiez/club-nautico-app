@@ -111,3 +111,92 @@
         opacity: 1;
     }
 }
+
+// ============================================
+// MODAL VER SOCIO - DETALLES
+// ============================================
+
+.socio-details-section {
+    margin-bottom: 2rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0 0 1rem 0;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e5e7eb;
+
+        svg {
+            color: #6b7280;
+        }
+    }
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    &.detail-item-full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+    }
+
+    p {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #1f2937;
+        margin: 0;
+        padding: 0.5rem 0;
+        word-break: break-word;
+    }
+}
+
+.highlight-text {
+    color: #2563eb !important;
+    font-weight: 600 !important;
+    font-size: 1.125rem !important;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+
+    @media (max-width: 768px) {
+        flex-direction: column-reverse;
+
+        button {
+            width: 100%;
+        }
+    }
+}
