@@ -15,5 +15,5 @@ public interface SocioService {
     List<SocioDTO> convertirADTOS(List<Socio> socios);
     Socio createSocio(SocioDTO socio);
     List<Socio> getAllSocios();
-    void deleteSocio(UUID id);
+    void deleteSocio(String numeroSocio);
 }

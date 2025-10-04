@@ -57,8 +57,8 @@ public class SocioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarSocio(@PathVariable UUID id) {
-        socioService.deleteSocio(id);
+    public ResponseEntity<?> eliminarSocio(@PathVariable String numeroSocio) {
+        socioService.deleteSocio(numeroSocio);
         return ResponseEntity.ok("Socio eliminado correctamente");
     }
 

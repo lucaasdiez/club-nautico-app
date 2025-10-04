@@ -91,8 +91,11 @@ public class SocioServiceImpl implements SocioService {
 
 
     @Override
-    public void deleteSocio(UUID id) {
-        socioRepository.deleteById(id);
+    public void deleteSocio(String numeroSocio) {
+        Socio socio = socioRepository.findByNroSocio(numeroSocio)
+                .orElseThrow(()-> new NoSuchElementException("El usuario no existe"));
+        socio.setActivo(false);
+        socioRepository.save(socio);
     }
 
     private Socio updateSocioExistente(Socio socioExistente, SocioDTO socio) {
