@@ -3,7 +3,6 @@ package com.clubNautico.service.socio;
 import java.util.List;
 import java.util.UUID;
 
-import com.clubNautico.dto.SocioConEstadoDTO;
 import com.clubNautico.dto.SocioDTO;
 import com.clubNautico.enums.EstadoCuota;
 import com.clubNautico.model.Socio;
