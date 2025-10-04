@@ -252,13 +252,54 @@
             </section>
 
             <!-- ========================================= -->
-            <!-- Sección DISCIPLINAS (Para tus compañeros) -->
+            <!-- Sección DISCIPLINAS -->
             <!-- ========================================= -->
             <section id="disciplinas-content" class="content-section">
+                <!-- Encabezado de página -->
                 <div class="content-card">
-                    <h2>Disciplinas</h2>
-                    <p>Contenido de disciplinas - A completar por el equipo</p>
-                    <!-- Aquí va el contenido de disciplinas -->
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                        </svg>
+                        <h2>Disciplinas Disponibles</h2>
+                    </div>
+                    <p class="card-subtitle">Conocé todas las actividades que ofrece el club</p>
+
+                    <!-- Filtros de disponibilidad -->
+                    <div class="disciplinas-filters">
+                        <div class="filter-group">
+                            <label class="filter-option">
+                                <input type="radio" name="filterDisponibilidad" value="todas" checked>
+                                <span>Todas</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="radio" name="filterDisponibilidad" value="disponibles">
+                                <span>Solo disponibles</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="radio" name="filterDisponibilidad" value="no-disponibles">
+                                <span>No disponibles</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Grid donde se renderizan las cards -->
+                    <div class="disciplinas-grid" id="disciplinasGrid">
+                        <!-- Las cards se generan dinámicamente con JavaScript -->
+                    </div>
+
+                    <!-- Mensaje cuando no hay resultados -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <p>No se encontraron disciplinas</p>
+                    </div>
                 </div>
             </section>
 
