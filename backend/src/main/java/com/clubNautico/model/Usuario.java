@@ -18,13 +18,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+
+
 
     @Column(nullable = false, length = 100)
     @NotBlank(message = "La contraseña es obligatoria.")

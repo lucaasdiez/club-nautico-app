@@ -15,6 +15,6 @@ public interface SocioRepository extends JpaRepository<Socio, UUID> {
     
     Optional<Socio> findByDni(String dni);
     Optional<Socio> findByEmail(String email);
-    Optional<Socio> findByNroSocio(Long nroSocio);
+    Optional<Socio> findByNroSocio(String nroSocio);
     List<Socio> findAllByEstadoCuota(EstadoCuota estadoCuota);
 }
