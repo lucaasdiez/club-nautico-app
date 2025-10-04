@@ -65,7 +65,7 @@ public class SocioController {
         return ResponseEntity.ok("Socio eliminado correctamente");
     }
 
-    @GetMapping("/socio/{nroSocio}")
+    @GetMapping("/socio/numero/{nroSocio}")
     public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable String nroSocio) {
         try {
             SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
@@ -76,7 +76,7 @@ public class SocioController {
 
     }
 
-    @GetMapping("/socio/{estadoCuota}")
+    @GetMapping("/socio/estado/{estadoCuota}")
     public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable EstadoCuota estadoCuota) {
         try {
             List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
