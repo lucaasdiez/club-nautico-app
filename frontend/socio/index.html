@@ -11,14 +11,12 @@
     <header class="header">
         <div class="header__container">
             <div class="header__left">
-                <!-- Logo -->
                 <div class="header__logo">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </div>
-                <!-- Título -->
                 <div class="header__title">
                     <h1>Club Social</h1>
                     <p>Portal del Socio</p>
@@ -26,15 +24,13 @@
             </div>
 
             <div class="header__right">
-                <!-- Usuario -->
-                <div class="header__user">
+                <a href="info-personal.html" class="header__user">
                     <div class="header__avatar">LB</div>
                     <div class="header__user-info">
-                        <p class="header__user-name">lucio borda</p>
+                        <p class="header__user-name">Lucio Borda</p>
                         <p class="header__user-id">Socio #1234</p>
                     </div>
-                </div>
-                <!-- Botón salir -->
+                </a>
                 <button class="header__logout">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -93,183 +89,32 @@
     <!-- Contenido principal -->
     <main class="main">
         <div class="main__container">
-            <!-- ========================================= -->
-            <!-- Sección RESUMEN (Para tus compañeros) -->
-            <!-- ========================================= -->
+            <!-- Sección RESUMEN -->
             <section id="resumen-content" class="content-section">
                 <div class="content-card">
                     <h2>Resumen</h2>
                     <p>Contenido de resumen - A completar por el equipo</p>
-                    <!-- Aquí va el contenido de resumen -->
                 </div>
             </section>
 
-            <!-- ========================================= -->
-            <!-- Sección PAGOS (TU SECCIÓN) -->
-            <!-- ========================================= -->
+            <!-- Sección PAGOS (Se llena dinámicamente con JavaScript) -->
             <section id="pagos-content" class="content-section active">
-                <!-- Grid de 2 columnas -->
-                <div class="pagos-grid">
-                    <!-- Columna izquierda: Realizar Pago -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                <line x1="1" y1="10" x2="23" y2="10"></line>
-                            </svg>
-                            <h2>Realizar Pago</h2>
-                        </div>
-                        <p class="card-subtitle">Selecciona el tipo de pago que deseas realizar</p>
-
-                        <h3 class="section-title">Tipo de Pago</h3>
-
-                        <!-- Opciones de pago -->
-                        <div class="payment-options">
-                            <div class="payment-option">
-                                <div class="payment-info">
-                                    <h4>Cuota Social Mensual</h4>
-                                    <p>Cuota mensual del club</p>
-                                </div>
-                                <span class="payment-price">$25.000</span>
-                            </div>
-
-                            <div class="payment-option">
-                                <div class="payment-info">
-                                    <h4>Cuota Social Anual</h4>
-                                    <p>Cuota anual del club (descuento 17%)</p>
-                                </div>
-                                <span class="payment-price">$250.000</span>
-                            </div>
-
-                            <div class="payment-option">
-                                <div class="payment-info">
-                                    <h4>Pase de Invitado</h4>
-                                    <p>Acceso de invitado por día</p>
-                                </div>
-                                <span class="payment-price">$5.000</span>
-                            </div>
-
-                            <div class="payment-option">
-                                <div class="payment-info">
-                                    <h4>Monto Personalizado</h4>
-                                    <p>Ingresa el monto que deseas pagar</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Columna derecha: Historial de Pagos -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                            <h2>Historial de Pagos</h2>
-                        </div>
-                        <p class="card-subtitle">Tus últimos pagos realizados</p>
-
-                        <!-- Lista de pagos -->
-                        <div class="payment-history">
-                            <div class="payment-item">
-                                <div class="payment-details">
-                                    <h4>Pase de Invitado</h4>
-                                    <div class="payment-meta">
-                                        <span>📅 03-10-2025</span>
-                                        <span>ID: kg99mkq5</span>
-                                    </div>
-                                </div>
-                                <div class="payment-status">
-                                    <span class="status-badge completed">Completado</span>
-                                    <span class="payment-amount">$5.000</span>
-                                    <span class="payment-method">Card</span>
-                                </div>
-                            </div>
-
-                            <div class="payment-item">
-                                <div class="payment-details">
-                                    <h4>Cuota Social Mensual</h4>
-                                    <div class="payment-meta">
-                                        <span>📅 03-10-2025</span>
-                                        <span>ID: 2qyela9q</span>
-                                    </div>
-                                </div>
-                                <div class="payment-status">
-                                    <span class="status-badge completed">Completado</span>
-                                    <span class="payment-amount">$25.000</span>
-                                    <span class="payment-method">Card</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjetas de resumen -->
-                <div class="summary-cards">
-                    <div class="summary-card">
-                        <div class="summary-icon" style="color: #10b981;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                        <div class="summary-info">
-                            <p class="summary-label">Total Pagado</p>
-                            <h3 class="summary-value">$30.000</h3>
-                        </div>
-                    </div>
-
-                    <div class="summary-card">
-                        <div class="summary-icon" style="color: #3b82f6;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                        </div>
-                        <div class="summary-info">
-                            <p class="summary-label">Último Pago</p>
-                            <h3 class="summary-value">03-10-2025</h3>
-                        </div>
-                    </div>
-
-                    <div class="summary-card">
-                        <div class="summary-icon" style="color: #8b5cf6;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                        <div class="summary-info">
-                            <p class="summary-label">Total Pagos</p>
-                            <h3 class="summary-value">2</h3>
-                        </div>
-                    </div>
-                </div>
+                <!-- El contenido se genera completamente desde script.js -->
             </section>
 
-            <!-- ========================================= -->
-            <!-- Sección DISCIPLINAS (Para tus compañeros) -->
-            <!-- ========================================= -->
+            <!-- Sección DISCIPLINAS -->
             <section id="disciplinas-content" class="content-section">
                 <div class="content-card">
                     <h2>Disciplinas</h2>
                     <p>Contenido de disciplinas - A completar por el equipo</p>
-                    <!-- Aquí va el contenido de disciplinas -->
                 </div>
             </section>
 
-            <!-- ========================================= -->
-            <!-- Sección ACCESO (Para tus compañeros) -->
-            <!-- ========================================= -->
+            <!-- Sección ACCESO -->
             <section id="acceso-content" class="content-section">
                 <div class="content-card">
                     <h2>Acceso</h2>
                     <p>Contenido de acceso - A completar por el equipo</p>
-                    <!-- Aquí va el contenido de acceso -->
                 </div>
             </section>
         </div>
