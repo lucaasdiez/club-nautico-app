@@ -16,9 +16,11 @@
 @use 'components/buttons';
 @use 'components/form';
 @use 'components/table';
+@use 'components/modal';
 
 // Pages
 @use 'pages/pagos';
+@use 'pages/socios';
 
 // Estilos globales adicionales
 body {
