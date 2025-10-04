@@ -127,6 +127,12 @@ function renderTable(data) {
     data.forEach(socio => {
         const tr = document.createElement('tr');
 
+        // Agregar clase para hacer la fila clickeable (excepto en acciones)
+        tr.classList.add('clickable-row');
+
+        // Agregar atributo data para identificar el socio
+        tr.setAttribute('data-socio-numero', socio.numero);
+
         let badgeClass = '';
         if (socio.estado === 'Al día') {
             badgeClass = 'status-badge completed';
@@ -137,17 +143,22 @@ function renderTable(data) {
         }
 
         tr.innerHTML = `
-            <td>${socio.nombre} ${socio.apellido}</td>
-            <td>${socio.numero}</td>
-            <td>${socio.dni}</td>
-            <td>${socio.email}</td>
-            <td>${formatearTelefonoVisual(socio.telefono)}</td>
-            <td><span class="${badgeClass}">${socio.estado}</span></td>
-            <td>
+            <td class="clickable-cell">${socio.nombre} ${socio.apellido}</td>
+            <td class="clickable-cell">${socio.numero}</td>
+            <td class="clickable-cell"><span class="${badgeClass}">${socio.estado}</span></td>
+            <td class="action-cell">
                 <button class="btn-edit" onclick="abrirModalEditar('${socio.numero}')">Editar</button>
                 <button class="btn-delete" onclick="abrirModalEliminar('${socio.numero}')">Eliminar</button>
             </td>
         `;
+
+        // Agregar event listener al hacer click en las celdas clickeables
+        const clickableCells = tr.querySelectorAll('.clickable-cell');
+        clickableCells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                abrirModalVerSocio(socio.numero);
+            });
+        });
 
         tableBody.appendChild(tr);
     });
@@ -296,6 +307,12 @@ function initModals() {
     const formEditar = document.getElementById('formEditarSocio');
     const confirmarEliminarBtn = document.getElementById('confirmarEliminar');
 
+    // Elementos del modal Ver Socio
+    const modalVerSocio = document.getElementById('modalVerSocio');
+    const closeModalVer = document.getElementById('closeModalVer');
+    const cerrarModalVer = document.getElementById('cerrarModalVer');
+    const editarDesdeMod = document.getElementById('editarDesdeMod');
+
     if (btnAltaSocio) {
         btnAltaSocio.addEventListener('click', () => {
             modalAlta.style.display = 'flex';
@@ -412,6 +429,43 @@ function initModals() {
         });
     }
 
+    // Event listeners para modal Ver Socio
+    if (closeModalVer) {
+        closeModalVer.addEventListener('click', () => {
+            modalVerSocio.style.display = 'none';
+        });
+    }
+
+    if (cerrarModalVer) {
+        cerrarModalVer.addEventListener('click', () => {
+            modalVerSocio.style.display = 'none';
+        });
+    }
+
+    if (editarDesdeMod) {
+        editarDesdeMod.addEventListener('click', () => {
+            const numero = editarDesdeMod.getAttribute('data-socio-numero');
+            modalVerSocio.style.display = 'none';
+            abrirModalEditar(numero);
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modalAlta) {
+            modalAlta.style.display = 'none';
+            formAlta.reset();
+        }
+        if (e.target === modalEditar) {
+            modalEditar.style.display = 'none';
+        }
+        if (e.target === modalEliminar) {
+            modalEliminar.style.display = 'none';
+        }
+        if (e.target === modalVerSocio) {
+            modalVerSocio.style.display = 'none';
+        }
+    });
+
     window.addEventListener('click', (e) => {
         if (e.target === modalAlta) {
             modalAlta.style.display = 'none';
@@ -453,4 +507,52 @@ function abrirModalEliminar(numero) {
     document.getElementById('eliminarNombreSocio').textContent = `${socio.nombre} ${socio.apellido} (${socio.numero})`;
 
     document.getElementById('modalEliminar').style.display = 'flex';
+}
+
+
+// =========================================
+// MODAL VER DETALLES DEL SOCIO
+// =========================================
+function abrirModalVerSocio(numero) {
+    const socio = sociosData.find(s => s.numero === numero);
+    if (!socio) return;
+
+    // Llenar datos personales
+    document.getElementById('verNombreCompleto').textContent = `${socio.nombre} ${socio.apellido}`;
+    document.getElementById('verNumeroSocio').textContent = socio.numero;
+    document.getElementById('verDni').textContent = socio.dni || '-';
+    document.getElementById('verFechaNacimiento').textContent =
+        socio.fechaNacimiento ? formatearFecha(socio.fechaNacimiento) : '-';
+
+    // Llenar datos de contacto
+    document.getElementById('verEmail').textContent = socio.email || '-';
+    document.getElementById('verTelefono').textContent =
+        socio.telefono ? formatearTelefonoVisual(socio.telefono) : '-';
+    document.getElementById('verDireccion').textContent = socio.direccion || '-';
+
+    // Llenar estado
+    const estadoBadge = document.getElementById('verEstado');
+    estadoBadge.textContent = socio.estado;
+
+    // Aplicar clase según el estado
+    estadoBadge.className = 'status-badge'; // Reset
+    if (socio.estado === 'Al día') {
+        estadoBadge.classList.add('completed');
+    } else if (socio.estado === 'Pendiente') {
+        estadoBadge.classList.add('pending');
+    } else if (socio.estado === 'Vencida') {
+        estadoBadge.classList.add('overdue');
+    }
+
+    // Guardar número de socio para el botón "Editar"
+    document.getElementById('editarDesdeMod').setAttribute('data-socio-numero', numero);
+
+    // Mostrar modal
+    document.getElementById('modalVerSocio').style.display = 'flex';
+}
+
+function formatearFecha(fecha) {
+    if (!fecha) return '-';
+    const [año, mes, dia] = fecha.split('-');
+    return `${dia}/${mes}/${año}`;
 }

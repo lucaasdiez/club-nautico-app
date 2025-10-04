@@ -562,6 +562,52 @@ table tbody td button:last-child {
     white-space: nowrap;
   }
 }
+.clickable-row {
+  transition: background-color 0.2s ease;
+}
+.clickable-row .clickable-cell {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+.clickable-row:hover .clickable-cell {
+  background-color: #f3f4f6;
+}
+.clickable-row .action-cell {
+  cursor: default;
+}
+
+.clickable-cell {
+  position: relative;
+}
+.clickable-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: #2563eb;
+  transition: height 0.2s ease;
+}
+.clickable-cell:hover::after {
+  height: 60%;
+}
+
+#sociosTable thead tr th:nth-child(1) {
+  width: 40%;
+}
+#sociosTable thead tr th:nth-child(2) {
+  width: 15%;
+}
+#sociosTable thead tr th:nth-child(3) {
+  width: 20%;
+}
+#sociosTable thead tr th:nth-child(4) {
+  width: 25%;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -665,6 +711,86 @@ table tbody td button:last-child {
     opacity: 1;
   }
 }
+.socio-details-section {
+  margin-bottom: 2rem;
+}
+.socio-details-section:last-child {
+  margin-bottom: 0;
+}
+.socio-details-section .section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+.socio-details-section .section-title svg {
+  color: #6b7280;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.detail-item.detail-item-full {
+  grid-column: 1/-1;
+}
+.detail-item label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+.detail-item p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0;
+  padding: 0.5rem 0;
+  word-break: break-word;
+}
+
+.highlight-text {
+  color: #2563eb !important;
+  font-weight: 600 !important;
+  font-size: 1.125rem !important;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+@media (max-width: 768px) {
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
 .pagos-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
