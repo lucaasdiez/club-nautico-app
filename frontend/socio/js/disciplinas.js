@@ -148,43 +148,31 @@ let filtroActual = 'todas';
 // FUNCIONES DE RENDERIZADO
 // ============================================
 
-/**
- * Renderiza las disciplinas en el grid
- * @param {Array} disciplinas - Array de objetos disciplina
- */
 function renderizarDisciplinas(disciplinas) {
     const grid = document.getElementById('disciplinasGrid');
     const emptyState = document.getElementById('emptyState');
 
     if (!grid) {
-        console.error('❌ No se encontró el elemento #disciplinasGrid');
+        console.error('No se encontró el elemento #disciplinasGrid');
         return;
     }
 
-    // Si no hay disciplinas, mostrar estado vacío
     if (!disciplinas || disciplinas.length === 0) {
         grid.innerHTML = '';
         if (emptyState) emptyState.style.display = 'flex';
         return;
     }
 
-    // Ocultar estado vacío y renderizar cards
     if (emptyState) emptyState.style.display = 'none';
     grid.innerHTML = disciplinas.map(disciplina => crearCardHTML(disciplina)).join('');
 }
 
-/**
- * Crea el HTML de una card de disciplina
- * @param {Object} disciplina - Objeto con los datos de la disciplina
- * @returns {string} HTML de la card
- */
 function crearCardHTML(disciplina) {
     const disponible = disciplina.disponible;
     const badgeClass = disponible ? 'disponible' : 'no-disponible';
     const badgeText = disponible ? 'Disponible' : 'No disponible';
     const cardClass = disponible ? '' : 'card-disabled';
 
-    // Formatear días
     const dias = disciplina.dias && disciplina.dias.length > 0
         ? disciplina.dias.join(', ')
         : 'No especificado';
@@ -264,10 +252,6 @@ function crearCardHTML(disciplina) {
 // FUNCIONES DE FILTRADO
 // ============================================
 
-/**
- * Filtra disciplinas según el criterio seleccionado
- * @param {string} filtro - 'todas' | 'disponibles' | 'no-disponibles'
- */
 function filtrarDisciplinas(filtro) {
     filtroActual = filtro;
     let disciplinasFiltradas = [...todasLasDisciplinas];
@@ -280,18 +264,14 @@ function filtrarDisciplinas(filtro) {
 
     renderizarDisciplinas(disciplinasFiltradas);
 
-    console.log(`🔍 Filtro aplicado: ${filtro}`);
-    console.log(`📊 Resultados: ${disciplinasFiltradas.length} disciplinas`);
+    console.log(`Filtro aplicado: ${filtro}`);
+    console.log(`Resultados: ${disciplinasFiltradas.length} disciplinas`);
 }
 
 // ============================================
 // FUNCIONES DE INTERACCIÓN
 // ============================================
 
-/**
- * Muestra más información sobre una disciplina
- * @param {string} disciplinaId - ID de la disciplina
- */
 function verMasInfoDisciplina(disciplinaId) {
     const disciplina = todasLasDisciplinas.find(d => d.id === disciplinaId);
 
@@ -300,53 +280,157 @@ function verMasInfoDisciplina(disciplinaId) {
         return;
     }
 
-    // Aquí podrías abrir un modal, navegar a otra página, etc.
-    // Por ahora mostramos un alert con la información
-    const info = `
-📋 INFORMACIÓN DETALLADA
+    // Crear modal
+    const modal = document.createElement('div');
+    modal.id = 'modal-disciplina';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.2s ease;';
+    
+    modal.innerHTML = `
+        <div style="background: white; padding: 0; border-radius: 1rem; max-width: 500px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto;">
+            <!-- Header del Modal -->
+            <div style="padding: 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1.5rem; color: #111827; font-weight: 600;">${disciplina.nombre}</h3>
+                <button id="btn-cerrar-modal" style="background: none; border: none; font-size: 1.5rem; color: #6b7280; cursor: pointer; padding: 0.25rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; transition: all 150ms;">
+                    ✕
+                </button>
+            </div>
+            
+            <!-- Body del Modal -->
+            <div style="padding: 1.5rem;">
+                <span class="badge ${disciplina.disponible ? 'disponible' : 'no-disponible'}" style="display: inline-block; margin-bottom: 1rem;">
+                    ${disciplina.disponible ? '✓ Disponible' : '✗ No disponible'}
+                </span>
+                
+                <p style="color: #6b7280; margin-bottom: 1.5rem; line-height: 1.6;">${disciplina.descripcion}</p>
+                
+                <div style="background: #f9fafb; padding: 1.25rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    ${disciplina.profesor ? `
+                        <div style="margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Profesor</span>
+                            <p style="margin: 0.25rem 0 0 0; color: #111827; font-weight: 600;">${disciplina.profesor}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${disciplina.horario ? `
+                        <div style="margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Horario</span>
+                            <p style="margin: 0.25rem 0 0 0; color: #111827; font-weight: 600;">${disciplina.horario}</p>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Días</span>
+                        <p style="margin: 0.25rem 0 0 0; color: #111827; font-weight: 600;">${disciplina.dias.join(', ') || 'No especificado'}</p>
+                    </div>
+                    
+                    ${disciplina.temporada ? `
+                        <div style="margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Temporada</span>
+                            <p style="margin: 0.25rem 0 0 0; color: #111827; font-weight: 600;">${disciplina.temporada}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${disciplina.cupoMaximo ? `
+                        <div>
+                            <span style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Cupo Máximo</span>
+                            <p style="margin: 0.25rem 0 0 0; color: #111827; font-weight: 600;">${disciplina.cupoMaximo} personas</p>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button id="btn-cancelar-disciplina" style="flex: 1; padding: 0.75rem; background: #e5e7eb; color: #374151; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: all 150ms;">
+                        Cerrar
+                    </button>
+                    ${disciplina.disponible ? `
+                        <button id="btn-inscribirse" style="flex: 1; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: all 150ms;">
+                            Inscribirse
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
 
-Disciplina: ${disciplina.nombre}
-Profesor: ${disciplina.profesor || 'Sin asignar'}
-Horario: ${disciplina.horario || 'No especificado'}
-Días: ${disciplina.dias.join(', ') || 'No especificado'}
-Temporada: ${disciplina.temporada}
-Cupo: ${disciplina.cupoMaximo} personas
+    // Event listeners
+    const cerrarModal = () => {
+        modal.style.animation = 'fadeOut 0.2s ease';
+        setTimeout(() => modal.remove(), 200);
+    };
 
-${disciplina.descripcion}
+    document.getElementById('btn-cerrar-modal').addEventListener('click', cerrarModal);
+    document.getElementById('btn-cancelar-disciplina').addEventListener('click', cerrarModal);
+    
+    const btnInscribirse = document.getElementById('btn-inscribirse');
+    if (btnInscribirse) {
+        btnInscribirse.addEventListener('click', () => {
+            modal.remove();
+            showSuccessMessage('¡Inscripción exitosa a ' + disciplina.nombre + '!');
+        });
+    }
 
-${disciplina.disponible ? '✅ Esta disciplina está disponible para inscripción' : '❌ Esta disciplina no está disponible actualmente'}
-    `.trim();
+    // Cerrar al hacer click fuera del modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            cerrarModal();
+        }
+    });
 
-    alert(info);
+    // Hover effect para botón cerrar
+    document.getElementById('btn-cerrar-modal').addEventListener('mouseenter', (e) => {
+        e.target.style.background = '#f3f4f6';
+    });
+    document.getElementById('btn-cerrar-modal').addEventListener('mouseleave', (e) => {
+        e.target.style.background = 'none';
+    });
 
-    console.log(`ℹ️ Ver info de: ${disciplina.nombre}`);
+    console.log(`Modal abierto para: ${disciplina.nombre}`);
+}
+
+function showSuccessMessage(message) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position: fixed; top: 2rem; right: 2rem; background: #10b981; color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10000; animation: slideIn 0.3s ease;';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 // ============================================
 // INICIALIZACIÓN DEL MÓDULO
 // ============================================
 
-/**
- * Inicializa el módulo de disciplinas
- * Esta función es llamada desde script.js cuando el DOM está listo
- */
 function initDisciplinasModule() {
-    console.log('🎾 Inicializando módulo de disciplinas...');
-    console.log(`📊 Total de disciplinas: ${todasLasDisciplinas.length}`);
+    console.log('Inicializando módulo de disciplinas...');
+    console.log(`Total de disciplinas: ${todasLasDisciplinas.length}`);
 
-    // Renderizar todas las disciplinas por defecto
+    const grid = document.getElementById('disciplinasGrid');
+    if (!grid) {
+        console.error('ERROR: No se encontró el elemento #disciplinasGrid. Verifica que el HTML tenga este ID.');
+        return;
+    }
+
     renderizarDisciplinas(todasLasDisciplinas);
 
-    // Configurar event listeners para los filtros
     const radioButtons = document.querySelectorAll('input[name="filterDisponibilidad"]');
+    if (radioButtons.length === 0) {
+        console.warn('ADVERTENCIA: No se encontraron filtros de disponibilidad');
+    }
+
     radioButtons.forEach(radio => {
         radio.addEventListener('change', (e) => {
             filtrarDisciplinas(e.target.value);
         });
     });
 
-    console.log('✅ Módulo de disciplinas cargado correctamente');
+    console.log('Módulo de disciplinas cargado correctamente ✓');
 }
 
-// Exportar la función de inicialización para uso global
-window.initDisciplinasModule = initDisciplinasModule;
+if (typeof window !== 'undefined') {
+    window.initDisciplinasModule = initDisciplinasModule;
+}
