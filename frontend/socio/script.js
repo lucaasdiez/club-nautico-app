@@ -5,6 +5,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     initTabNavigation();
     initPagosModule();
+
+    // Cargar el módulo de disciplinas si existe
+    if (typeof initDisciplinasModule === 'function') {
+        initDisciplinasModule();
+    }
 });
 
 function initTabNavigation() {
@@ -95,12 +100,11 @@ function initPagosModule() {
 // }
 
 // =========================================
-// MÓDULO 4: DISCIPLINAS
-// (Para tus compañeros)
 // =========================================
-// function initDisciplinasModule() {
-//     // Código del módulo de disciplinas
-// }
+// MÓDULO 4: DISCIPLINAS
+// =========================================
+// El código del módulo está en js/disciplinas.js
+// Se carga e inicializa más abajo
 
 // =========================================
 // MÓDULO 5: ACCESO
