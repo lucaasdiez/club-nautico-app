@@ -60,3 +60,54 @@ table {
         white-space: nowrap;
     }
 }
+
+// ============================================
+// FILAS Y CELDAS CLICKEABLES
+// ============================================
+
+.clickable-row {
+    transition: background-color 0.2s ease;
+
+    .clickable-cell {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        user-select: none;
+    }
+
+    &:hover .clickable-cell {
+        background-color: #f3f4f6;
+    }
+
+    .action-cell {
+        cursor: default;
+    }
+}
+
+// Indicador visual de que la fila es clickeable
+.clickable-cell {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: #2563eb;
+        transition: height 0.2s ease;
+    }
+
+    &:hover::after {
+        height: 60%;
+    }
+}
+
+// Ajustar el ancho de las columnas en la tabla reducida
+#sociosTable {
+    thead tr th:nth-child(1) { width: 40%; }  // Nombre Completo
+    thead tr th:nth-child(2) { width: 15%; }  // Nº Socio
+    thead tr th:nth-child(3) { width: 20%; }  // Estado Cuota
+    thead tr th:nth-child(4) { width: 25%; }  // Acciones
+}
