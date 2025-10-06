@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabNavigation();
     initPagosModule();
     initDisciplinasModule();
+    initAccesoModule(); 
 });
 
 // =========================================
@@ -535,6 +536,48 @@ function showSuccessMessage(message) {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+
+// =========================================
+// MÓDULO DE ACCESO (QR)
+// =========================================
+function initAccesoModule() {
+    const canvas = document.getElementById('qrCanvas');
+    if (!canvas) return;
+
+    // Librería QRious (insertamos dinámicamente para mantener simple)
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js';
+    script.onload = () => {
+        const qr = new QRious({
+            element: canvas,
+            value: 'SOCIO: Lucio Borda - ID: 1234',
+            size: 200,
+            level: 'H'
+        });
+    };
+    document.getElementById('fechaGenerado').textContent = new Date().toLocaleString('es-AR');
+    document.head.appendChild(script);
+}
+
+function generarNuevoQR() {
+    const qr = new QRious({
+        element: document.getElementById('qrCanvas'),
+        value: `SOCIO: Lucio Borda - ID: 1234 - ${new Date().toISOString()}`,
+        size: 200,
+        level: 'H'
+    });
+
+    document.getElementById('fechaGenerado').textContent = new Date().toLocaleString('es-AR');
+}
+
+function copiarQR() {
+    const text = `SOCIO: Lucio Borda - ID: 1234`;
+    navigator.clipboard.writeText(text).then(() => {
+        showSuccessMessage("Código copiado al portapapeles");
+    });
+}
+
+
 
 // Agregar animaciones CSS y estilos adicionales
 const style = document.createElement('style');

@@ -151,11 +151,82 @@
 
             <!-- Sección ACCESO -->
             <section id="acceso-content" class="content-section">
-                <div class="content-card">
-                    <h2>Acceso</h2>
-                    <p>Contenido de acceso - A completar por el equipo</p>
+                <div class="grid grid-2">
+                    <!-- COLUMNA PRINCIPAL (QR) -->
+                    <div class="content-card">
+                    <h2 class="section-title">Tu Código QR de Acceso</h2>
+                    <p class="card-subtitle">Presenta este código en la entrada del club</p>
+
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 1.5rem 0;">
+                        <canvas id="qrCanvas" width="200" height="200"></canvas>
+                        <div style="margin-top: 0.5rem; color: #059669; font-weight: bold;">
+                        ✔ Código Válido
+                        </div>
+                        <div style="font-size: 0.875rem; color: #6b7280;">
+                        Válido por 23h 35m más
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button onclick="generarNuevoQR()">
+                        Generar Nuevo Código
+                        </button>
+                        <button onclick="copiarQR()">
+                         Copiar Código
+                        </button>
+                    </div>
+
+                    <hr class="mt-4 mb-4">
+
+                    <div>
+                        <h3 class="section-title">Información del Código</h3>
+                        <div class="details-grid">
+                        <div class="detail-item">
+                            <label>Socio:</label>
+                            <p>Lucio Borda</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Número:</label>
+                            <p>#1234</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Estado:</label>
+                            <p style="color: #059669; font-weight: bold;">Activo</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Generado:</label>
+                            <p id="fechaGenerado"></p>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- COLUMNA DERECHA (INSTRUCCIONES Y VALIDACIÓN) -->
+                    <div class="content-card">
+                    <h2 class="section-title">Instrucciones de Uso</h2>
+                    <ol style="margin-left: 1rem; color: #374151;">
+                        <li><strong>Presenta tu código:</strong> muéstralo al personal al ingresar.</li>
+                        <li><strong>Validación automática:</strong> será escaneado y verificado.</li>
+                        <li><strong>Acceso autorizado:</strong> si es válido, podrás ingresar.</li>
+                    </ol>
+
+                    <div class="mt-4 text-muted" style="font-size: 0.875rem; color: #6b7280;">
+                        Los códigos son válidos por 24 horas y pueden regenerarse en cualquier momento.
+                    </div>
+
+                    <hr class="mt-4 mb-4">
+
+                    <h3 class="section-title">Validar Código QR</h3>
+                    <p class="card-subtitle">Para personal autorizado</p>
+                    <input type="text" placeholder="Pega o escribe el código QR aquí" style="width: 100%; margin-bottom: 1rem; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #e5e7eb;" />
+                    <button disabled style="background-color: #6b7280; opacity: 0.6; cursor: not-allowed; width: 100%;">
+                        Validar Código
+                    </button>
+                    </div>
                 </div>
             </section>
+
+
         </div>
     </main>
 
