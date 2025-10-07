@@ -1,15 +1,23 @@
 package com.clubNautico.model;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@SuperBuilder
 @Entity
-@DiscriminatorValue("ADMIN")
-public class Admin extends Usuario {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Admin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+    private String apellido;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    private String password;
 }

@@ -1,0 +1,188 @@
+.disciplinas-page {
+  background: #f8f9fb;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.container-principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+/* Tarjetas superiores */
+.cards-superiores {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .card-item {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    p {
+      color: #666;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .valor {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+
+      .icono {
+        font-size: 1.3rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 8px;
+      }
+    }
+
+    .verde span {
+      color: #00a859;
+    }
+
+    .verde .icono {
+      background: #e6f8ec;
+      color: #00a859;
+    }
+
+    .azul .icono {
+      background: #eaf1ff;
+      color: #3478f6;
+    }
+
+    .violeta span {
+      color: #a020f0;
+    }
+
+    .violeta .icono {
+      background: #f3eaff;
+      color: #a020f0;
+    }
+
+    .naranja span {
+      color: #ff7a00;
+    }
+
+    .naranja .icono {
+      background: #fff0e0;
+      color: #ff7a00;
+    }
+  }
+}
+
+/* Sección Disciplinas */
+.disciplinas-disponibles {
+  h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    i {
+      color: #0d47a1;
+    }
+  }
+}
+
+/* Grid de tarjetas */
+.grid-disciplinas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.card-disciplina {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+      font-size: 1rem;
+      margin: 0;
+      color: #111;
+    }
+
+    .badge {
+      background: #f3f3f3;
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+      color: #555;
+    }
+  }
+
+  .descripcion {
+    font-size: 0.9rem;
+    color: #444;
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  .horario,
+  .inscritos {
+    font-size: 0.85rem;
+    color: #333;
+    margin: 0.3rem 0;
+
+    i {
+      color: #555;
+      margin-right: 0.3rem;
+    }
+  }
+
+  .inscritos {
+    color: #00994d;
+  }
+
+  .precio {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #0047ab;
+    font-weight: 600;
+  }
+
+  .barra-progreso {
+    background: #ddd;
+    height: 6px;
+    border-radius: 10px;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .btn-inscribirse {
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    i {
+      margin-right: 0.4rem;
+    }
+
+    &:hover {
+      background: #222;
+    }
+  }
+}
