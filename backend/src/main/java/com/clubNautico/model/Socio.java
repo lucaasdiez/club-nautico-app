@@ -1,82 +1,59 @@
+package com.clubNautico.model;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import com.clubNautico.enums.EstadoCuota;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "socios", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "dni"),
-    @UniqueConstraint(columnNames = "email")
-})
-public class Socio {
+@DiscriminatorValue("SOCIO")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+public class Socio extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "nro_socio", nullable = false, unique = true)
+    private String nroSocio;
 
-    private String nombre;
-    private String apellido;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private String dni;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    private String nombre;
+
+    @Column(nullable = false, length = 100)
+    private String apellido;
+
+    @Column(nullable = false, length = 150)
     private String email;
 
+    @Column(length = 30)
     private String telefono;
-    private String direccion;
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDate fechaAlta;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(nullable = false)
+    private Boolean activo = true;
 
-    public String getNombre() {
-        return nombre;
-    }
+    @Column(name = "categoria_id")
+    private UUID categoriaId;
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    @Column(name = "fecha_vencimiento", nullable = false)
+    private LocalDate fechaVencimiento;
 
-    public String getApellido() {
-        return apellido;
-    }
+    @Column(name = "ultimo_pagado", nullable = false)
+    private LocalDate ultimoPagado;
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    @Column(name = "meses_adeudados", nullable = false)
+    private Integer mesesAdeudados;
 
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoCuota estadoCuota;
 }

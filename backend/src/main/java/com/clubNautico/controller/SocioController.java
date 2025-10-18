@@ -1,46 +1,87 @@
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+package com.clubNautico.controller;
+
 import java.util.List;
+import java.util.UUID;
+
+import com.clubNautico.dto.SocioDTO;
+import com.clubNautico.enums.EstadoCuota;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.clubNautico.model.Socio;
+import com.clubNautico.service.socio.SocioService;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/socios")
 @CrossOrigin(origins = "*")
 public class SocioController {
 
     private final SocioService socioService;
 
-    public SocioController(SocioService socioService) {
-        this.socioService = socioService;
-    }
 
-    @PostMapping
-    public ResponseEntity<?> crearSocio(@RequestBody Socio socio) {
+    @PostMapping("/crear")
+    public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
         try {
             Socio nuevo = socioService.createSocio(socio);
-            return ResponseEntity.ok(nuevo);
+            SocioDTO socioDTO = socioService.convertirADTO(nuevo);
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @GetMapping
-    public List<Socio> listarSocios() {
-        return socioService.getAllSocios();
+    public List<SocioDTO> listarSocios() {
+        return socioService.convertirADTOS(socioService.getAllSocios());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable Long id, @RequestBody Socio socio) {
+    @PutMapping("/{nroSocio}")
+    public ResponseEntity<?> actualizarSocio(@PathVariable String nroSocio, @RequestBody SocioDTO socio) {
         try {
-            Socio actualizado = socioService.updateSocio(id, socio);
-            return ResponseEntity.ok(actualizado);
+            Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
+            SocioDTO socioDTO = socioService.convertirADTO(actualizado);
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarSocio(@PathVariable Long id) {
-        socioService.deleteSocio(id);
+    public ResponseEntity<?> eliminarSocio(@PathVariable String numeroSocio) {
+        socioService.deleteSocio(numeroSocio);
         return ResponseEntity.ok("Socio eliminado correctamente");
+    }
+
+    @GetMapping("/socio/numero/{nroSocio}")
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable String nroSocio) {
+        try {
+            SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
+            return ResponseEntity.ok(socioDTO);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @GetMapping("/socio/estado/{estadoCuota}")
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable EstadoCuota estadoCuota) {
+        try {
+            List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
+            return ResponseEntity.ok(socioDTO);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+
     }
 }
