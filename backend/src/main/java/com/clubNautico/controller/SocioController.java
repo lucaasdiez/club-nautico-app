@@ -1,15 +1,24 @@
 package com.clubNautico.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.clubNautico.dto.SocioDTO;
 import com.clubNautico.enums.EstadoCuota;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.clubNautico.model.Socio;
 import com.clubNautico.service.socio.SocioService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,26 +28,23 @@ public class SocioController {
 
     private final SocioService socioService;
 
-    // 🟢 CREAR socio (POST /api/socios)
-    @PostMapping
+
+    @PostMapping("/crear")
     public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
         try {
             Socio nuevo = socioService.createSocio(socio);
             SocioDTO socioDTO = socioService.convertirADTO(nuevo);
-            return ResponseEntity.status(HttpStatus.CREATED).body(socioDTO);
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
-    // 🔵 LISTAR todos los socios (GET /api/socios)
     @GetMapping
-    public ResponseEntity<List<SocioDTO>> listarSocios() {
-        List<SocioDTO> socios = socioService.convertirADTOS(socioService.getAllSocios());
-        return ResponseEntity.ok(socios);
+    public List<SocioDTO> listarSocios() {
+        return socioService.convertirADTOS(socioService.getAllSocios());
     }
 
-    // 🟡 ACTUALIZAR socio por número (PUT /api/socios/{nroSocio})
     @PutMapping("/{nroSocio}")
     public ResponseEntity<?> actualizarSocio(@PathVariable String nroSocio, @RequestBody SocioDTO socio) {
         try {
@@ -50,15 +56,13 @@ public class SocioController {
         }
     }
 
-    // 🔴 ELIMINAR socio (DELETE /api/socios/{nroSocio})
-    @DeleteMapping("/{nroSocio}")
-    public ResponseEntity<?> eliminarSocio(@PathVariable String nroSocio) {
-        socioService.deleteSocio(nroSocio);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarSocio(@PathVariable String numeroSocio) {
+        socioService.deleteSocio(numeroSocio);
         return ResponseEntity.ok("Socio eliminado correctamente");
     }
 
-    // 🔍 BUSCAR socio por número (GET /api/socios/numero/{nroSocio})
-    @GetMapping("/numero/{nroSocio}")
+    @GetMapping("/socio/numero/{nroSocio}")
     public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable String nroSocio) {
         try {
             SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
@@ -66,16 +70,18 @@ public class SocioController {
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+
     }
 
-    // ⚙️ FILTRAR socios por estado de cuota (GET /api/socios/estado/{estadoCuota})
-    @GetMapping("/estado/{estadoCuota}")
-    public ResponseEntity<?> getSociosPorEstado(@PathVariable EstadoCuota estadoCuota) {
+    @GetMapping("/socio/estado/{estadoCuota}")
+    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable EstadoCuota estadoCuota) {
         try {
-            List<SocioDTO> socios = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
-            return ResponseEntity.ok(socios);
+            List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
+            return ResponseEntity.ok(socioDTO);
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+
+
     }
 }
