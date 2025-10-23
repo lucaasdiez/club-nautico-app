@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+.socios-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* ✅ Logo superior */
+.socios-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  animation: fadeInDown 0.8s ease;
+}
+
+/* tarjeta central */
+.socios-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  max-width: 850px;
+  width: 95%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.9s ease;
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.8rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* tabla */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  font-size: 0.95rem;
+}
+
+thead {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+th,
+td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+th {
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+tbody tr {
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.no-data {
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+  color: #eee;
+}
+
+/* ✅ Botón volver al menú */
+.back-btn {
+  background: linear-gradient(90deg, #1e3a8a, #003366);
+  border: none;
+  color: white;
+  padding: 0.9rem 1.8rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: linear-gradient(90deg, #003366, #1e3a8a);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* ✨ animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
