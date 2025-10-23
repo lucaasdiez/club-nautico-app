@@ -1,0 +1,13 @@
+@use "variables" as *;
+@use "mixins" as *;
+@use "layout";
+@use "buttons";
+@use "forms";
+@use "cards";
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+}

@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+.navbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.65), rgba(185, 28, 28, 0.65));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  animation: fadeInDown 0.7s ease;
+  font-family: "Inter", sans-serif;
+
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.9rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    span {
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: #fff;
+      letter-spacing: 0.4px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+
+    li {
+      color: #ffffff;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s ease-in-out;
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        background: #f5b100;
+        bottom: -4px;
+        left: 0;
+        transition: width 0.3s ease-in-out;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &:hover {
+        color: #f5b100;
+      }
+    }
+
+    .logout {
+      color: #ffb3b3;
+      font-weight: 600;
+      &:hover {
+        color: #ff6666;
+      }
+    }
+  }
+
+  @media (max-width: 850px) {
+    .navbar-container {
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .navbar-links {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+  }
+}
+
+/* ✨ Animación de entrada */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

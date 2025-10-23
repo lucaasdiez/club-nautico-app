@@ -1,198 +1,287 @@
-# Club Náutico - Backend
+# 🚤 Club Náutico — Sistema Integral
 
-Sistema de gestión para club náutico desarrollado con Spring Boot y PostgreSQL (Supabase).
+Aplicación full stack para la gestión de socios, pagos, disciplinas y acceso digital de un club náutico.
+Desarrollada con **React + Vite (Frontend)** y **Spring Boot + PostgreSQL (Backend)**.
 
-## Requisitos previos
+---
 
-- Java 21 o superior
-- Maven (incluido Maven Wrapper en el proyecto)
+## 🌐 Frontend — Portal del Socio
+
+El frontend implementa un **portal web responsive**, con diseño unificado entre todas las secciones y navegación dinámica mediante `react-router-dom`.
+
+### 🧭 Rutas disponibles
+
+| Ruta           | Descripción                                                  |
+| -------------- | ------------------------------------------------------------ |
+| `/` → `/login` | Página de inicio de sesión                                   |
+| `/register`    | Registro de nuevo socio                                      |
+| `/home`        | Portal principal del socio (dashboard)                       |
+| `/pagos`       | Sección de pagos y estado de cuotas                          |
+| `/disciplinas` | Sección con las disciplinas disponibles (cards interactivas) |
+| `/info`        | Ficha personal del socio (datos e información editable)      |
+| `/acceso`      | Nuevo módulo con QR dinámico para acceso al club             |
+| `/socios`      | Panel de administración con tabla de socios                  |
+| `/admin`       | Home del administrador                                       |
+
+> 🔄 `/socio` redirige automáticamente a `/home`.
+
+---
+
+### ⚙️ Estructura del proyecto
+
+```
+frontend/
+│
+├── src/
+│   ├── pages/
+│   │   ├── Home.jsx / .scss
+│   │   ├── Pagos.jsx / .scss
+│   │   ├── Disciplinas.jsx / .scss
+│   │   ├── InfoPersonal.jsx / .scss
+│   │   ├── Acceso.jsx / .scss      ← NUEVO módulo QR
+│   │   ├── Socios.jsx / .scss
+│   │   ├── Login.jsx / Register.jsx
+│   │   └── AdminHome.jsx
+│   │
+│   ├── components/
+│   │   ├── Navbar.jsx / .scss      ← navegación común entre pantallas
+│   │   └── ...
+│   │
+│   ├── router.jsx                  ← define las rutas (react-router-dom)
+│   └── main.jsx                    ← punto de entrada de Vite
+│
+├── package.json
+└── vite.config.js
+```
+
+---
+
+### 🧩 Componentes clave
+
+#### 🧭 `Navbar`
+
+Componente de navegación principal, presente en todas las vistas del portal.
+Incluye los accesos:
+
+- Home
+- Pagos
+- Disciplinas
+- Acceso (QR)
+- Info personal
+
+El botón **“Salir”** muestra un modal de confirmación antes de cerrar sesión.
+
+---
+
+#### 🆕 `Acceso.jsx`
+
+Nuevo módulo con **código QR dinámico** generado mediante **QRious**.
+Permite a cada socio visualizar, copiar o regenerar su código de ingreso al club.
+
+**Características:**
+
+- Código QR generado al ingresar a la pantalla
+- Botón para regenerar el código
+- Botón para copiar el texto del código
+- Información del socio y estado del QR
+- Bloque informativo de seguridad
+- Instrucciones detalladas de uso y validación
+- Diseño unificado con las demás secciones (`.container-principal`, sombras, tipografía, responsive)
+
+---
+
+#### 🎾 `Disciplinas.jsx`
+
+Lista de disciplinas deportivas (Tenis, Natación, Fitness, Fútbol, etc.) en formato **card** con descripción, horarios, precio y botón de inscripción.
+Diseño modular y responsive.
+
+---
+
+#### 💳 `Pagos.jsx`
+
+Sección de gestión de pagos del socio, con tabla de cuotas y estados.
+Incluye visualización de pagos realizados y pendientes.
+
+---
+
+#### 👤 `InfoPersonal.jsx`
+
+Ficha personal del socio con datos de contacto, documento, edad, teléfono, dirección y botón de edición.
+
+---
+
+#### 🏠 `Home.jsx`
+
+Pantalla principal del socio, muestra métricas generales y acceso rápido a las demás secciones.
+
+---
+
+### 🛠️ Instalación y ejecución del frontend
+
+#### 1️⃣ Requisitos previos
+
+- Node.js 20.19+ o 22.12+
+- npm
 - Git
 
-## Configuración inicial
-
-### 1. Clonar el repositorio
+#### 2️⃣ Instalar dependencias
 
 ```bash
-git clone [URL_DEL_REPOSITORIO]
-cd club-nautico-app/backend
+cd frontend
+npm install
 ```
 
-### 2. Configurar las credenciales de base de datos
-
-Crea un archivo `.env` en la carpeta `backend/` con las credenciales que te compartieron por privado:
-
-```properties
-DB_HOST=aws-1-sa-east-1.pooler.supabase.com
-DB_PORT=6543
-DB_NAME=postgres
-DB_USER=postgres.urwefjumjrtummdlhdir
-DB_PASS=[CONTRASEÑA_COMPARTIDA]
-DB_SSLMODE=require
-```
-
-**IMPORTANTE:** 
-- El archivo `.env` NO debe subirse a Git (ya está en `.gitignore`)
-- Reemplaza `[CONTRASEÑA_COMPARTIDA]` con la contraseña real que recibiste
-
-### 3. Verificar la estructura del proyecto
-
-Asegúrate de que tu proyecto tenga esta estructura:
-
-```
-club-nautico-app/
-└── backend/
-    ├── .env                    ← Crear este archivo con las credenciales
-    ├── .gitignore
-    ├── pom.xml
-    ├── mvnw
-    ├── mvnw.cmd
-    └── src/
-        ├── main/
-        │   ├── java/
-        │   └── resources/
-        │       └── application.properties
-        └── test/
-            └── java/
-```
-
-## Verificar la conexión a la base de datos
-
-Antes de ejecutar la aplicación, verifica que la conexión funcione correctamente:
+#### 3️⃣ Ejecutar en modo desarrollo
 
 ```bash
-.\mvnw test -Dtest=DatabaseConnectionTest
+npm run dev
 ```
 
-Si todo está bien configurado, deberías ver:
-
-```
-✅ ¡CONEXIÓN EXITOSA!
-✅ CONSULTA EJECUTADA EXITOSAMENTE!
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
-[INFO] BUILD SUCCESS
-```
-
-Si obtienes errores:
-- Verifica que el archivo `.env` exista y tenga el formato correcto
-- Confirma que la contraseña sea la correcta
-- Asegúrate de tener conexión a internet
-
-## Ejecutar la aplicación
-
-### Opción 1: Con Maven Wrapper (recomendado)
+> ⚠️ Si usas `nvm`, asegurate de tener una versión de Node compatible:
 
 ```bash
-# Windows
-.\mvnw spring-boot:run
+nvm install 22.12.0
+nvm use 22.12.0
+```
 
-# Linux/Mac
+#### 4️⃣ Construir para producción
+
+```bash
+npm run build
+```
+
+#### 5️⃣ Previsualizar build
+
+```bash
+npm run preview
+```
+
+---
+
+## 🖥️ Backend — Spring Boot + PostgreSQL (Supabase)
+
+Sistema de gestión de socios, pagos y disciplinas, conectado al frontend mediante API REST.
+
+### 🧾 Requisitos
+
+- Java 21 o superior
+- Maven (o Maven Wrapper incluido)
+- PostgreSQL (Supabase)
+- Git
+
+---
+
+### ⚙️ Configuración inicial
+
+1. Clonar el repositorio:
+
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   cd club-nautico-app/backend
+   ```
+
+2. Crear archivo `.env` con tus credenciales Supabase:
+
+   ```properties
+   DB_HOST=aws-1-sa-east-1.pooler.supabase.com
+   DB_PORT=6543
+   DB_NAME=postgres
+   DB_USER=postgres.urwefjumjrtummdlhdir
+   DB_PASS=[CONTRASEÑA_COMPARTIDA]
+   DB_SSLMODE=require
+   ```
+
+3. Verificar conexión:
+
+   ```bash
+   ./mvnw test -Dtest=DatabaseConnectionTest
+   ```
+
+---
+
+### 🚀 Ejecutar el backend
+
+```bash
 ./mvnw spring-boot:run
 ```
 
-### Opción 2: Con Maven instalado globalmente
+Servidor disponible en:
+
+> [http://localhost:8080](http://localhost:8080)
+
+---
+
+### 🧪 Tests
 
 ```bash
-mvn spring-boot:run
+./mvnw test
 ```
 
-La aplicación se iniciará en `http://localhost:8080`
+---
 
-## Ejecutar los tests
+### 🧰 Tecnologías principales
 
-```bash
-# Todos los tests
-.\mvnw test
+| Capa          | Tecnología                               |
+| ------------- | ---------------------------------------- |
+| Frontend      | React, Vite, SCSS, QRious                |
+| Navegación    | React Router DOM                         |
+| Backend       | Spring Boot 3.5.5                        |
+| ORM           | Hibernate + JPA                          |
+| Base de datos | PostgreSQL (Supabase)                    |
+| Lenguaje      | Java 21                                  |
+| Dependencias  | Maven                                    |
+| Seguridad     | Variables `.env`, SSL, validación manual |
 
-# Un test específico
-.\mvnw test -Dtest=DatabaseConnectionTest
+---
+
+### ⚙️ Variables de entorno del backend
+
+| Variable     | Descripción              |
+| ------------ | ------------------------ |
+| `DB_HOST`    | Host de la base de datos |
+| `DB_PORT`    | Puerto de conexión       |
+| `DB_NAME`    | Nombre de la base        |
+| `DB_USER`    | Usuario de BD            |
+| `DB_PASS`    | Contraseña (privada)     |
+| `DB_SSLMODE` | Modo SSL requerido       |
+
+---
+
+## 🧭 Estructura general del proyecto
+
+```
+club-nautico-app/
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   ├── router.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
+│
+└── backend/
+    ├── .env
+    ├── pom.xml
+    ├── src/
+    │   ├── main/java/
+    │   └── main/resources/
+    └── mvnw
 ```
 
-## Compilar el proyecto
+---
 
-```bash
-# Limpiar y compilar
-.\mvnw clean install
+## 🛡️ Buenas prácticas
 
-# Solo compilar
-.\mvnw compile
-```
+- No subir el archivo `.env` a GitHub
+- No compartir credenciales ni URLs privadas
+- Mantener dependencias actualizadas (`npm update`, `mvnw dependency:resolve`)
+- Probar conexión con Supabase antes de iniciar el backend
+- Usar ramas separadas para nuevas features (`git checkout -b feature/nueva-seccion`)
 
-## Problemas comunes
+---
 
-### Error: "No se pudo cargar la configuración desde .env"
+## 👥 Equipo
 
-**Solución:** Verifica que el archivo `.env` existe en `backend/.env` y tiene el formato correcto (sin espacios extra, sin extensión `.txt` oculta).
-
-### Error: "UnknownHostException" o "Connection refused"
-
-**Posibles causas:**
-- Tu red corporativa/universitaria puede estar bloqueando la conexión
-- Las credenciales en `.env` son incorrectas
-
-**Solución:** 
-- Intenta conectarte desde otra red (datos móviles, WiFi de casa)
-- Verifica que las credenciales sean exactamente las compartidas
-- Ejecuta el test de conexión para más detalles: `.\mvnw test -Dtest=DatabaseConnectionTest`
-
-### Error: "Failed to load ApplicationContext"
-
-**Solución:** Ejecuta `.\mvnw clean install` y luego intenta de nuevo.
-
-## Comandos útiles
-
-```bash
-# Ver logs detallados
-.\mvnw spring-boot:run -X
-
-# Limpiar archivos compilados
-.\mvnw clean
-
-# Actualizar dependencias
-.\mvnw dependency:resolve
-
-# Ver árbol de dependencias
-.\mvnw dependency:tree
-```
-
-## Tecnologías utilizadas
-
-- Java 21
-- Spring Boot 3.5.5
-- Spring Data JPA
-- PostgreSQL (Supabase)
-- Hibernate
-- Lombok
-- Maven
-
-## Estructura de la base de datos
-
-La aplicación usa Hibernate con `ddl-auto=validate`, lo que significa que:
-- NO crea tablas automáticamente
-- Valida que el esquema de BD coincida con las entidades
-- Las migraciones se manejan manualmente
-
-## Variables de entorno
-
-El proyecto utiliza las siguientes variables de entorno definidas en `.env`:
-
-| Variable | Descripción | Ejemplo |
-|----------|-------------|---------|
-| `DB_HOST` | Host de la base de datos | `aws-1-sa-east-1.pooler.supabase.com` |
-| `DB_PORT` | Puerto de conexión | `6543` |
-| `DB_NAME` | Nombre de la base de datos | `postgres` |
-| `DB_USER` | Usuario de la base de datos | `postgres.urwefjumjrtummdlhdir` |
-| `DB_PASS` | Contraseña (no compartir públicamente) | `[PRIVADO]` |
-| `DB_SSLMODE` | Modo SSL | `require` |
-
-## Contacto y soporte
-
-Si tienes problemas con la configuración:
-1. Revisa esta guía completa
-2. Ejecuta el test de conexión para obtener más detalles
-3. Consulta con el equipo en el grupo
-
-## Notas de seguridad
-
-- NUNCA subas el archivo `.env` a Git
-- NUNCA compartas las credenciales públicamente
-- Si expones accidentalmente las credenciales, notifica al equipo inmediatamente
+Proyecto académico desarrollado como práctica de **metodologías ágiles**
+para la materia **Aplicaciones Ágiles**.
