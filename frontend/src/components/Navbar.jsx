@@ -1,93 +1,98 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
 import "./Navbar.scss";
+import { useNavigate, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const MySwal = withReactContent(Swal);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
+  // 🔹 Mostrar alerta de bienvenida solo una vez por sesión
+  useEffect(() => {
+    const hasWelcomed = localStorage.getItem("hasWelcomed");
+    const currentPath = location.pathname;
+
+    if (!hasWelcomed && currentPath === "/home") {
+      const nombre = localStorage.getItem("userName");
+      const saludo = nombre
+        ? `¡Hola, ${nombre.split(" ")[0]} 👋!`
+        : "¡Hola 👋!";
+
+      MySwal.fire({
+        title: saludo,
+        text: "Bienvenido/a al Portal del Socio.",
+        icon: "success",
+        confirmButtonColor: "#1e3a8a",
+        background: "#f8f9fb",
+        color: "#333",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+
+      localStorage.setItem("hasWelcomed", "true");
+    }
+  }, [location.pathname]);
+
+  // 🔹 Cerrar sesión con confirmación
+  const handleLogout = async () => {
+    const result = await MySwal.fire({
+      title: "¿Deseás cerrar sesión?",
+      text: "Podrás volver a ingresar cuando quieras.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#b91c1c",
+      cancelButtonColor: "#1e3a8a",
+      confirmButtonText: "Sí, salir",
+      cancelButtonText: "Cancelar",
+      background: "#f8f9fb",
+      color: "#333",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      await MySwal.fire({
+        title: "Sesión cerrada",
+        text: "¡Hasta pronto!",
+        icon: "success",
+        confirmButtonColor: "#1e3a8a",
+        background: "#f8f9fb",
+        color: "#333",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+
+      // 🔹 Limpia datos de sesión
+      localStorage.removeItem("hasWelcomed");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("userName");
+
+      navigate("/");
+    }
   };
 
-  const currentPath = location.pathname;
-
   return (
-    <>
-      <header className="header">
-        <div className="header-left">
-          <div className="logo">
-            <img src="/logo.png" alt="Logo" />
-            <div>
-              <h3>Club Social</h3>
-              <p>Portal del Socio</p>
-            </div>
-          </div>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-logo" onClick={() => navigate("/home")}>
+          <img src="/logo-png-redondo-297x300.png" alt="Logo" />
+          <span>Club Náutico</span>
         </div>
 
-        <div className="header-right">
-          <div
-            className="user-profile"
-            onClick={() => navigate("/info")}
-            style={{ cursor: "pointer" }}
-          >
-            <div className="avatar">JMS</div>
-            <div className="user-data">
-              <p className="name">Juan Manuel Semper</p>
-              <p className="id">Socio #30802</p>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={() => setShowLogoutModal(true)}>
-            ↩ Salir
-          </button>
-        </div>
-      </header>
-
-      <nav className="nav-tabs">
-        <button
-          className={currentPath === "/home" ? "active" : ""}
-          onClick={() => navigate("/home")}
-        >
-          <i className="fa-regular fa-user"></i> Resumen
-        </button>
-        <button
-          className={currentPath === "/pagos" ? "active" : ""}
-          onClick={() => navigate("/pagos")}
-        >
-          <i className="fa-regular fa-credit-card"></i> Pagos
-        </button>
-        <button
-          className={currentPath === "/disciplinas" ? "active" : ""}
-          onClick={() => navigate("/disciplinas")}
-        >
-          <i className="fa-solid fa-trophy"></i> Disciplinas
-        </button>
-        <button
-          className={currentPath === "/acceso" ? "active" : ""}
-          onClick={() => navigate("/acceso")}
-        >
-          <i className="fa-solid fa-qrcode"></i> Acceso
-        </button>
-      </nav>
-
-      {showLogoutModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>¿Seguro que querés cerrar sesión?</h3>
-            <div className="buttons">
-              <button onClick={() => setShowLogoutModal(false)} className="cancel">
-                Cancelar
-              </button>
-              <button onClick={handleLogout} className="confirm">
-                Cerrar sesión
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+        <ul className="navbar-links">
+          <li onClick={() => navigate("/home")}>Inicio</li>
+          <li onClick={() => navigate("/perfil")}>Mi Perfil</li>
+          <li onClick={() => navigate("/disciplinas")}>Disciplinas</li>
+          <li onClick={() => navigate("/pagos")}>Pagos</li>
+          <li onClick={() => navigate("/acceso")}>Acceso</li>
+          <li className="logout" onClick={handleLogout}>
+            Cerrar sesión
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 }
 

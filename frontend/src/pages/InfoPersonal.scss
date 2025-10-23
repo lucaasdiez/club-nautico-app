@@ -1,31 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
 .info-personal-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow: hidden; /* ✅ elimina scroll */
+}
+
+/* contenedor principal */
+.info-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ centra verticalmente */
   padding: 2rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* tarjeta central */
+.info-card2 {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 1rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  animation: fadeIn 0.8s ease;
 
   h1 {
-    color: #003366;
-    text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.6rem;
+  }
+}
+
+/* grid de datos */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+
+  @media (max-width: 750px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ítems individuales */
+.info-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
   }
 
-  .info-item {
-    margin-bottom: 1.2rem;
+  label {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-bottom: 0.3rem;
+  }
 
-    label {
-      font-weight: bold;
-      color: #003366;
-      display: block;
-    }
+  span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+  }
 
-    span {
-      display: block;
-      margin-top: 0.3rem;
-      color: #444;
-      font-size: 1rem;
-    }
+  .activo {
+    color: #22c55e;
+    font-weight: 700;
+  }
+}
+
+/* animación de aparición */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

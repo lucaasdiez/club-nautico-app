@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
   // Secciones del portal
   { path: "/pagos", element: <Pagos /> },
   { path: "/disciplinas", element: <Disciplinas /> },
-  { path: "/info", element: <InfoPersonal /> },
+  { path: "/perfil", element: <InfoPersonal /> },
   { path: "/acceso", element: <Acceso /> },
 
   // Admin: gestión de socios
