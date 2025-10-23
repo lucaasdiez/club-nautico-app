@@ -1,0 +1,50 @@
+{
+  "disciplinas": [
+    {
+      "id": 1,
+      "nombre": "Tenis",
+      "descripcion": "Entrenamientos personalizados para todos los niveles.",
+      "horario": "Lunes a Viernes 9:00 a 18:00",
+      "precio": "$15.000 / mes",
+      "cupos": 20,
+      "inscritos": 12
+    },
+    {
+      "id": 2,
+      "nombre": "Natación",
+      "descripcion": "Clases de nado libre, estilo y resistencia.",
+      "horario": "Lunes a Sábado 7:00 a 21:00",
+      "precio": "$12.000 / mes",
+      "cupos": 30,
+      "inscritos": 26
+    },
+    {
+      "id": 3,
+      "nombre": "Gimnasio",
+      "descripcion": "Acceso completo al gimnasio con clases grupales.",
+      "horario": "Lunes a Domingo 8:00 a 22:00",
+      "precio": "$8.000 / mes",
+      "cupos": 50,
+      "inscritos": 32
+    },
+    {
+      "id": 4,
+      "nombre": "Fútbol",
+      "descripcion": "Entrenamientos y partidos amistosos semanales.",
+      "horario": "Martes y Jueves 19:00 a 21:00",
+      "precio": "$10.000 / mes",
+      "cupos": 25,
+      "inscritos": 10
+    }
+  ],
+  "inscripciones": {
+    "paz@nautico.com": [
+      {
+        "idDisciplina": 2,
+        "nombre": "Natación",
+        "precio": "$12.000 / mes",
+        "fecha": "23/10/2025"
+      }
+    ]
+  }
+}

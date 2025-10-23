@@ -1,195 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
 .home-page {
-  background: #f8f9fb;
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
-}
-
-.container-principal {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-}
-
-/* Tarjetas superiores */
-.cards-superiores {
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow: hidden; /* ✅ elimina el scroll */
+}
+
+/* contenedor principal */
+.home-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ centra verticalmente el contenido */
+  padding: 2rem 1rem;
+}
+
+/* contenido general */
+.home-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* tarjetas resumen */
+.cards-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
-  margin-bottom: 2rem;
+  width: 100%;
+  justify-items: center;
+}
 
-  .card-item {
-    flex: 1;
-    background: #fff;
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+.card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 260px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
 
-    p {
-      color: #666;
-      margin-bottom: 0.4rem;
-      font-size: 0.9rem;
-    }
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
 
-    .valor {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #333;
+  .label {
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
 
-      .icono {
-        font-size: 1.3rem;
-        padding: 0.3rem 0.5rem;
-        border-radius: 8px;
-      }
-    }
+  .value {
+    font-size: 1.6rem;
+    margin-top: 0.3rem;
+    font-weight: 600;
+  }
 
-    .verde span {
-      color: #00a859;
-    }
-
-    .verde .icono {
-      background: #e6f8ec;
-      color: #00a859;
-    }
-
-    .azul .icono {
-      background: #eaf1ff;
-      color: #3478f6;
-    }
-
-    .violeta span {
-      color: #a020f0;
-    }
-
-    .violeta .icono {
-      background: #f3eaff;
-      color: #a020f0;
-    }
-
-    .naranja span {
-      color: #ff7a00;
-    }
-
-    .naranja .icono {
-      background: #fff0e0;
-      color: #ff7a00;
-    }
+  .active {
+    color: #22c55e;
   }
 }
 
-/* Tarjetas inferiores */
-.cards-inferiores {
+/* secciones principales */
+.main-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
 
-  .card-info-personal,
-  .card-disciplinas {
-    background: white;
+  @media (max-width: 950px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card,
+.disciplines-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  padding: 1rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 540px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* perfil */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .avatar {
+    background: #003D6B;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .badge {
+    background: #22c55e;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-top: 0.2rem;
+    display: inline-block;
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  p.id {
+    font-size: 0.9rem;
+    color: #d9e3f0;
+  }
+}
+
+.details {
+  line-height: 1.5;
+  font-size: 0.95rem;
+
+  strong {
+    color: #f3f4f6;
+  }
+}
+
+/* disciplinas */
+.disciplines-card {
+  .subtitle {
+    font-size: 0.9rem;
+    color: #d9e3f0;
+    margin-bottom: 1rem;
+  }
+
+  .discipline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.4rem;
     border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
+    transition: all 0.3s ease;
 
-  .card-info-personal {
-    h3 {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      color: #222;
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
     }
 
-    .perfil {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-
-      .avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: #e0e7ff;
-        color: #003366;
-        font-weight: 600;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.9rem;
-      }
-
-      .nombre {
-        font-weight: 600;
-        color: #333;
-        margin: 0;
-      }
-
-      .socio {
-        color: #777;
-        font-size: 0.9rem;
-        margin: 0;
-      }
-
-      .estado {
-        background: #e6f8ec;
-        color: #00a859;
-        border-radius: 5px;
-        padding: 0.2rem 0.5rem;
-        font-size: 0.75rem;
-        margin-top: 0.2rem;
-        display: inline-block;
-      }
+    .discipline-name h3 {
+      margin: 0;
+      color: #fff;
+      font-weight: 600;
     }
 
-    .detalle p {
-      margin: 0.4rem 0;
-      color: #444;
+    .discipline-name p {
+      margin: 0.3rem 0 0;
       font-size: 0.9rem;
+      color: #d9e3f0;
+    }
+
+    .discipline-price {
+      text-align: right;
+
+      span {
+        font-weight: 700;
+        color: #ffd700;
+        font-size: 1.1rem;
+      }
+
+      small {
+        display: block;
+        color: #ddd;
+        font-size: 0.8rem;
+      }
     }
   }
+}
 
-  .card-disciplinas {
-    h3 {
-      font-size: 1rem;
-      color: #222;
-    }
-
-    .subtitulo {
-      color: #777;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-    }
-
-    .no-disc {
-      text-align: center;
-      color: #888;
-
-      i {
-        font-size: 2.5rem;
-        opacity: 0.4;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        margin: 0.2rem 0;
-      }
-
-      .btn-ver {
-        margin-top: 0.8rem;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 0.4rem 1rem;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.2s;
-
-        &:hover {
-          background: #f3f3f3;
-        }
-      }
-    }
+/* animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

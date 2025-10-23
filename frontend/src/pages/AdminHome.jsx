@@ -1,43 +1,64 @@
 import "./AdminHome.scss";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useEffect } from "react";
 
 function AdminHome() {
+  const MySwal = withReactContent(Swal);
+
   const handleLogout = () => {
-    // Cierra sesión y redirige al login
-    localStorage.removeItem("user");
+    localStorage.clear();
     window.location.href = "/";
   };
 
+  useEffect(() => {
+    const welcomed = sessionStorage.getItem("adminWelcomed");
+    if (!welcomed) {
+      MySwal.fire({
+        title: "Bienvenido al Panel Administrativo ⚙️",
+        text: "Gestioná socios, disciplinas y pagos de forma rápida y clara.",
+        icon: "info",
+        confirmButtonColor: "#1e3a8a",
+        background: "#f8f9fb",
+        color: "#333",
+        timer: 2800,
+        showConfirmButton: false,
+      });
+      sessionStorage.setItem("adminWelcomed", "true");
+    }
+  }, []);
+
   return (
     <div className="admin-home">
-      {/* 🔹 Encabezado fijo */}
-      <header className="admin-header">
-        <div className="logo-section">
-          <img src="/vite.svg" alt="Logo Club Náutico" className="logo" />
-          <h2>Club Náutico - Panel Admin</h2>
-        </div>
-        <button className="logout-btn" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      </header>
+      {/* ✅ Logo grande centrado arriba */}
+      <img
+        src="/logo-png-redondo-297x300.png"
+        alt="Logo institucional"
+        className="admin-logo"
+      />
 
-      {/* 🔹 Contenido principal */}
-      <main className="admin-content">
-        <h1>Panel de Administración</h1>
-        <p>
-          Bienvenido al panel del Club Náutico. Desde aquí podés gestionar
-          socios, disciplinas, pagos y toda la información institucional del
-          club.
-        </p>
+      <main className="admin-main">
+        <div className="admin-card">
+          <h1>Panel de Administración</h1>
+          <p>
+            Desde este panel podés gestionar socios, disciplinas, pagos y la
+            información institucional del Club Náutico.
+          </p>
 
-        <div className="admin-buttons">
-          <button onClick={() => (window.location.href = "/socios")}>
-            Gestionar Socios
-          </button>
-          <button onClick={() => (window.location.href = "/disciplinas")}>
-            Disciplinas
-          </button>
-          <button onClick={() => (window.location.href = "/pagos")}>
-            Control de Pagos
+          <div className="admin-buttons">
+            <button onClick={() => (window.location.href = "/socios")}>
+              👥 Gestionar Socios
+            </button>
+            <button onClick={() => (window.location.href = "#")}>
+              🏆 Disciplinas
+            </button>
+            <button onClick={() => (window.location.href = "#")}>
+              💳 Control de Pagos
+            </button>
+          </div>
+
+          <button className="logout-btn" onClick={handleLogout}>
+            Cerrar Sesión
           </button>
         </div>
       </main>

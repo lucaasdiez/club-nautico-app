@@ -1,188 +1,165 @@
 .disciplinas-page {
-  background: #f8f9fb;
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
-}
-
-.container-principal {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-}
-
-/* Tarjetas superiores */
-.cards-superiores {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-
-  .card-item {
-    flex: 1;
-    background: #fff;
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-
-    p {
-      color: #666;
-      margin-bottom: 0.4rem;
-      font-size: 0.9rem;
-    }
-
-    .valor {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #333;
-
-      .icono {
-        font-size: 1.3rem;
-        padding: 0.3rem 0.5rem;
-        border-radius: 8px;
-      }
-    }
-
-    .verde span {
-      color: #00a859;
-    }
-
-    .verde .icono {
-      background: #e6f8ec;
-      color: #00a859;
-    }
-
-    .azul .icono {
-      background: #eaf1ff;
-      color: #3478f6;
-    }
-
-    .violeta span {
-      color: #a020f0;
-    }
-
-    .violeta .icono {
-      background: #f3eaff;
-      color: #a020f0;
-    }
-
-    .naranja span {
-      color: #ff7a00;
-    }
-
-    .naranja .icono {
-      background: #fff0e0;
-      color: #ff7a00;
-    }
-  }
-}
-
-/* Sección Disciplinas */
-.disciplinas-disponibles {
-  h3 {
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
-    color: #1a1a1a;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-
-    i {
-      color: #0d47a1;
-    }
-  }
-}
-
-/* Grid de tarjetas */
-.grid-disciplinas {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.card-disciplina {
-  background: white;
-  border-radius: 12px;
-  padding: 1.2rem 1.4rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+.disciplinas-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.disciplinas-content {
+  width: 100%;
+  max-width: 1100px;
+  text-align: center;
+
+  h1 {
+    font-size: 1.9rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #f3f4f6;
+  }
+}
+
+.disciplinas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ====== TARJETAS ====== */
+.card-disciplina,
+.card-inscripta {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0.6rem;
 
-    h4 {
-      font-size: 1rem;
-      margin: 0;
-      color: #111;
+    .estado {
+      background: #22c55e;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 5px;
+      padding: 0.3rem 0.6rem;
     }
 
     .badge {
-      background: #f3f3f3;
+      padding: 0.3rem 0.6rem;
       border-radius: 6px;
-      padding: 0.2rem 0.5rem;
       font-size: 0.75rem;
-      color: #555;
+      font-weight: 600;
+
+      &.disponible {
+        background: #22c55e;
+      }
+
+      &.ocupado {
+        background: #b91c1c;
+      }
     }
   }
 
   .descripcion {
-    font-size: 0.9rem;
-    color: #444;
-    margin: 0.4rem 0 0.6rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: #f1f5f9;
   }
 
   .horario,
   .inscritos {
-    font-size: 0.85rem;
-    color: #333;
+    font-size: 0.9rem;
     margin: 0.3rem 0;
-
-    i {
-      color: #555;
-      margin-right: 0.3rem;
-    }
-  }
-
-  .inscritos {
-    color: #00994d;
+    color: #e2e8f0;
   }
 
   .precio {
+    font-weight: 700;
+    color: #ffd700;
+    margin-top: 0.5rem;
     text-align: right;
-    font-size: 0.9rem;
-    color: #0047ab;
-    font-weight: 600;
   }
 
-  .barra-progreso {
-    background: #ddd;
-    height: 6px;
-    border-radius: 10px;
-    margin: 0.5rem 0 1rem;
-  }
-
-  .btn-inscribirse {
-    background: #111;
-    color: white;
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem;
     border: none;
     border-radius: 8px;
-    padding: 0.5rem 0;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.25s ease;
 
-    i {
-      margin-right: 0.4rem;
+    &.btn-inscribirse {
+      background: linear-gradient(90deg, #1e3a8a, #003366);
+      color: white;
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
     }
 
-    &:hover {
-      background: #222;
+    &.btn-desinscribirse {
+      background: #b91c1c;
+      color: white;
+      &:hover {
+        background: #a11a1a;
+      }
     }
   }
+}
+
+/* ====== SECCIONES ====== */
+.inscritas-section,
+.disponibles-section,
+.resumen-section {
+  margin-bottom: 2.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.resumen-lista {
+  margin-bottom: 1rem;
+}
+
+.total {
+  font-weight: 700;
+  span {
+    color: #ffd700;
+  }
+}
+
+.no-inscripciones {
+  font-style: italic;
+  color: #e2e8f0;
 }
