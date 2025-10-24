@@ -2,50 +2,43 @@ import "./Register.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
 
 function Register() {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [dni, setDni] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    dni: "",
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+  });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const MySwal = withReactContent(Swal);
 
-  const handleRegister = async (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!nombre || !apellido || !dni || !email || !password) {
-      setError("Por favor, completá todos los campos.");
-      return;
-    }
+    setError("");
 
     try {
-      // 🔹 Ejemplo: acá podrías llamar al backend real
-      // await axios.post("http://localhost:8080/api/register", { nombre, apellido, dni, email, password });
+      const response = await axios.post("http://localhost:8080/api/socios/crear", form);
 
-      // 🔹 Guarda nombre y datos en localStorage
-      const fullName = `${nombre} ${apellido}`;
-      localStorage.setItem("userName", fullName);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userRole", "SOCIO");
-
-      // 🔹 Alerta de éxito
-      await MySwal.fire({
-        title: "Registro exitoso 🎉",
-        text: `Bienvenido/a, ${nombre}!`,
-        icon: "success",
-        confirmButtonColor: "#1e3a8a",
-        background: "#f8f9fb",
-        color: "#333",
-      });
-
-      navigate("/home");
+      if (response.status === 200) {
+        Swal.fire({
+          title: "✅ Registro exitoso",
+          text: `El socio ${form.nombre} ${form.apellido} fue registrado correctamente.`,
+          icon: "success",
+          confirmButtonText: "Continuar",
+        }).then(() => navigate("/home"));
+      }
     } catch (err) {
       console.error(err);
-      setError("Hubo un problema con el registro. Intentá nuevamente.");
+      setError(err.response?.data || "Error al registrar el socio.");
     }
   };
 
@@ -57,47 +50,60 @@ function Register() {
         className="register-logo"
       />
 
-      <form className="register-form" onSubmit={handleRegister}>
-        <h1>Registro de Usuario</h1>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h1>Registrar Socio</h1>
 
-        <div className="form-fields">
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
+        <input
+          type="text"
+          name="username"
+          placeholder="Usuario"
+          value={form.username}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="dni"
+          placeholder="DNI"
+          value={form.dni}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Nombre"
+          value={form.nombre}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="apellido"
+          placeholder="Apellido"
+          value={form.apellido}
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          value={form.email}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="telefono"
+          placeholder="Teléfono"
+          value={form.telefono}
+          onChange={handleChange}
+        />
 
-          <input
-            type="text"
-            placeholder="Apellido"
-            value={apellido}
-            onChange={(e) => setApellido(e.target.value)}
-          />
-
-          <input
-            type="text"
-            placeholder="DNI"
-            value={dni}
-            onChange={(e) => setDni(e.target.value)}
-          />
-
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Registrarme</button>
+        <button type="submit">Registrar</button>
 
         {error && <p className="error">{error}</p>}
 
