@@ -26,8 +26,6 @@ public abstract class Usuario {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-
-
     @Column(nullable = false, length = 100)
     @NotBlank(message = "La contraseña es obligatoria.")
     @Size(max = 100, message = "La contraseña no puede superar los 100 caracteres.")
@@ -37,6 +35,5 @@ public abstract class Usuario {
     @NotBlank(message = "El nombre de usuario es obligatorio.")
     @Size(max = 50, message = "El nombre de usuario no puede superar los 50 caracteres.")
     private String username;
-
 
 }

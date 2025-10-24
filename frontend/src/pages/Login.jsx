@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -12,15 +12,15 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Por favor, completá todos los campos.");
       return;
     }
 
     try {
-      // 🔹 Llamada al backend (ajustá la URL si cambia)
+      // 🔹 Llamada al backend con username en lugar de email
       const response = await axios.post("http://localhost:8080/api/login", {
-        email,
+        username,
         password,
       });
 
@@ -29,7 +29,7 @@ function Login() {
 
       // 🔹 Guarda datos del usuario en localStorage
       localStorage.setItem("userName", nombre);
-      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userUsername", username);
       localStorage.setItem("userRole", rol?.toUpperCase());
 
       // 🔹 Redirección según rol
@@ -41,8 +41,12 @@ function Login() {
         setError("Rol no reconocido. Contactá con soporte.");
       }
     } catch (err) {
-      console.error(err);
-      setError("Email o contraseña incorrectos.");
+      console.error("❌ Error al iniciar sesión:", err);
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError("Usuario o contraseña incorrectos.");
+      }
     }
   };
 
@@ -60,10 +64,10 @@ function Login() {
 
         <div className="form-fields">
           <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Usuario"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
 
           <input
