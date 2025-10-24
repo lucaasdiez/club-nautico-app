@@ -12,9 +12,14 @@ import org.springframework.data.repository.query.Param;
 import com.clubNautico.model.Socio;
 
 public interface SocioRepository extends JpaRepository<Socio, UUID> {
-    
+
     Optional<Socio> findByDni(String dni);
+
     Optional<Socio> findByEmail(String email);
+
     Optional<Socio> findByNroSocio(String nroSocio);
+
     List<Socio> findAllByEstadoCuota(EstadoCuota estadoCuota);
+
+    Optional<Socio> findByUsername(String username);
 }

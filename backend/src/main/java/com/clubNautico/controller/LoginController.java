@@ -23,11 +23,11 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        String email = loginRequest.getEmail();
+        String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
         // 1️⃣ Buscar si es admin
-        Optional<Admin> adminOpt = adminRepository.findByEmail(email);
+        Optional<Admin> adminOpt = adminRepository.findByUsername(username);
         if (adminOpt.isPresent()) {
             Admin admin = adminOpt.get();
             if (admin.getPassword().equals(password)) {
@@ -38,7 +38,7 @@ public class LoginController {
         }
 
         // 2️⃣ Buscar si es socio
-        Optional<Socio> socioOpt = socioRepository.findByEmail(email);
+        Optional<Socio> socioOpt = socioRepository.findByUsername(username);
         if (socioOpt.isPresent()) {
             Socio socio = socioOpt.get();
             if (socio.getPassword().equals(password)) {
