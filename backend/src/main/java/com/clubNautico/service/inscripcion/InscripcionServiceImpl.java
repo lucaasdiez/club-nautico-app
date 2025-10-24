@@ -32,7 +32,7 @@ public class InscripcionServiceImpl implements InscripcionService {
                 .orElseThrow(() -> new RuntimeException("Disciplina no encontrada"));
 
         if(disciplina.getEstado() != DisciplinaEstado.ACTIVA) throw new RuntimeException("Disciplina inactiva");
-        boolean yaInscripto = inscripcionRepository.existBySocioAndDisciplinaIdAndEstado(socio.getId(), disciplina.getId(), InscripcionEstado.ACTIVA);
+        boolean yaInscripto = inscripcionRepository.existsBySocio_IdAndDisciplina_IdAndEstado(socio.getId(), disciplina.getId(), InscripcionEstado.ACTIVA);
         if(yaInscripto) throw new RuntimeException("El socio ya está inscripto en esta disciplina");
 
         long cantInscriptos = inscripcionRepository.cantidadInscriptos(disciplina.getId());
