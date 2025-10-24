@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -14,8 +15,8 @@ import java.time.LocalDate;
 @Builder
 public class Inscripcion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue
+    private UUID id;
 
     private String codigo;
 
