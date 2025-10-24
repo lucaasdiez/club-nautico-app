@@ -14,26 +14,39 @@ import Socios from "./pages/Socios";
 // Admin
 import AdminHome from "./pages/AdminHome";
 
+// Chat IA (widget global excepto en login/register)
+import ChatWidget from "./components/ChatWidget/ChatWidget";
+
+// Función envoltorio para añadir el widget a las páginas donde debe mostrarse
+function withWidget(Component) {
+  return (
+    <>
+      <Component />
+      <ChatWidget />
+    </>
+  );
+}
+
 export const router = createBrowserRouter([
   // Login / Registro
   { path: "/", element: <Login /> },
   { path: "/register", element: <Register /> },
 
   // Admin
-  { path: "/admin", element: <AdminHome /> },
+  { path: "/admin", element: withWidget(AdminHome) },
 
   // Socio (canon = /home)
-  { path: "/home", element: <Home /> },
+  { path: "/home", element: withWidget(Home) },
 
   // Redirección por si algo todavía navega a /socio
   { path: "/socio", element: <Navigate to="/home" replace /> },
 
   // Secciones del portal
-  { path: "/pagos", element: <Pagos /> },
-  { path: "/disciplinas", element: <Disciplinas /> },
-  { path: "/perfil", element: <InfoPersonal /> },
-  { path: "/acceso", element: <Acceso /> },
+  { path: "/pagos", element: withWidget(Pagos) },
+  { path: "/disciplinas", element: withWidget(Disciplinas) },
+  { path: "/perfil", element: withWidget(InfoPersonal) },
+  { path: "/acceso", element: withWidget(Acceso) },
 
   // Admin: gestión de socios
-  { path: "/socios", element: <Socios /> },
+  { path: "/socios", element: withWidget(Socios) },
 ]);
