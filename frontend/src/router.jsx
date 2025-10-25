@@ -10,6 +10,7 @@ import Disciplinas from "./pages/Disciplinas";
 import InfoPersonal from "./pages/InfoPersonal";
 import Acceso from "./pages/Acceso";
 import Socios from "./pages/Socios";
+import Certificados from "./pages/Certificados";
 
 // Admin
 import AdminHome from "./pages/AdminHome";
@@ -46,6 +47,8 @@ export const router = createBrowserRouter([
   { path: "/disciplinas", element: withWidget(Disciplinas) },
   { path: "/perfil", element: withWidget(InfoPersonal) },
   { path: "/acceso", element: withWidget(Acceso) },
+  { path: "/certificados", element: withWidget(Certificados) },
+
 
   // Admin: gestión de socios
   { path: "/socios", element: withWidget(Socios) },
