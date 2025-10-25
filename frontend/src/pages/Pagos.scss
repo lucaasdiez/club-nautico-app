@@ -1,7 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
 .pagos-page {
-  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
   min-height: 100vh;
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
+  display: flex;
+  flex-direction: column;
   font-family: "Inter", sans-serif;
+  color: #fff;
 }
 
 .pagos-container {
@@ -11,93 +16,113 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  flex: 1;
+
+  @media (max-width: 950px) {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* --- IZQUIERDA --- */
 .pagos-left,
 .pagos-right {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
   padding: 1.5rem 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
 
   h3 {
-    font-size: 1rem;
+    font-size: 1.3rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #222;
+    color: #fff;
+    margin-bottom: 1.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
   }
 
   .subtitulo {
-    color: #666;
+    color: #d9e3f0;
     font-size: 0.9rem;
     margin-bottom: 1.2rem;
   }
 }
 
-/* --- LISTA DE PAGOS --- */
 .titulo-seccion {
   font-weight: 600;
   margin-bottom: 0.8rem;
+  color: #fff;
 }
 
 .pago-item {
-  border: 1px solid #e6e6e6;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  padding: 0.9rem 1rem;
+  padding: 1rem 1.4rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  cursor: pointer;
 
   &:hover {
-    background: #f9f9f9;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 
   .nombre {
     font-weight: 600;
     margin: 0;
+    color: #fff;
   }
 
   .descripcion {
-    color: #777;
+    color: #d9e3f0;
     font-size: 0.85rem;
-    margin: 0.2rem 0 0;
+    margin: 0.3rem 0 0;
   }
 
   .monto {
     font-weight: 700;
-    font-size: 1rem;
-    color: #222;
+    font-size: 1.1rem;
+    color: #ffd700;
   }
 }
 
-/* --- HISTORIAL --- */
 .historial-item {
-  border: 1px solid #e6e6e6;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   padding: 1rem 1.2rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background: white;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: #f9f9f9;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 
   .info {
     .nombre {
       font-weight: 600;
       margin-bottom: 0.3rem;
+      color: #fff;
     }
 
     .meta {
-      color: #777;
+      color: #d9e3f0;
       font-size: 0.85rem;
 
       .id {
@@ -106,7 +131,7 @@
 
       i {
         margin-right: 0.3rem;
-        color: #999;
+        color: #d9e3f0;
       }
     }
   }
@@ -116,28 +141,30 @@
 
     .badge {
       display: inline-block;
-      padding: 0.2rem 0.6rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       margin-bottom: 0.3rem;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .verde {
-      background: #e6f8ec;
-      color: #00a859;
+      background: #22c55e;
+      color: #fff;
     }
 
     .monto {
       font-weight: 700;
-      font-size: 1rem;
-      color: #222;
+      font-size: 1.1rem;
+      color: #ffd700;
+      display: block;
+      margin-top: 0.2rem;
     }
 
     .metodo {
       font-size: 0.8rem;
-      color: #777;
-      margin: 0;
+      color: #d9e3f0;
+      margin: 0.2rem 0 0;
     }
   }
 }
