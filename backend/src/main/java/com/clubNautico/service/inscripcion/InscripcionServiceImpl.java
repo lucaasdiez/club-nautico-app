@@ -1,5 +1,6 @@
 package com.clubNautico.service.inscripcion;
 
+import com.clubNautico.dto.InscripcionDTO;
 import com.clubNautico.enums.DisciplinaEstado;
 import com.clubNautico.enums.InscripcionEstado;
 import com.clubNautico.model.Disciplina;
@@ -9,10 +10,12 @@ import com.clubNautico.repository.DisciplinaRepository;
 import com.clubNautico.repository.InscripcionRepository;
 import com.clubNautico.repository.SocioRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class InscripcionServiceImpl implements InscripcionService {
     private final InscripcionRepository inscripcionRepository;
     private final DisciplinaRepository disciplinaRepository;
     private final SocioRepository socioRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Inscripcion inscribirDisciplina(String nroSocio, String nombreDisciplina) {
@@ -82,4 +86,17 @@ public class InscripcionServiceImpl implements InscripcionService {
         return inscripcionRepository.findAllByDisciplina_Id(disciplina.getId())
                 .orElseThrow(() -> new RuntimeException("No hay inscripciones registradas para esta disciplina"));
     }
+
+    @Override
+    public InscripcionDTO convertirADTO(Inscripcion inscripcion) {
+        return modelMapper.map(inscripcion, InscripcionDTO.class);
+    }
+
+    @Override
+    public List<InscripcionDTO> convertirADTOS(List<Inscripcion> inscripciones) {
+        return inscripciones.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
 }
