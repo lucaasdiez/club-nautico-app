@@ -9,7 +9,7 @@
   justify-content: flex-start;
   font-family: "Inter", sans-serif;
   color: #fff;
-  overflow: hidden; /* ✅ elimina el scroll */
+  overflow: hidden; 
 }
 
 /* contenedor principal */
@@ -18,7 +18,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; /* ✅ centra verticalmente el contenido */
+  align-items: center; 
   padding: 2rem 1rem;
 }
 
@@ -87,7 +87,7 @@
   }
 }
 
-.info-card,
+.info-card1,
 .disciplines-card {
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(16px);

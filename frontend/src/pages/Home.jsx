@@ -59,7 +59,7 @@ function Home() {
 
           {/* Sección principal */}
           <div className="main-section">
-            <div className="info-card">
+            <div className="info-card1">
               <h2>Información Personal</h2>
 
               <div className="profile">
