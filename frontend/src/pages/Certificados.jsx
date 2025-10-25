@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Certificados.scss";
+import Swal from "sweetalert2";
 
 function Certificados() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,14 +15,14 @@ function Certificados() {
       type: "Certificado de Socio",
       memberNumber: "CNE-1234",
       issueDate: "2024-01-15",
-      driveLink: "https://drive.google.com/file/d/1abc123/view",
+      driveLink: "https://drive.google.com/file/d/1DwlsOfhfp2Yu6IWFY1pRJIqo9j2UTMZz/view?usp=drive_link",
     },
     {
       id: 2,
       type: "Certificado de Disciplinas",
       memberNumber: "CNE-1234",
       issueDate: "2024-01-15",
-      driveLink: "https://drive.google.com/file/d/2def456/view",
+      driveLink: "https://drive.google.com/file/d/1cQsS1nYAtxp8c_LvKIXowxD9wTMsCMZ0/view?usp=drive_link",
     },
   ]);
 
@@ -59,14 +60,26 @@ function Certificados() {
       ) {
         setSelectedFile(file);
       } else {
-        alert("Solo se permiten archivos PDF, JPG o PNG");
+        Swal.fire({
+          icon: "error",
+          title: "Formato no válido",
+          text: "Solo se permiten archivos PDF, JPG o PNG",
+          confirmButtonColor: "#b91c1c",
+        });
+        // Limpiar el input
+        e.target.value = "";
       }
     }
   };
 
   const handleUpload = () => {
     if (!selectedFile || !expiryDate) {
-      alert("Por favor selecciona un archivo y una fecha de vencimiento");
+      Swal.fire({
+        icon: "warning",
+        title: "Datos incompletos",
+        text: "Por favor selecciona un archivo y una fecha de vencimiento",
+        confirmButtonColor: "#1e3a8a",
+      });
       return;
     }
 
@@ -89,7 +102,15 @@ function Certificados() {
       setMedicalFiles(updatedFiles);
       localStorage.setItem("medicalFiles", JSON.stringify(updatedFiles));
 
-      alert("Archivo subido exitosamente (guardado temporalmente en tu navegador)");
+      Swal.fire({
+        icon: "success",
+        title: "¡Archivo subido!",
+        text: "El parte médico se guardó correctamente",
+        confirmButtonColor: "#1e3a8a",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+      
       setSelectedFile(null);
       setExpiryDate("");
 
@@ -100,18 +121,47 @@ function Certificados() {
     };
 
     reader.onerror = () => {
-      alert("Error al leer el archivo");
+      Swal.fire({
+        icon: "error",
+        title: "Error al leer el archivo",
+        text: "Por favor intenta con otro archivo",
+        confirmButtonColor: "#b91c1c",
+      });
       setUploading(false);
     };
 
     reader.readAsDataURL(selectedFile);
   };
 
-  const deleteFile = (id) => {
-    const updatedFiles = medicalFiles.filter((file) => file.id !== id);
-    setMedicalFiles(updatedFiles);
-    localStorage.setItem("medicalFiles", JSON.stringify(updatedFiles));
+  // Nueva función con confirmación
+  const confirmDeleteFile = (id) => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Una vez eliminado, no podrás recuperar este archivo",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#b91c1c",
+      cancelButtonColor: "#1e3a8a",
+      confirmButtonText: "Sí, borrar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedFiles = medicalFiles.filter((file) => file.id !== id);
+        setMedicalFiles(updatedFiles);
+        localStorage.setItem("medicalFiles", JSON.stringify(updatedFiles));
+
+        Swal.fire({
+          icon: "success",
+          title: "Archivo eliminado",
+          text: "El archivo fue borrado correctamente",
+          confirmButtonColor: "#1e3a8a",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
   };
+
 
   const downloadFile = (file) => {
     const link = document.createElement("a");
@@ -230,10 +280,11 @@ function Certificados() {
                       </svg>
                     </button>
                     <button
-                      onClick={() => deleteFile(file.id)}
+                      onClick={() => confirmDeleteFile(file.id)}
                       className="btn-delete"
                       title="Eliminar"
                     >
+
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="3 6 5 6 21 6"/>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
