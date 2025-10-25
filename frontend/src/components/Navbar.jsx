@@ -87,6 +87,7 @@ function Navbar() {
           <li onClick={() => navigate("/disciplinas")}>Disciplinas</li>
           <li onClick={() => navigate("/pagos")}>Pagos</li>
           <li onClick={() => navigate("/acceso")}>Acceso</li>
+          <li onClick={() => navigate("/certificados")}>Certificados</li>
           <li className="logout" onClick={handleLogout}>
             Cerrar sesión
           </li>
