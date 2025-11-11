@@ -3,6 +3,7 @@ package com.clubNautico.controller;
 
 import com.clubNautico.dto.DisciplinaDTO;
 import com.clubNautico.model.Disciplina;
+import com.clubNautico.response.ApiResponse;
 import com.clubNautico.service.disciplina.DisciplinaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,33 +19,24 @@ public class DisciplinaController {
     private final DisciplinaService disciplinaService;
 
     @GetMapping
-    public ResponseEntity<?> listarDisciplinas() {
-        try {
-            List<Disciplina> disciplinas = disciplinaService.listarDisciplinas();
-            return ResponseEntity.ok().body(disciplinaService.convertirADTOS(disciplinas));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse> listarDisciplinas() {
+        List<Disciplina> disciplinas = disciplinaService.listarDisciplinas();
+        List<DisciplinaDTO> disciplinaDTOS= disciplinaService.convertirADTOS(disciplinas);
+        return ResponseEntity.ok(new ApiResponse("Listado de disciplinas", disciplinaDTOS));
     }
 
     @GetMapping("/disciplina/{nombre}")
-    public ResponseEntity<?> listarDisciplinaPorNombre(@PathVariable String nombre) {
-        try {
-            Disciplina disciplina = disciplinaService.getDisciplinaPorNombre(nombre);
-            return ResponseEntity.ok().body(disciplinaService.convertirADTO(disciplina));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse> buscarDisciplinaPorNombre(@PathVariable String nombre) {
+        Disciplina disciplina = disciplinaService.getDisciplinaPorNombre(nombre);
+        DisciplinaDTO disciplinaDTO = disciplinaService.convertirADTO(disciplina);
+        return ResponseEntity.ok(new ApiResponse("Disciplina encontrada", disciplinaDTO));
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> crearDisciplina(@RequestBody DisciplinaDTO disciplinaDTO) {
-        try {
-            Disciplina disciplina = disciplinaService.crearDisciplina(disciplinaDTO);
-            return ResponseEntity.ok().body(disciplinaService.convertirADTO(disciplina));
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse> crearDisciplina(@RequestBody DisciplinaDTO disciplinaDTO) {
+        Disciplina disciplina = disciplinaService.crearDisciplina(disciplinaDTO);
+        DisciplinaDTO dto = disciplinaService.convertirADTO(disciplina);
+        return ResponseEntity.ok(new ApiResponse("Disciplina creada correctamente", dto));
     }
 
 

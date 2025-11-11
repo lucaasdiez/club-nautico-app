@@ -4,6 +4,7 @@ import com.clubNautico.model.CodigoAcceso;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public interface CodigoAccesoRepository extends JpaRepository<CodigoAcceso, Inte
          WHERE c.socio.id = :socioId
            AND c.estadoCodigo = com.clubNautico.enums.EstadoCodigo.VALIDO
     """)
-    void revocarCodigosActivos(UUID id);
+    void revocarCodigosActivos(@Param("socioId") UUID id);
 
     Optional<CodigoAcceso> findByToken(String token);
 }
