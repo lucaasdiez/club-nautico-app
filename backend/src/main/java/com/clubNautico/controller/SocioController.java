@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.clubNautico.dto.SocioDTO;
 import com.clubNautico.enums.EstadoCuota;
+import com.clubNautico.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,58 +31,42 @@ public class SocioController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<?> crearSocio(@RequestBody SocioDTO socio) {
-        try {
-            Socio nuevo = socioService.createSocio(socio);
-            SocioDTO socioDTO = socioService.convertirADTO(nuevo);
-            return ResponseEntity.ok(socioDTO);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+    public ResponseEntity<ApiResponse> crearSocio(@RequestBody SocioDTO socio) {
+        Socio nuevo = socioService.createSocio(socio);
+        SocioDTO socioDTO = socioService.convertirADTO(nuevo);
+        return ResponseEntity.ok(new ApiResponse("Socio creado correctamente",socioDTO));
+
     }
 
     @GetMapping
-    public List<SocioDTO> listarSocios() {
-        return socioService.convertirADTOS(socioService.getAllSocios());
+    public ResponseEntity<ApiResponse> listarSocios() {
+        List<SocioDTO> socioDTOS= socioService.convertirADTOS(socioService.getAllSocios());
+        return ResponseEntity.ok(new ApiResponse("Listado de Socios", socioDTOS));
     }
 
     @PutMapping("/{nroSocio}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable String nroSocio, @RequestBody SocioDTO socio) {
-        try {
-            Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
-            SocioDTO socioDTO = socioService.convertirADTO(actualizado);
-            return ResponseEntity.ok(socioDTO);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+    public ResponseEntity<ApiResponse> actualizarSocio(@PathVariable String nroSocio, @RequestBody SocioDTO socio) {
+        Socio actualizado = socioService.actualizarSocio(nroSocio, socio);
+        SocioDTO socioDTO = socioService.convertirADTO(actualizado);
+        return ResponseEntity.ok(new ApiResponse("Socio actualizado correctamente",socioDTO));
     }
 
     @DeleteMapping("/{numeroSocio}")
-    public ResponseEntity<?> eliminarSocio(@PathVariable String numeroSocio) {
+    public ResponseEntity<ApiResponse> eliminarSocio(@PathVariable String numeroSocio) {
         socioService.deleteSocio(numeroSocio);
-        return ResponseEntity.ok("Socio eliminado correctamente");
+        return ResponseEntity.ok(new ApiResponse("Socio eliminado correctamente", null));
     }
 
     @GetMapping("/socio/numero/{nroSocio}")
-    public ResponseEntity<?> getSocioByNumeroSocio(@PathVariable String nroSocio) {
-        try {
-            SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
-            return ResponseEntity.ok(socioDTO);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+    public ResponseEntity<ApiResponse> getSocioByNumeroSocio(@PathVariable String nroSocio) {
+        SocioDTO socioDTO = socioService.convertirADTO(socioService.buscarSocioPorNumero(nroSocio));
+        return ResponseEntity.ok(new ApiResponse("Socio buscado correctamente",socioDTO));
 
     }
 
     @GetMapping("/socio/estado/{estadoCuota}")
-    public ResponseEntity<?> getSocioByEstadoCuota(@PathVariable EstadoCuota estadoCuota) {
-        try {
-            List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
-            return ResponseEntity.ok(socioDTO);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-
-
+    public ResponseEntity<ApiResponse> getSocioByEstadoCuota(@PathVariable EstadoCuota estadoCuota) {
+        List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));
+        return ResponseEntity.ok(new ApiResponse("Listado de Socios", socioDTO));
     }
 }
