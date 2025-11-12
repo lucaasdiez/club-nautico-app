@@ -58,7 +58,8 @@ public class CodigoAccesoServiceImpl implements CodigoAccesoService{
     @Override
     public ValidarCodigoResponse validarCodigo(String token) {
         CodigoAcceso codigoAcceso = codigoAccesoRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Codigo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Código no encontrado"));
+
         if (codigoAcceso.getExpiraEn().isBefore(LocalDateTime.now())) {
             codigoAcceso.setEstadoCodigo(EstadoCodigo.EXPIRADO);
             codigoAccesoRepository.save(codigoAcceso);
@@ -72,6 +73,7 @@ public class CodigoAccesoServiceImpl implements CodigoAccesoService{
             );
         }
 
+
         if (codigoAcceso.getEstadoCodigo() != EstadoCodigo.VALIDO) {
             return new ValidarCodigoResponse(
                     false,
@@ -84,15 +86,40 @@ public class CodigoAccesoServiceImpl implements CodigoAccesoService{
 
         Socio socio = codigoAcceso.getSocio();
 
+
         if (!socio.getActivo()) {
             return new ValidarCodigoResponse(
                     false,
                     "Socio inactivo",
                     socio.getNroSocio(),
-                    socio.getNombre() + socio.getApellido(),
+                    socio.getNombre() + " " + socio.getApellido(),
                     codigoAcceso.getExpiraEn()
             );
         }
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate vencimiento = socio.getFechaVencimiento();
+
+        if (vencimiento.isBefore(hoy)) {
+            return new ValidarCodigoResponse(
+                    false,
+                    "Socio con cuota vencida",
+                    socio.getNroSocio(),
+                    socio.getNombre() + " " + socio.getApellido(),
+                    codigoAcceso.getExpiraEn()
+            );
+        }
+
+        if (!vencimiento.isBefore(hoy) && vencimiento.minusDays(5).isBefore(hoy)) {
+            return new ValidarCodigoResponse(
+                    true,
+                    "Acceso permitido - cuota próxima a vencer",
+                    socio.getNroSocio(),
+                    socio.getNombre() + " " + socio.getApellido(),
+                    codigoAcceso.getExpiraEn()
+            );
+        }
+
         codigoAcceso.setEstadoCodigo(EstadoCodigo.USADO);
         codigoAccesoRepository.save(codigoAcceso);
 
@@ -100,7 +127,7 @@ public class CodigoAccesoServiceImpl implements CodigoAccesoService{
                 true,
                 "Acceso concedido",
                 socio.getNroSocio(),
-                socio.getNombre() + socio.getApellido(),
+                socio.getNombre() + " " + socio.getApellido(),
                 codigoAcceso.getExpiraEn()
         );
     }
