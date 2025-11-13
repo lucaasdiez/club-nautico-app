@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./ChatWidget.scss";
+import { registrarConsulta } from "../../services/chatbotService";
 
 function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -43,12 +44,43 @@ function ChatWidget() {
     }, 300);
   };
 
+  // ✨ Función para registrar la consulta en el backend
+  const registrarConsultaEnBackend = async (pregunta, respuesta, tiempoRespuesta) => {
+    try {
+      // Obtener datos del usuario logueado (si existe)
+      const userData = JSON.parse(localStorage.getItem("user") || "{}");
+      const nroSocio = userData.nroSocio || null;
+      const tipoUsuario = userData.rol === "SOCIO" ? "socio" : "anonimo";
+
+      // Limpiar la respuesta HTML para guardar solo el texto
+      const respuestaLimpia = respuesta.replace(/<[^>]*>/g, '').trim();
+
+      const consultaData = {
+        sessionId: sessionId,
+        pregunta: pregunta,
+        respuesta: respuestaLimpia,
+        tiempoRespuestaMs: tiempoRespuesta,
+        nroSocio: nroSocio,
+        tipoUsuario: tipoUsuario
+      };
+
+      await registrarConsulta(consultaData);
+      console.log("✅ Consulta registrada exitosamente en el backend");
+    } catch (error) {
+      console.error("❌ Error al registrar consulta en el backend:", error);
+      // No mostramos error al usuario, solo lo registramos en consola
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || !sessionId) return;
 
+    const preguntaOriginal = input.trim(); // Guardar la pregunta antes de limpiar el input
+    const tiempoInicio = Date.now(); // Medir tiempo de respuesta
+
     const userMsg = { 
       sender: "user", 
-      content: input,
+      content: preguntaOriginal,
       timestamp: getFormattedTime()
     };
     setMessages((prev) => [...prev, userMsg]);
@@ -60,12 +92,13 @@ function ChatWidget() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: input,
+          message: preguntaOriginal,
           session_id: sessionId,
         }),
       });
 
       const htmlResponse = await response.text();
+      const tiempoRespuesta = Date.now() - tiempoInicio; // Calcular tiempo transcurrido
 
       setMessages((prev) => [
         ...prev,
@@ -75,15 +108,24 @@ function ChatWidget() {
           timestamp: getFormattedTime()
         },
       ]);
+
+      // 🎯 REGISTRAR LA CONSULTA EN EL BACKEND
+      await registrarConsultaEnBackend(preguntaOriginal, htmlResponse, tiempoRespuesta);
+
     } catch (err) {
+      const errorMsg = "<p>Error al conectar con la IA.</p>";
       setMessages((prev) => [
         ...prev,
         {
           sender: "bot",
-          content: "<p>Error al conectar con la IA.</p>",
+          content: errorMsg,
           timestamp: getFormattedTime()
         },
       ]);
+
+      // Registrar también los errores (opcional)
+      const tiempoRespuesta = Date.now() - tiempoInicio;
+      await registrarConsultaEnBackend(preguntaOriginal, errorMsg, tiempoRespuesta);
     } finally {
       setLoading(false);
     }

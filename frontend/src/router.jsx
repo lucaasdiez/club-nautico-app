@@ -14,6 +14,7 @@ import Certificados from "./pages/Certificados";
 
 // Admin
 import AdminHome from "./pages/AdminHome";
+import ChatbotAnalytics from "./pages/ChatbotAnalytics";
 
 // Chat IA (widget global excepto en login/register)
 import ChatWidget from "./components/ChatWidget/ChatWidget";
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
 
   // Admin
   { path: "/admin", element: withWidget(AdminHome) },
+  { path: "/chatbot-analytics", element: withWidget(ChatbotAnalytics) },
 
   // Socio (canon = /home)
   { path: "/home", element: withWidget(Home) },
@@ -48,7 +50,6 @@ export const router = createBrowserRouter([
   { path: "/perfil", element: withWidget(InfoPersonal) },
   { path: "/acceso", element: withWidget(Acceso) },
   { path: "/certificados", element: withWidget(Certificados) },
-
 
   // Admin: gestión de socios
   { path: "/socios", element: withWidget(Socios) },

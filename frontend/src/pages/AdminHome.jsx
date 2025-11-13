@@ -55,6 +55,12 @@ function AdminHome() {
             <button onClick={() => (window.location.href = "#")}>
               💳 Control de Pagos
             </button>
+            <button 
+              onClick={() => (window.location.href = "/chatbot-analytics")}
+              className="btn-analytics"
+            >
+              📊 Analytics del Chatbot
+            </button>
           </div>
 
           <button className="logout-btn" onClick={handleLogout}>
