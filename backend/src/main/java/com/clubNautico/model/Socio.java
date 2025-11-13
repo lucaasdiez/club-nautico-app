@@ -7,6 +7,9 @@ import com.clubNautico.enums.EstadoCuota;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("SOCIO")
@@ -17,6 +20,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Socio extends Usuario {
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> "ROLE_SOCIO");
+    }
     @Column(name = "nro_socio", nullable = false, unique = true)
     private String nroSocio;
 
