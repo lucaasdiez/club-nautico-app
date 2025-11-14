@@ -18,38 +18,89 @@ import AdminHome from "./pages/AdminHome";
 // Chat IA (widget global excepto en login/register)
 import ChatWidget from "./components/ChatWidget/ChatWidget";
 
-// Función envoltorio para añadir el widget a las páginas donde debe mostrarse
+// CAMBIO 1: ¡Importamos nuestro Guardia!
+import ProtectedRoute from "./components/ProtectedRoute"; // (Ajustá la ruta si es necesario)
+
+// Tu función withWidget (¡NO SE TOCA!)
 function withWidget(Component) {
-  return (
-    <>
-      <Component />
-      <ChatWidget />
-    </>
-  );
+  return (
+    <>
+      <Component />
+      <ChatWidget />
+    </>
+  );
 }
 
 export const router = createBrowserRouter([
-  // Login / Registro
-  { path: "/", element: <Login /> },
-  { path: "/register", element: <Register /> },
-
-  // Admin
-  { path: "/admin", element: withWidget(AdminHome) },
-
-  // Socio (canon = /home)
-  { path: "/home", element: withWidget(Home) },
-
-  // Redirección por si algo todavía navega a /socio
-  { path: "/socio", element: <Navigate to="/home" replace /> },
-
-  // Secciones del portal
-  { path: "/pagos", element: withWidget(Pagos) },
-  { path: "/disciplinas", element: withWidget(Disciplinas) },
-  { path: "/perfil", element: withWidget(InfoPersonal) },
-  { path: "/acceso", element: withWidget(Acceso) },
-  { path: "/certificados", element: withWidget(Certificados) },
+  { path: "/", element: <Login /> },
+  { path: "/register", element: <Register /> },
 
 
-  // Admin: gestión de socios
-  { path: "/socios", element: withWidget(Socios) },
+  { 
+    path: "/admin", 
+    element: (
+      <ProtectedRoute roleRequired="ADMIN">
+        {withWidget(AdminHome)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/socios", 
+    element: (
+      <ProtectedRoute roleRequired="ADMIN">
+        {withWidget(Socios)}
+      </ProtectedRoute>
+    ) 
+  },
+
+  { 
+    path: "/home", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(Home)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/pagos", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(Pagos)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/disciplinas", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(Disciplinas)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/perfil", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(InfoPersonal)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/acceso", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(Acceso)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/certificados", 
+    element: (
+      <ProtectedRoute roleRequired="SOCIO">
+        {withWidget(Certificados)}
+      </ProtectedRoute>
+    ) 
+  },
+
+  { path: "/socio", element: <Navigate to="/home" replace /> },
 ]);
