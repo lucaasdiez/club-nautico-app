@@ -3,12 +3,19 @@ import Navbar from "../components/Navbar";
 import "./Certificados.scss";
 import Swal from "sweetalert2";
 
+import { getDisciplinas } from "../services/disciplinaService";
+import { getParteMedicos, subirParteMedico } from "../services/parteMedicoService";
+import api from "../services/api.js";
+
 function Certificados() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [discipline, setDiscipline] = useState("tenis");
+  const [discipline, setDiscipline] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [uploading, setUploading] = useState(false);
+
   const [medicalFiles, setMedicalFiles] = useState([]);
+  const [disciplines, setDisciplines] = useState([]);
+
   const [certificates] = useState([
     {
       id: 1,
@@ -26,28 +33,51 @@ function Certificados() {
     },
   ]);
 
-  const disciplines = [
-    "Tenis",
-    "Fútbol",
-    "Paddle",
-    "Baile",
-    "Natación",
-    "Vela",
-    "Remo",
-    "Gimnasio",
-  ];
+  const NRO_SOCIO_ACTUAL = localStorage.getItem("userNroSocio");
 
   useEffect(() => {
-    loadMedicalFiles();
-  }, []);
+    if (NRO_SOCIO_ACTUAL) {
+      loadMedicalFiles();
+    }
+    fetchDisciplinas();
+  }, [NRO_SOCIO_ACTUAL]); 
 
-  const loadMedicalFiles = () => {
-    const storedFiles = localStorage.getItem("medicalFiles");
-    if (storedFiles) {
-      setMedicalFiles(JSON.parse(storedFiles));
+  const fetchDisciplinas = async () => {
+    try {
+      const response = await getDisciplinas();
+
+      if (response && response.data) {
+        setDisciplines(response.data);
+        if (response.data.length > 0) {
+          setDiscipline(response.data[0].nombre); 
+        }
+      }
+    } catch (error) {
+      console.error("Error al cargar disciplinas:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de red",
+        text: "No se pudieron cargar las disciplinas desde el servidor.",
+        confirmButtonColor: "#b91c1c",
+      });
     }
   };
 
+  const loadMedicalFiles = async () => {
+    if (!NRO_SOCIO_ACTUAL) return;
+
+    try {
+      const response = await getParteMedicos(NRO_SOCIO_ACTUAL);
+      if (response && response.data) {
+        setMedicalFiles(response.data);
+      }
+    } catch (error) {
+      console.error("Error al cargar partes médicos:", error);
+      setMedicalFiles([]);
+    }
+  };
+
+  // SIN CAMBIOS
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -66,18 +96,17 @@ function Certificados() {
           text: "Solo se permiten archivos PDF, JPG o PNG",
           confirmButtonColor: "#b91c1c",
         });
-        // Limpiar el input
         e.target.value = "";
       }
     }
   };
 
-  const handleUpload = () => {
-    if (!selectedFile || !expiryDate) {
+  const handleUpload = async () => {
+    if (!selectedFile || !expiryDate || !discipline) {
       Swal.fire({
         icon: "warning",
         title: "Datos incompletos",
-        text: "Por favor selecciona un archivo y una fecha de vencimiento",
+        text: "Por favor selecciona una disciplina, un archivo y una fecha de vencimiento",
         confirmButtonColor: "#1e3a8a",
       });
       return;
@@ -85,22 +114,23 @@ function Certificados() {
 
     setUploading(true);
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const fileData = {
-        id: Date.now(),
-        fileName: selectedFile.name,
-        fileType: selectedFile.type,
-        fileData: e.target.result,
-        discipline: discipline,
-        expiryDate: expiryDate,
-        uploadDate: new Date().toISOString(),
-        status: "active",
-      };
+    const parteMedicoData = {
+      nroSocio: NRO_SOCIO_ACTUAL,
+      nombreDisciplina: discipline,
+      fechaVencimiento: expiryDate,
+    };
 
-      const updatedFiles = [...medicalFiles, fileData];
-      setMedicalFiles(updatedFiles);
-      localStorage.setItem("medicalFiles", JSON.stringify(updatedFiles));
+    const formData = new FormData();
+    formData.append("archivo", selectedFile);
+    formData.append(
+      "parteMedico",
+      new Blob([JSON.stringify(parteMedicoData)], {
+        type: "application/json",
+      })
+    );
+
+    try {
+      await subirParteMedico(formData);
 
       Swal.fire({
         icon: "success",
@@ -110,34 +140,38 @@ function Certificados() {
         timer: 2500,
         showConfirmButton: false,
       });
-      
+
       setSelectedFile(null);
       setExpiryDate("");
+      if (disciplines.length > 0) setDiscipline(disciplines[0].nombre);
 
       const fileInput = document.getElementById("file-input");
       if (fileInput) fileInput.value = "";
 
-      setUploading(false);
-    };
-
-    reader.onerror = () => {
+      loadMedicalFiles();
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
       Swal.fire({
         icon: "error",
-        title: "Error al leer el archivo",
-        text: "Por favor intenta con otro archivo",
+        title: "Error al subir",
+        text: "No se pudo guardar el parte médico. Intenta de nuevo.",
         confirmButtonColor: "#b91c1c",
       });
+    } finally {
       setUploading(false);
-    };
-
-    reader.readAsDataURL(selectedFile);
+    }
   };
 
-  // Nueva función con confirmación
+  const downloadFile = (archivoId) => {
+    const baseUrl = "http://localhost:8080";
+    const downloadUrl = `${baseUrl}/archivos/archivo/descargar/${archivoId}`;
+    window.open(downloadUrl, "_blank");
+  };
+
   const confirmDeleteFile = (id) => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: "Una vez eliminado, no podrás recuperar este archivo",
+      text: "Esta acción es permanente.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#b91c1c",
@@ -146,28 +180,14 @@ function Certificados() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        const updatedFiles = medicalFiles.filter((file) => file.id !== id);
-        setMedicalFiles(updatedFiles);
-        localStorage.setItem("medicalFiles", JSON.stringify(updatedFiles));
-
         Swal.fire({
-          icon: "success",
-          title: "Archivo eliminado",
-          text: "El archivo fue borrado correctamente",
+          icon: "info",
+          title: "Función no implementada",
+          text: "El endpoint de borrado aún no está implementado en el backend.",
           confirmButtonColor: "#1e3a8a",
-          timer: 2000,
-          showConfirmButton: false,
         });
       }
     });
-  };
-
-
-  const downloadFile = (file) => {
-    const link = document.createElement("a");
-    link.href = file.fileData;
-    link.download = file.fileName;
-    link.click();
   };
 
   const openDriveLink = (url) => {
@@ -194,9 +214,10 @@ function Certificados() {
               onChange={(e) => setDiscipline(e.target.value)}
               className="input-field"
             >
+              {disciplines.length === 0 && <option>Cargando...</option>}
               {disciplines.map((d) => (
-                <option key={d} value={d.toLowerCase()}>
-                  {d}
+                <option key={d.id} value={d.nombre}>
+                  {d.nombre}
                 </option>
               ))}
             </select>
@@ -249,27 +270,37 @@ function Certificados() {
             {medicalFiles.length === 0 ? (
               <p className="empty-state">No hay archivos subidos</p>
             ) : (
+              // 'file' es cada objeto del array 'data', ej:
+              // { nroSocio: "...", nombreDisciplina: "...", archivo: { id: 2, nombre: "..." } }
               medicalFiles.map((file) => (
-                <div key={file.id} className="archivo-item">
+                
+                // ❗️ CORRECCIÓN 1: Usar una key única (el id del archivo)
+                // 'file.id' no existe, pero 'file.archivo.id' sí.
+                <div key={file.archivo.id} className="archivo-item">
                   <div className="archivo-info">
                     <i
                       className={`fa-solid ${
-                        file.fileType === "application/pdf"
+                        // ❗️ CORRECCIÓN 2: Adivinar el tipo por el nombre
+                        // 'file.tipoArchivo' no existe, pero podemos usar el nombre.
+                        file.archivo.nombre.endsWith(".pdf")
                           ? "fa-file-pdf"
                           : "fa-image"
                       }`}
                     ></i>
                     <div>
-                      <p className="nombre">{file.discipline}</p>
+                      {/* Esto está bien, es el nombre de la disciplina */}
+                      <p className="nombre">{file.nombreDisciplina}</p>
                       <p className="meta">
-                        {file.fileName} | Vence:{" "}
-                        {new Date(file.expiryDate).toLocaleDateString()}
+                        {/* ❗️ CORRECCIÓN 3: La principal (Nombre del Archivo) ❗️ */}
+                        {file.archivo.nombre} | Vence:{" "}
+                        {new Date(file.fechaVencimiento).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                   <div className="archivo-actions">
                     <button
-                      onClick={() => downloadFile(file)}
+                      // ❗️ CORRECCIÓN 4: El ID del archivo para descargar
+                      onClick={() => downloadFile(file.archivo.id)}
                       className="btn-download"
                       title="Descargar"
                     >
@@ -280,11 +311,11 @@ function Certificados() {
                       </svg>
                     </button>
                     <button
-                      onClick={() => confirmDeleteFile(file.id)}
+                      // ❗️ CORRECCIÓN 5: El ID para borrar (¡Leer nota abajo!)
+                      onClick={() => confirmDeleteFile(file.archivo.id)}
                       className="btn-delete"
                       title="Eliminar"
                     >
-
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="3 6 5 6 21 6"/>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -299,6 +330,7 @@ function Certificados() {
           </div>
         </div>
 
+        {/* --- LADO DERECHO (Sin cambios) --- */}
         <div className="certificados-right">
           <h3>
             <i className="fa-solid fa-certificate"></i> Certificados de Socio
@@ -313,7 +345,7 @@ function Certificados() {
               <p className="cert-type">Certificado de Socio</p>
               <div className="cert-info">
                 <p>
-                  <strong>Número de Socio:</strong> CNE-1234
+                  <strong>Número de Socio:</strong> {NRO_SOCIO_ACTUAL || "CNE-1234"}
                 </p>
                 <p>
                   <strong>Válido hasta:</strong>{" "}

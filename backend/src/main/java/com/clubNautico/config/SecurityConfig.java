@@ -42,6 +42,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/login", "/api/socios/crear").permitAll() // Login y Registro
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger
+                        .requestMatchers("/archivos/archivo/descargar/**").permitAll()
 
                         // 4. Todas las demás rutas deben estar autenticadas
                         .anyRequest().authenticated()

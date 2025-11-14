@@ -16,4 +16,5 @@ public interface SocioService {
     Socio createSocio(SocioDTO socio);
     List<Socio> getAllSocios();
     void deleteSocio(String numeroSocio);
+    Socio findByUsername(String username);
 }
