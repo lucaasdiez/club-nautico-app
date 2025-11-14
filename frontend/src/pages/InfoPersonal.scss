@@ -2,7 +2,17 @@
 
 .info-personal-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
+  /* 🌅 Fondo con la foto del club + capa negra suave */
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("/club-bg.jpg") center/cover no-repeat fixed;
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
