@@ -87,7 +87,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     }
 
     @Override
-    public ResponseEntity<UrlResource> descargarArchivo(UUID archivoId) {
+    public ResponseEntity<UrlResource> descargarArchivo(Integer archivoId) {
         try {
             Archivo archivo = archivoRepository.findById(archivoId)
                     .orElseThrow(() -> new RuntimeException("Archivo no encontrado con id: " + archivoId));

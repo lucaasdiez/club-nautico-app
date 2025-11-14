@@ -7,6 +7,7 @@ import com.clubNautico.service.parteMedico.ParteMedicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class ParteMedicoController {
     }
 
     @PostMapping(value = "/subir")
-    public ResponseEntity<ApiResponse> subir(@RequestParam ParteMedicoDTO parteMedicoDTO){
-        ParteMedico parteMedico=  parteMedicoService.subirParteMedico(parteMedicoDTO);
+    public ResponseEntity<ApiResponse> subir(@RequestPart("parteMedico") ParteMedicoDTO parteMedicoDTO, @RequestPart("archivo") MultipartFile archivo) {
+        ParteMedico parteMedico=  parteMedicoService.subirParteMedico(parteMedicoDTO, archivo);
         ParteMedicoDTO parteMedicoNuevo = parteMedicoService.convertirADTO(parteMedico);
         return ResponseEntity.ok(new ApiResponse("Parte Medico creado correctamente", parteMedicoNuevo));
     }
