@@ -2,6 +2,7 @@ import "./Login.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api.js";
+import { getSocioByUsername } from "../services/sociosService.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -26,10 +27,15 @@ function Login() {
 
       const { rol, nombre, token } = response.data;
 
+      const socioResponse = await getSocioByUsername(username);
+      const { nroSocio } = socioResponse.data;
+
       localStorage.setItem("token", token); // <-- ¡EL MÁS IMPORTANTE!
       localStorage.setItem("userName", nombre || "Socio");
       localStorage.setItem("userUsername", username);
       localStorage.setItem("userRole", rol?.toUpperCase());
+      localStorage.setItem("userNroSocio", nroSocio);
+
 
       // 🔹 Redirección (esto sigue igual)
       if (rol?.toLowerCase() === "admin") {
