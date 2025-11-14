@@ -45,6 +45,34 @@ public class ChatbotAnalyticsService {
     public ConsultaChatbot registrarConsulta(RegistrarConsultaDTO dto) {
         log.info("Registrando consulta: {}", dto.getPregunta());
         
+        // ⭐ NUEVO: Detectar si es realmente una pregunta
+        boolean esPregunta = openAIService.esPregunta(dto.getPregunta());
+        
+        // Si no es pregunta, guardamos pero sin clustering ni embedding
+        if (!esPregunta) {
+            log.info("❌ No es pregunta - guardando sin analytics");
+            ConsultaChatbot consulta = ConsultaChatbot.builder()
+                    .sessionId(dto.getSessionId())
+                    .pregunta(dto.getPregunta())
+                    .respuesta(dto.getRespuesta())
+                    .tiempoRespuestaMs(dto.getTiempoRespuestaMs())
+                    .tipoUsuario(dto.getTipoUsuario() != null ? dto.getTipoUsuario() : "anonimo")
+                    .categoria("CONVERSACION") // Categoría especial para no-preguntas
+                    .esPregunta(false) // ⭐ MARCAR COMO NO-PREGUNTA
+                    .fecha(LocalDateTime.now())
+                    .build();
+            
+            if (dto.getNroSocio() != null) {
+                socioRepository.findByNroSocio(dto.getNroSocio())
+                        .ifPresent(consulta::setSocio);
+            }
+            
+            return consultaRepository.save(consulta);
+        }
+        
+        // ✅ SI ES PREGUNTA: Continuar con el proceso normal
+        log.info("✅ Es pregunta - procesando con analytics");
+        
         // 1. Generar embedding de la pregunta
         List<Double> embedding = openAIService.generarEmbedding(dto.getPregunta());
         String embeddingJson = embedding != null ? openAIService.serializarEmbedding(embedding) : null;
@@ -60,7 +88,6 @@ public class ChatbotAnalyticsService {
                 preguntaRepresentativa = consultaSimilar.getPreguntaRepresentativa();
                 log.info("Encontrada pregunta similar. Cluster: {}", clusterId);
             } else {
-                // Nueva pregunta, crear nuevo cluster
                 clusterId = UUID.randomUUID().toString();
                 log.info("Nueva pregunta única. Creando cluster: {}", clusterId);
             }
@@ -80,6 +107,7 @@ public class ChatbotAnalyticsService {
                 .tiempoRespuestaMs(dto.getTiempoRespuestaMs())
                 .tipoUsuario(dto.getTipoUsuario() != null ? dto.getTipoUsuario() : "anonimo")
                 .categoria(categoria)
+                .esPregunta(true) // ⭐ MARCAR COMO PREGUNTA
                 .fecha(LocalDateTime.now())
                 .build();
         
@@ -133,6 +161,7 @@ public class ChatbotAnalyticsService {
         
         return EstadisticasChatbotDTO.builder()
                 .totalConsultas(consultaRepository.count())
+                .totalPreguntas(consultaRepository.countSoloPreguntas()) // ⭐ NUEVO
                 .consultasHoy(consultaRepository.countConsultasHoy())
                 .consultasSemana(consultaRepository.countConsultasDesdeFecha(hace7Dias))
                 .consultasMes(consultaRepository.countConsultasDesdeFecha(hace30Dias))

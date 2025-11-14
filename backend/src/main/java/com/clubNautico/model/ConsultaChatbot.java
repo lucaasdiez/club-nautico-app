@@ -63,10 +63,17 @@ public class ConsultaChatbot {
     @Column(length = 50)
     private String categoria;
     
+    // ⭐ NUEVO: Indica si es una pregunta real o solo conversación casual (saludos, etc)
+    @Column(nullable = false)
+    private Boolean esPregunta = true;
+    
     @PrePersist
     protected void onCreate() {
         if (fecha == null) {
             fecha = LocalDateTime.now();
+        }
+        if (esPregunta == null) {
+            esPregunta = true;
         }
     }
 }

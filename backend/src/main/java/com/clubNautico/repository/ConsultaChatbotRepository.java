@@ -42,22 +42,28 @@ public interface ConsultaChatbotRepository extends JpaRepository<ConsultaChatbot
     @Query("""
         SELECT c.preguntaRepresentativa, COUNT(c) as cantidad 
         FROM ConsultaChatbot c 
-        WHERE c.preguntaRepresentativa IS NOT NULL
+        WHERE c.preguntaRepresentativa IS NOT NULL 
+        AND c.esPregunta = true
         GROUP BY c.preguntaRepresentativa 
         ORDER BY cantidad DESC 
         LIMIT 10
     """)
-    List<Object[]> findTopPreguntasPorCluster();
+List<Object[]> findTopPreguntasPorCluster();
     
     // ⭐ NUEVO: Preguntas agrupadas por categoría
     @Query("""
         SELECT c.categoria, c.preguntaRepresentativa, COUNT(c) as cantidad 
         FROM ConsultaChatbot c 
         WHERE c.categoria IS NOT NULL 
+        AND c.esPregunta = true
+        AND c.categoria != 'CONVERSACION'
         GROUP BY c.categoria, c.preguntaRepresentativa 
         ORDER BY c.categoria, cantidad DESC
     """)
     List<Object[]> findPreguntasPorCategoria();
+
+    @Query("SELECT COUNT(c) FROM ConsultaChatbot c WHERE c.esPregunta = true")
+    long countSoloPreguntas();
     
     // ⭐ NUEVO: Todas las consultas que tienen embedding (para comparar similitud)
     @Query("SELECT c FROM ConsultaChatbot c WHERE c.embedding IS NOT NULL ORDER BY c.fecha DESC")
