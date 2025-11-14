@@ -19,29 +19,32 @@ function Login() {
     }
 
     try {
-     
+      // 1. Hacer login y obtener el token
       const response = await api.post("/login", {
         username,
         password,
       });
 
-      const { rol, nombre, token } = response.data;
+      const { rol, mensaje, token } = response.data;
 
-      const socioResponse = await getSocioByUsername(username);
-      const { nroSocio } = socioResponse.data;
-
-      localStorage.setItem("token", token); // <-- ¡EL MÁS IMPORTANTE!
-      localStorage.setItem("userName", nombre || "Socio");
-      localStorage.setItem("userUsername", username);
+      // 2. ✅ GUARDAR EL TOKEN INMEDIATAMENTE (ANTES de cualquier otra llamada)
+      localStorage.setItem("token", token);
       localStorage.setItem("userRole", rol?.toUpperCase());
-      localStorage.setItem("userNroSocio", nroSocio);
+      localStorage.setItem("userUsername", username);
 
-
-      // 🔹 Redirección (esto sigue igual)
-      if (rol?.toLowerCase() === "admin") {
-        navigate("/admin");
-      } else if (rol?.toLowerCase() === "socio") {
+      // 3. ✅ Solo buscar datos adicionales si es SOCIO
+      if (rol?.toLowerCase() === "socio") {
+        const socioResponse = await getSocioByUsername(username);
+        const { nroSocio, nombre, apellido } = socioResponse.data;
+        
+        localStorage.setItem("userName", `${nombre} ${apellido}`);
+        localStorage.setItem("userNroSocio", nroSocio);
+        
         navigate("/home");
+      } else if (rol?.toLowerCase() === "admin") {
+        // Para admin, solo guardamos el username como nombre
+        localStorage.setItem("userName", username);
+        navigate("/admin");
       } else {
         setError("Rol no reconocido. Contactá con soporte.");
       }
