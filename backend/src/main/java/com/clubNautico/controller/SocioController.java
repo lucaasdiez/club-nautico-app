@@ -64,6 +64,12 @@ public class SocioController {
 
     }
 
+    @GetMapping("/socio/{username}")
+    public ResponseEntity<ApiResponse> getSocioByUsername(@PathVariable String username) {
+        SocioDTO socio = socioService.convertirADTO(socioService.findByUsername(username));
+        return ResponseEntity.ok(new ApiResponse("Socio buscado correctamente",socio));
+    }
+
     @GetMapping("/socio/estado/{estadoCuota}")
     public ResponseEntity<ApiResponse> getSocioByEstadoCuota(@PathVariable EstadoCuota estadoCuota) {
         List<SocioDTO> socioDTO = socioService.convertirADTOS(socioService.getSociosPorCuota(estadoCuota));

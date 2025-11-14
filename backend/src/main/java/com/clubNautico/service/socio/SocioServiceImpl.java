@@ -112,6 +112,12 @@ public class SocioServiceImpl implements SocioService {
         socioRepository.save(socio);
     }
 
+    @Override
+    public Socio findByUsername(String username) {
+        return socioRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("El usuario no existe"));
+    }
+
     private Socio updateSocioExistente(Socio socioExistente, SocioDTO socio) {
         socioExistente.setNombre(socio.getNombre());
         socioExistente.setApellido(socio.getApellido());
