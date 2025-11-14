@@ -1,37 +1,87 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 .chatbot-analytics {
   min-height: 100vh;
   background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
   font-family: "Inter", sans-serif;
   color: #fff;
-  padding: 2rem 1rem;
 
-  .analytics-header {
-    width: 100%;
-    max-width: 1400px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    animation: fadeInDown 0.8s ease;
+  .analytics-top-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      margin: 0;
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-section {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1rem;
 
-      svg {
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      .analytics-logo-img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 50%;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .header-subtitle {
+        margin: 0;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 400;
       }
     }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(198, 40, 40, 0.9);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(163, 24, 24, 1);
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .analytics-actions {
+    max-width: 1400px;
+    width: 100%;
+    margin: 2rem auto 0;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: flex-end;
 
     .btn-refresh {
       padding: 0.75rem 1.5rem;
@@ -59,11 +109,11 @@
   .analytics-tabs {
     width: 100%;
     max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 2rem;
     flex-wrap: wrap;
-    animation: fadeIn 0.9s ease;
 
     button {
       padding: 0.75rem 1.25rem;
@@ -100,6 +150,8 @@
   .analytics-content {
     width: 100%;
     max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(16px);
     border-radius: 20px;
@@ -107,7 +159,6 @@
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.25);
     min-height: 500px;
-    animation: fadeInUp 0.9s ease;
   }
 
   /* ===== ESTADÍSTICAS ===== */
@@ -527,7 +578,8 @@
   .analytics-footer {
     width: 100%;
     max-width: 1400px;
-    margin-top: 2rem;
+    margin: 3rem auto 2rem;
+    padding: 0 2rem;
     text-align: center;
 
     .btn-back {
@@ -629,15 +681,26 @@
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    padding: 1rem;
+    .analytics-top-header {
+      padding: 1rem 1.5rem;
 
-    .analytics-header {
-      flex-direction: column;
-      gap: 1rem;
-
-      h1 {
-        font-size: 1.5rem;
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
       }
+
+      .logo-section h1 {
+        font-size: 1.25rem;
+      }
+
+      .logout-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .analytics-actions {
+      padding: 0 1rem;
     }
 
     .analytics-tabs {
