@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface ArchivoService {
     List<Archivo> archivosUpload(List<MultipartFile> file, UUID socioId);
     Archivo archivoUpload(MultipartFile file, UUID socioId);
-    ResponseEntity<UrlResource> descargarArchivo(UUID archivoId);
+    ResponseEntity<UrlResource> descargarArchivo(Integer archivoId);
 }

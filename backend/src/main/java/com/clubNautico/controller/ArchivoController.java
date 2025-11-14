@@ -19,7 +19,7 @@ public class ArchivoController {
     private final ArchivoService archivoService;
 
     @GetMapping("archivo/descargar/{id}")
-    public ResponseEntity<UrlResource> descargarArchivo(@PathVariable UUID id) {
+    public ResponseEntity<UrlResource> descargarArchivo(@PathVariable Integer id) {
         return archivoService.descargarArchivo(id);
     }
 }

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface ArchivoRepository extends JpaRepository<Archivo, UUID> {
+public interface ArchivoRepository extends JpaRepository<Archivo, Integer> {
 }
