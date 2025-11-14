@@ -1,169 +1,192 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 .admin-home {
   min-height: 100vh;
   background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   font-family: "Inter", sans-serif;
-  overflow: hidden;
   color: #fff;
-  text-align: center;
 }
 
-/* ✅ Logo superior */
-.admin-logo {
-  width: 160px;
-  height: 160px;
-  object-fit: contain;
-  margin-top: 10rem;
-  margin-bottom: -10rem;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
-  animation: fadeInDown 0.9s ease;
-}
+.admin-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
-/* contenedor principal */
-.admin-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  width: 100%;
-  padding: 2rem;
-}
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
 
-/* tarjeta central */
-.admin-card {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  padding: 2.8rem 3rem;
-  max-width: 720px;
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  animation: fadeInUp 0.9s ease;
-
-  .admin-header {
+  .logo-section {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
+    gap: 1rem;
 
-    .header-icon {
+    .admin-logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: #fff;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+    }
+
+    .header-subtitle {
+      margin: 0;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 400;
     }
   }
 
-  h1 {
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(198, 40, 40, 0.9);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(163, 24, 24, 1);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.admin-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h2 {
     font-size: 2rem;
-    margin: 0;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
     color: #fff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   p {
-    font-size: 1rem;
-    color: #f0f0f0;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    text-align: center;
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    font-weight: 400;
   }
 }
 
-/* botones */
-.admin-buttons {
+.admin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 
-  button {
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    background: linear-gradient(90deg, #1e3a8a, #003366);
-    border: none;
     color: #fff;
-    padding: 1rem 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  p {
+    margin: 0;
     font-size: 0.95rem;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-
-    &:hover {
-      transform: translateY(-3px);
-      background: linear-gradient(90deg, #003366, #1e3a8a);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    }
-
-    &.btn-analytics {
-      background: linear-gradient(90deg, #1e3a8a, #003366);
-
-      &:hover {
-        background: linear-gradient(90deg, #003366, #1e3a8a);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-      }
-    }
-
-    span {
-      white-space: nowrap;
-    }
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
   }
 }
 
-/* botón de cierre */
-.logout-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: #c62828;
-  color: white;
-  border: none;
-  padding: 0.9rem 1.6rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.25s ease;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-  margin: 0 auto;
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 1rem 1.5rem;
 
-  &:hover {
-    background: #a31818;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  }
-}
+    .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-/* ✨ animaciones suaves */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    .logo-section h1 {
+      font-size: 1.25rem;
+    }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+    .logout-btn {
+      width: 100%;
+      justify-content: center;
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .admin-main {
+    padding: 2rem 1.5rem;
+  }
+
+  .welcome-section {
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
   }
 }

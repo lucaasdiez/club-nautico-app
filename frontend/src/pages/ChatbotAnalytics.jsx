@@ -8,126 +8,24 @@ import {
   obtenerUltimasConsultas,
 } from "../services/chatbotService";
 import Swal from "sweetalert2";
-
-// Iconos SVG
-const IconChart = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="20" x2="18" y2="10"></line>
-    <line x1="12" y1="20" x2="12" y2="4"></line>
-    <line x1="6" y1="20" x2="6" y2="14"></line>
-  </svg>
-);
-
-const IconQuestion = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-  </svg>
-);
-
-const IconFolder = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-  </svg>
-);
-
-const IconTrending = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-    <polyline points="17 6 23 6 23 12"></polyline>
-  </svg>
-);
-
-const IconHistory = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <polyline points="12 6 12 12 16 14"></polyline>
-  </svg>
-);
-
-const IconRefresh = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="23 4 23 10 17 10"></polyline>
-    <polyline points="1 20 1 14 7 14"></polyline>
-    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-  </svg>
-);
-
-const IconMessage = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-  </svg>
-);
-
-const IconCalendar = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-    <line x1="16" y1="2" x2="16" y2="6"></line>
-    <line x1="8" y1="2" x2="8" y2="6"></line>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-  </svg>
-);
-
-const IconCalendarWeek = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-    <line x1="16" y1="2" x2="16" y2="6"></line>
-    <line x1="8" y1="2" x2="8" y2="6"></line>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-    <path d="M8 14h.01"></path>
-    <path d="M12 14h.01"></path>
-    <path d="M16 14h.01"></path>
-  </svg>
-);
-
-const IconBarChart = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="12" y1="20" x2="12" y2="10"></line>
-    <line x1="18" y1="20" x2="18" y2="4"></line>
-    <line x1="6" y1="20" x2="6" y2="16"></line>
-  </svg>
-);
-
-const IconZap = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-  </svg>
-);
-
-const IconUsers = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-    <circle cx="9" cy="7" r="4"></circle>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-  </svg>
-);
-
-const IconArrowLeft = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12"></line>
-    <polyline points="12 19 5 12 12 5"></polyline>
-  </svg>
-);
-
-const IconFire = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-  </svg>
-);
-
-const IconChevronDown = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="6 9 12 15 18 9"></polyline>
-  </svg>
-);
-
-const IconChevronUp = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="18 15 12 9 6 15"></polyline>
-  </svg>
-);
+import {
+  BarChart3,
+  HelpCircle,
+  Folder,
+  TrendingUp,
+  History,
+  RefreshCw,
+  MessageSquare,
+  Calendar,
+  CalendarDays,
+  Zap,
+  Users,
+  ArrowLeft,
+  Flame,
+  ChevronDown,
+  ChevronUp,
+  LogOut,
+} from "lucide-react";
 
 function ChatbotAnalytics() {
   const [estadisticas, setEstadisticas] = useState(null);
@@ -227,14 +125,37 @@ function ChatbotAnalytics() {
     );
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+    window.location.href = "/";
+  };
+
   return (
     <div className="chatbot-analytics">
-      <div className="analytics-header">
-        <h1>
-          <IconBarChart /> Analytics del Chatbot
-        </h1>
+      <header className="analytics-top-header">
+        <div className="header-content">
+          <div className="logo-section">
+            <img
+              src="/logo-png-redondo-297x300.png"
+              alt="Logo Club Náutico"
+              className="analytics-logo-img"
+            />
+            <div>
+              <h1>Analytics del Chatbot</h1>
+              <p className="header-subtitle">Club Náutico</p>
+            </div>
+          </div>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={18} />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </header>
+
+      <div className="analytics-actions">
         <button className="btn-refresh" onClick={cargarDatos}>
-          <IconRefresh /> Actualizar
+          <RefreshCw size={18} /> Actualizar
         </button>
       </div>
 
@@ -244,25 +165,25 @@ function ChatbotAnalytics() {
           className={vistaActiva === "estadisticas" ? "active" : ""}
           onClick={() => setVistaActiva("estadisticas")}
         >
-          <IconChart /> Estadísticas
+          <BarChart3 size={20} /> Estadísticas
         </button>
         <button
           className={vistaActiva === "preguntas" ? "active" : ""}
           onClick={() => setVistaActiva("preguntas")}
         >
-          <IconQuestion /> Preguntas Frecuentes
+          <HelpCircle size={20} /> Preguntas Frecuentes
         </button>
         <button
           className={vistaActiva === "categorias" ? "active" : ""}
           onClick={() => setVistaActiva("categorias")}
         >
-          <IconFolder /> Por Categoría
+          <Folder size={20} /> Por Categoría
         </button>
         <button
           className={vistaActiva === "historial" ? "active" : ""}
           onClick={() => setVistaActiva("historial")}
         >
-          <IconHistory /> Historial
+          <History size={20} /> Historial
         </button>
       </div>
 
@@ -274,7 +195,7 @@ function ChatbotAnalytics() {
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconMessage />
+                  <MessageSquare size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>{estadisticas.totalConsultas}</h3>
@@ -284,7 +205,7 @@ function ChatbotAnalytics() {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconCalendar />
+                  <Calendar size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>{estadisticas.consultasHoy}</h3>
@@ -294,7 +215,7 @@ function ChatbotAnalytics() {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconCalendarWeek />
+                  <CalendarDays size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>{estadisticas.consultasSemana}</h3>
@@ -304,7 +225,7 @@ function ChatbotAnalytics() {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconBarChart />
+                  <BarChart3 size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>{estadisticas.consultasMes}</h3>
@@ -314,7 +235,7 @@ function ChatbotAnalytics() {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconZap />
+                  <Zap size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>
@@ -328,7 +249,7 @@ function ChatbotAnalytics() {
 
               <div className="stat-card">
                 <div className="stat-icon">
-                  <IconUsers />
+                  <Users size={32} />
                 </div>
                 <div className="stat-info">
                   <h3>{estadisticas.usuariosUnicos}</h3>
@@ -342,7 +263,7 @@ function ChatbotAnalytics() {
         {vistaActiva === "preguntas" && (
           <div className="vista-preguntas">
             <h2>
-              <IconFire /> Top 10 Preguntas Más Frecuentes
+              <Flame size={24} /> Top 10 Preguntas Más Frecuentes
             </h2>
             <p className="subtitle">Agrupadas automáticamente por similitud semántica</p>
             <div className="preguntas-list">
@@ -367,7 +288,7 @@ function ChatbotAnalytics() {
         {vistaActiva === "categorias" && (
           <div className="vista-categorias">
             <h2>
-              <IconFolder /> Preguntas por Categoría
+              <Folder size={24} /> Preguntas por Categoría
             </h2>
             {Object.entries(categorias).map(([categoria, preguntas]) => (
               <div key={categoria} className="categoria-section">
@@ -382,7 +303,7 @@ function ChatbotAnalytics() {
                     </span>
                   </div>
                   <button className="categoria-toggle">
-                    {categoriasAbiertas[categoria] ? <IconChevronUp /> : <IconChevronDown />}
+                    {categoriasAbiertas[categoria] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                   </button>
                 </div>
                 
@@ -406,7 +327,7 @@ function ChatbotAnalytics() {
         {vistaActiva === "tendencias" && (
           <div className="vista-tendencias">
             <h2>
-              <IconTrending /> Tendencias Diarias (Últimos 30 días)
+              <TrendingUp size={24} /> Tendencias Diarias (Últimos 30 días)
             </h2>
             <div className="tendencias-chart">
               {tendencias.map((dia, index) => (
@@ -432,7 +353,7 @@ function ChatbotAnalytics() {
         {vistaActiva === "historial" && (
           <div className="vista-historial">
             <h2>
-              <IconHistory /> Últimas 20 Consultas
+              <History size={24} /> Últimas 20 Consultas
             </h2>
             <div className="consultas-table">
               <table>
@@ -472,7 +393,7 @@ function ChatbotAnalytics() {
 
       <div className="analytics-footer">
         <button className="btn-back" onClick={() => window.history.back()}>
-          <IconArrowLeft /> Volver
+          <ArrowLeft size={18} /> Volver al Panel
         </button>
       </div>
     </div>

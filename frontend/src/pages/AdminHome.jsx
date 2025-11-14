@@ -31,48 +31,63 @@ function AdminHome() {
 
   return (
     <div className="admin-home">
-      <img
-        src="/logo-png-redondo-297x300.png"
-        alt="Logo institucional"
-        className="admin-logo"
-      />
-
-      <main className="admin-main">
-        <div className="admin-card">
-          <div className="admin-header">
-            <Settings className="header-icon" size={32} />
-            <h1>Panel de Administración</h1>
+      <header className="admin-header">
+        <div className="header-content">
+          <div className="logo-section">
+            <img
+              src="/logo-png-redondo-297x300.png"
+              alt="Logo Club Náutico"
+              className="admin-logo-img"
+            />
+            <div>
+              <h1>Panel de Administración</h1>
+              <p className="header-subtitle">Club Náutico</p>
+            </div>
           </div>
-          <p>
-            Desde este panel podés gestionar socios, disciplinas, pagos y la
-            información institucional del Club Náutico.
-          </p>
-
-          <div className="admin-buttons">
-            <button onClick={() => (window.location.href = "/socios")} className="btn-primary">
-              <Users size={20} />
-              <span>Gestionar Socios</span>
-            </button>
-            <button onClick={() => (window.location.href = "#")} className="btn-primary">
-              <Trophy size={20} />
-              <span>Disciplinas</span>
-            </button>
-            <button onClick={() => (window.location.href = "#")} className="btn-primary">
-              <CreditCard size={20} />
-              <span>Control de Pagos</span>
-            </button>
-            <button
-              onClick={() => (window.location.href = "/chatbot-analytics")}
-              className="btn-analytics"
-            >
-              <BarChart3 size={20} />
-              <span>Analytics del Chatbot</span>
-            </button>
-          </div>
-
           <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={18} />
             <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </header>
+
+      <main className="admin-main">
+        <div className="welcome-section">
+          <h2>Bienvenido al sistema de gestión</h2>
+          <p>Seleccioná una opción para comenzar</p>
+        </div>
+
+        <div className="admin-grid">
+          <button onClick={() => (window.location.href = "/socios")} className="admin-card">
+            <div className="card-icon">
+              <Users size={32} />
+            </div>
+            <h3>Gestionar Socios</h3>
+            <p>Administrá la información de los socios del club</p>
+          </button>
+
+          <button onClick={() => (window.location.href = "#")} className="admin-card">
+            <div className="card-icon">
+              <Trophy size={32} />
+            </div>
+            <h3>Disciplinas</h3>
+            <p>Gestioná las disciplinas y actividades deportivas</p>
+          </button>
+
+          <button onClick={() => (window.location.href = "#")} className="admin-card">
+            <div className="card-icon">
+              <CreditCard size={32} />
+            </div>
+            <h3>Control de Pagos</h3>
+            <p>Supervisá y registrá los pagos de los socios</p>
+          </button>
+
+          <button onClick={() => (window.location.href = "/chatbot-analytics")} className="admin-card">
+            <div className="card-icon">
+              <BarChart3 size={32} />
+            </div>
+            <h3>Analytics del Chatbot</h3>
+            <p>Visualizá estadísticas del asistente virtual</p>
           </button>
         </div>
       </main>
