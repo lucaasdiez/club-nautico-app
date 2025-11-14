@@ -2,6 +2,7 @@ import "./AdminHome.scss";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect } from "react";
+import { Users, Trophy, CreditCard, BarChart3, LogOut, Settings } from "lucide-react";
 
 function AdminHome() {
   const MySwal = withReactContent(Swal);
@@ -15,7 +16,7 @@ function AdminHome() {
     const welcomed = sessionStorage.getItem("adminWelcomed");
     if (!welcomed) {
       MySwal.fire({
-        title: "Bienvenido al Panel Administrativo ⚙️",
+        title: "Bienvenido al Panel Administrativo",
         text: "Gestioná socios, disciplinas y pagos de forma rápida y clara.",
         icon: "info",
         confirmButtonColor: "#1e3a8a",
@@ -30,7 +31,6 @@ function AdminHome() {
 
   return (
     <div className="admin-home">
-      {/* ✅ Logo grande centrado arriba */}
       <img
         src="/logo-png-redondo-297x300.png"
         alt="Logo institucional"
@@ -39,32 +39,40 @@ function AdminHome() {
 
       <main className="admin-main">
         <div className="admin-card">
-          <h1>Panel de Administración</h1>
+          <div className="admin-header">
+            <Settings className="header-icon" size={32} />
+            <h1>Panel de Administración</h1>
+          </div>
           <p>
             Desde este panel podés gestionar socios, disciplinas, pagos y la
             información institucional del Club Náutico.
           </p>
 
           <div className="admin-buttons">
-            <button onClick={() => (window.location.href = "/socios")}>
-              👥 Gestionar Socios
+            <button onClick={() => (window.location.href = "/socios")} className="btn-primary">
+              <Users size={20} />
+              <span>Gestionar Socios</span>
             </button>
-            <button onClick={() => (window.location.href = "#")}>
-              🏆 Disciplinas
+            <button onClick={() => (window.location.href = "#")} className="btn-primary">
+              <Trophy size={20} />
+              <span>Disciplinas</span>
             </button>
-            <button onClick={() => (window.location.href = "#")}>
-              💳 Control de Pagos
+            <button onClick={() => (window.location.href = "#")} className="btn-primary">
+              <CreditCard size={20} />
+              <span>Control de Pagos</span>
             </button>
-            <button 
+            <button
               onClick={() => (window.location.href = "/chatbot-analytics")}
               className="btn-analytics"
             >
-              📊 Analytics del Chatbot
+              <BarChart3 size={20} />
+              <span>Analytics del Chatbot</span>
             </button>
           </div>
 
           <button className="logout-btn" onClick={handleLogout}>
-            Cerrar Sesión
+            <LogOut size={18} />
+            <span>Cerrar Sesión</span>
           </button>
         </div>
       </main>
