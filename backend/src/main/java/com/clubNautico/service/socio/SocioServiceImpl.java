@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder; // <-- Importar
+import org.springframework.stereotype.Service;
 
 import com.clubNautico.model.Socio;
 import com.clubNautico.repository.SocioRepository;
@@ -23,6 +26,7 @@ public class SocioServiceImpl implements SocioService {
 
     private final SocioRepository socioRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Socio buscarSocioPorNumero(String nroSocio) {
@@ -77,7 +81,7 @@ public class SocioServiceImpl implements SocioService {
         // 🔹 Crear y guardar el socio
         Socio socioNuevo = Socio.builder()
                 .username(socio.getUsername())
-                .password(socio.getPassword())
+                .password(passwordEncoder.encode(socio.getPassword()))
                 .dni(socio.getDni())
                 .nombre(socio.getNombre())
                 .apellido(socio.getApellido())
@@ -106,6 +110,12 @@ public class SocioServiceImpl implements SocioService {
                 .orElseThrow(() -> new NoSuchElementException("El usuario no existe"));
         socio.setActivo(false);
         socioRepository.save(socio);
+    }
+
+    @Override
+    public Socio findByUsername(String username) {
+        return socioRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("El usuario no existe"));
     }
 
     private Socio updateSocioExistente(Socio socioExistente, SocioDTO socio) {

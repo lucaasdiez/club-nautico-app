@@ -7,39 +7,40 @@ import withReactContent from "sweetalert2-react-content";
 function Socios() {
   const [socios, setSocios] = useState([]);
   const MySwal = withReactContent(Swal);
+useEffect(() => {
+    
+    console.log("1. Cargando componente Socios..."); // Para ver si el componente carga
 
-  useEffect(() => {
     getSocios()
-      .then((res) => {
-        setSocios(res.data);
-        // ✅ mensaje de carga exitosa solo la primera vez
+      .then((res) => { 
+        
+        // --- ¡VAMOS A ESPIAR AQUÍ! ---
+        console.log("2. Respuesta COMPLETA de la API (res):", res);
+        console.log("3. El 'res.data' (ApiResponse) es:", res.data);
+        console.log("4. El 'res.data.data' (el array) es:", res.data.data);
+        // --- FIN DE LA INSPECCIÓN ---
+
+        setSocios(res.data.data); // Esta línea sigue siendo la correcta
+
         const shown = sessionStorage.getItem("sociosWelcomed");
         if (!shown) {
           MySwal.fire({
-            title: "Gestión de Socios 👥",
-            text: "Aquí podés ver la información de todos los socios activos.",
-            icon: "info",
-            timer: 2500,
-            showConfirmButton: false,
-            background: "#f8f9fb",
-            color: "#333",
+            // ... (tu alerta)
           });
           sessionStorage.setItem("sociosWelcomed", "true");
         }
       })
-      .catch(() =>
+      .catch((err) => { // <-- ¡IMPORTANTE! Agregá (err) aquí
+        console.error("¡ERROR EN EL CATCH!", err); // 5. Para ver si la API está fallando
         MySwal.fire({
-          title: "Error",
-          text: "No se pudieron cargar los socios.",
-          icon: "error",
-          confirmButtonColor: "#b91c1c",
+          // ... (tu alerta de error)
         })
-      );
+      }
+    );
   }, []);
 
   return (
     <div className="socios-page">
-      {/* ✅ Logo institucional arriba */}
       <img
         src="/logo-png-redondo-297x300.png"
         alt="Logo institucional"
