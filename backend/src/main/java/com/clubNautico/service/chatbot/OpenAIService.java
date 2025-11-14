@@ -173,4 +173,75 @@ public class OpenAIService {
             return "GENERAL";
         }
     }
+
+    /**
+     * Determinar si el texto es una pregunta real o solo un saludo/conversación
+     * @param texto El texto a analizar
+     * @return true si es una pregunta, false si es saludo/conversación
+     */
+    public boolean esPregunta(String texto) {
+        try {
+            String textoLower = texto.toLowerCase().trim();
+            
+            // Lista de saludos y frases que NO son preguntas
+            String[] noPreguntas = {
+                "hola", "holi", "buenas", "buenos dias", "buenas tardes", "buenas noches",
+                "hey", "ola", "saludos", "buen dia",
+                "gracias", "muchas gracias", "ok", "vale", "perfecto", "excelente",
+                "adios", "adiós", "chau", "hasta luego", "nos vemos",
+                "si", "sí", "no", "claro", "dale", "bien", "mal"
+            };
+            
+            // Si es muy corto (menos de 3 palabras) y es un saludo, no es pregunta
+            String[] palabras = textoLower.split("\\s+");
+            if (palabras.length <= 3) {
+                for (String noPreg : noPreguntas) {
+                    if (textoLower.equals(noPreg) || textoLower.startsWith(noPreg + " ") || textoLower.endsWith(" " + noPreg)) {
+                        log.info("Detectado NO-pregunta (saludo/conversación): {}", texto);
+                        return false;
+                    }
+                }
+            }
+            
+            // Palabras clave que indican que SÍ es una pregunta
+            String[] palabrasClavePregunta = {
+                "qué", "que", "cuál", "cual", "cuáles", "cuales", 
+                "cómo", "como", "cuándo", "cuando", "cuánto", "cuanto",
+                "dónde", "donde", "por qué", "porque", "para qué",
+                "quién", "quien", "quiénes", "quienes",
+                "puedo", "puedes", "puede", "podría", "podria",
+                "hay", "existe", "tienen", "tiene", "tengo",
+                "saber", "conocer", "informar", "decir", "explicar",
+                "horario", "precio", "costo", "cuota", "inscri", "pagar"
+            };
+            
+            // Si contiene alguna palabra clave de pregunta, es pregunta
+            for (String palabra : palabrasClavePregunta) {
+                if (textoLower.contains(palabra)) {
+                    log.info("Detectado SÍ-pregunta (contiene '{}'): {}", palabra, texto);
+                    return true;
+                }
+            }
+            
+            // Si termina con "?" es pregunta
+            if (texto.trim().endsWith("?")) {
+                log.info("Detectado SÍ-pregunta (tiene '?'): {}", texto);
+                return true;
+            }
+            
+            // Si tiene más de 5 palabras y no es un saludo obvio, asumimos que es pregunta
+            if (palabras.length > 5) {
+                log.info("Detectado SÍ-pregunta (mensaje largo): {}", texto);
+                return true;
+            }
+            
+            // Por defecto, si no detectamos nada, consideramos que NO es pregunta
+            log.info("Detectado NO-pregunta (default): {}", texto);
+            return false;
+            
+        } catch (Exception e) {
+            log.error("Error detectando si es pregunta", e);
+            return true; // En caso de error, guardamos por defecto
+        }
+    }
 }
