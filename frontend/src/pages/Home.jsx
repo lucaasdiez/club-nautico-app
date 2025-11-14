@@ -7,28 +7,35 @@ import withReactContent from "sweetalert2-react-content";
 function Home() {
   const MySwal = withReactContent(Swal);
 
-  useEffect(() => {
-    // Mostrar alerta solo una vez por sesión
-    const hasWelcomed = sessionStorage.getItem("homeWelcomed");
-    const nombre = localStorage.getItem("userName") || "socio";
+useEffect(() => {
+  const hasWelcomed = sessionStorage.getItem("homeWelcomed");
+  const nombre = localStorage.getItem("userName") || "socio";
 
-    if (!hasWelcomed) {
-      MySwal.fire({
-        title: `¡Bienvenido/a, ${nombre.split(" ")[0]}! 👋`,
-        text: "Nos alegra verte nuevamente en el Portal del Socio.",
-        icon: "success",
-        confirmButtonColor: "#1e3a8a",
-        background: "#f8f9fb",
-        color: "#333",
-        timer: 2500,
-        showConfirmButton: false,
-      });
-      sessionStorage.setItem("homeWelcomed", "true");
-    }
-  }, []);
+  if (!hasWelcomed) {
+    MySwal.fire({
+      title: `¡Bienvenido/a, ${nombre.split(" ")[0]}! 👋`,
+      text: "Nos alegra verte nuevamente en el Portal del Socio.",
+      icon: "success",
+      confirmButtonColor: "#1e3a8a",
+      background: "#f8f9fb",
+      color: "#333",
+      timer: 2500,
+      showConfirmButton: false,
+    }).then(() => {
+      document.querySelector(".main-section")
+              ?.classList.add("fade-show");
+    });
+
+    sessionStorage.setItem("homeWelcomed", "true");
+  } else {
+    document.querySelector(".main-section")
+            ?.classList.add("fade-show");
+  }
+}, []);
+
 
   return (
-    <div className="home-page">
+    <div className="home-page ">
       {/* ✅ Navbar visible arriba */}
       <Navbar />
 

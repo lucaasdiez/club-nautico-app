@@ -58,7 +58,7 @@ function Acceso() {
   };
 
   return (
-    <div className="acceso-page">
+    <div className="acceso-page page-background">
       <Navbar />
       <div className="acceso-container">
         {/* Panel Izquierdo */}

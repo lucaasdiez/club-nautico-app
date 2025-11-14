@@ -1,14 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
-
 .navbar {
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(14px);
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.65), rgba(185, 28, 28, 0.65));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
+  /* ✨ Fondo degradado rojo-azul translúcido */
+  background: linear-gradient(
+    135deg,
+    rgba(30, 58, 138, 0.65),
+    rgba(185, 28, 28, 0.65)
+  );
+  backdrop-filter: blur(18px);
+
+  /* Eliminamos la barra inferior */
+  border-bottom: none;
+
+  /* Sombra suave roja y azul */
+  box-shadow: 0 4px 20px rgba(185, 28, 28, 0.2),
+              0 4px 20px rgba(30, 58, 138, 0.2);
+
   transition: all 0.3s ease-in-out;
   animation: fadeInDown 0.7s ease;
   font-family: "Inter", sans-serif;
@@ -87,6 +97,7 @@
     .logout {
       color: #ffb3b3;
       font-weight: 600;
+
       &:hover {
         color: #ff6666;
       }
@@ -104,17 +115,5 @@
       justify-content: center;
       gap: 1rem;
     }
-  }
-}
-
-/* ✨ Animación de entrada */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

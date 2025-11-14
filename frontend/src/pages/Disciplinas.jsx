@@ -166,7 +166,7 @@ function Disciplinas() {
   );
 
   return (
-    <div className="disciplinas-page">
+    <div className="disciplinas-page page-background">
       <Navbar />
       <div className="disciplinas-container">
         <div className="disciplinas-content">

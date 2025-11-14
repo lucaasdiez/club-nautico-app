@@ -60,13 +60,14 @@ function Pagos() {
   };
 
   return (
-    <div className="pagos-page">
+    <div className="pagos-page page-background">
       <Navbar />
 
       <div className="pagos-container animate-fade">
         <div className="pagos-content">
           <h1 className="titulo-principal">Gestión de Pagos</h1>
 
+          {/* Cards resumen */}
           <div className="cards-summary">
             <div className="card">
               <p className="label">CUOTA ACTUAL</p>
@@ -84,6 +85,7 @@ function Pagos() {
             </div>
           </div>
 
+          {/* Sección principal */}
           <div className="main-section">
             {/* PANEL DE PAGO */}
             <div className="info-card">

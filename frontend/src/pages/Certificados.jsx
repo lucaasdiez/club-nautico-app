@@ -175,7 +175,7 @@ function Certificados() {
   };
 
   return (
-    <div className="certificados-page">
+    <div className="certificados-page page-background">
       <Navbar />
 
       <div className="certificados-container">

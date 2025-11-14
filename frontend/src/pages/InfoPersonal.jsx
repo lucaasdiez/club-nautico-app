@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar"; // ✅ se importa la barra de navegac
 
 function InfoPersonal() {
   return (
-    <div className="info-personal-page">
+    <div className="info-personal-page page-background">
       <Navbar /> {/* ✅ Navbar visible arriba */}
 
       <div className="info-container">

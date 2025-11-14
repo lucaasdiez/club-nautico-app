@@ -1,0 +1,26 @@
+.page-background {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%); // fondo rojo-azul degradado
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 31, 60, 0.6); // overlay azul semitransparente
+    backdrop-filter: blur(5px); // efecto glass
+    z-index: 0;
+  }
+
+  > * {
+    position: relative; // hijos sobre el overlay
+    z-index: 1;
+  }
+}
