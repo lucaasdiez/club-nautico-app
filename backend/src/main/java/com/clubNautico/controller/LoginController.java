@@ -6,8 +6,10 @@ import com.clubNautico.model.Admin;
 import com.clubNautico.model.Socio;
 import com.clubNautico.repository.AdminRepository;
 import com.clubNautico.repository.SocioRepository;
+import com.clubNautico.service.jwt.JwtService; // <-- IMPORTAR
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -20,35 +22,40 @@ public class LoginController {
 
     private final SocioRepository socioRepository;
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
-        // 1️⃣ Buscar si es admin
         Optional<Admin> adminOpt = adminRepository.findByUsername(username);
         if (adminOpt.isPresent()) {
             Admin admin = adminOpt.get();
-            if (admin.getPassword().equals(password)) {
-                return ResponseEntity.ok(new LoginResponse("admin", "Login exitoso"));
+            if (passwordEncoder.matches(password, admin.getPassword())) {
+
+                String token = jwtService.generateToken(admin); // admin es un UserDetails
+
+                return ResponseEntity.ok(new LoginResponse("admin", "Login exitoso", token));
             } else {
                 return ResponseEntity.badRequest().body("Contraseña incorrecta.");
             }
         }
 
-        // 2️⃣ Buscar si es socio
         Optional<Socio> socioOpt = socioRepository.findByUsername(username);
         if (socioOpt.isPresent()) {
             Socio socio = socioOpt.get();
-            if (socio.getPassword().equals(password)) {
-                return ResponseEntity.ok(new LoginResponse("socio", "Login exitoso"));
+            if (passwordEncoder.matches(password, socio.getPassword())) {
+
+                String token = jwtService.generateToken(socio);
+
+                return ResponseEntity.ok(new LoginResponse("socio", "Login exitoso", token));
             } else {
                 return ResponseEntity.badRequest().body("Contraseña incorrecta.");
             }
         }
 
-        // 3️⃣ Si no existe en ninguna tabla
         return ResponseEntity.badRequest().body("El usuario no existe.");
     }
 }

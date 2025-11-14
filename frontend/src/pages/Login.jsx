@@ -1,7 +1,8 @@
 import "./Login.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
+import { getSocioByUsername } from "../services/sociosService.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -18,24 +19,28 @@ function Login() {
     }
 
     try {
-      // 🔹 Llamada al backend con username en lugar de email
-      const response = await axios.post("http://localhost:8080/api/login", {
+     
+      const response = await api.post("/login", {
         username,
         password,
       });
 
-      const rol = response.data.rol?.toLowerCase();
-      const nombre = response.data.nombre || "Socio"; // nombre del backend o genérico
+      const { rol, nombre, token } = response.data;
 
-      // 🔹 Guarda datos del usuario en localStorage
-      localStorage.setItem("userName", nombre);
+      const socioResponse = await getSocioByUsername(username);
+      const { nroSocio } = socioResponse.data;
+
+      localStorage.setItem("token", token); // <-- ¡EL MÁS IMPORTANTE!
+      localStorage.setItem("userName", nombre || "Socio");
       localStorage.setItem("userUsername", username);
       localStorage.setItem("userRole", rol?.toUpperCase());
+      localStorage.setItem("userNroSocio", nroSocio);
 
-      // 🔹 Redirección según rol
-      if (rol === "admin") {
+
+      // 🔹 Redirección (esto sigue igual)
+      if (rol?.toLowerCase() === "admin") {
         navigate("/admin");
-      } else if (rol === "socio") {
+      } else if (rol?.toLowerCase() === "socio") {
         navigate("/home");
       } else {
         setError("Rol no reconocido. Contactá con soporte.");
@@ -43,7 +48,7 @@ function Login() {
     } catch (err) {
       console.error("❌ Error al iniciar sesión:", err);
       if (err.response && err.response.data) {
-        setError(err.response.data);
+        setError(err.response.data); 
       } else {
         setError("Usuario o contraseña incorrectos.");
       }
