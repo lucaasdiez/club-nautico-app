@@ -5,18 +5,7 @@
   align-items: center;
   font-family: "Inter", sans-serif;
   color: #fff;
-
-  /* 🌅 Fondo con la foto del club + capa negra suave */
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
-    url("/club-bg.jpg") center/cover no-repeat fixed;
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
 }
 
 .acceso-container {
@@ -44,16 +33,28 @@
   text-align: center;
 }
 
-.panel-izquierdo h3 {
+.header-with-icon {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.25rem;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+
+  h3, h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .subtitulo {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 1.5rem;
+  font-size: 0.95rem;
 }
 
 .panel-izquierdo canvas {
@@ -66,16 +67,30 @@
 
 .estado {
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .valido {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background: #16a34a;
   color: #fff;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
+}
+
+.tiempo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
 }
 
 .acciones {
@@ -87,28 +102,36 @@
 }
 
 .acciones button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   border: none;
-  border-radius: 8px;
-  padding: 0.7rem;
+  border-radius: 10px;
+  padding: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-generar {
-  background: #1e3a8a;
+  background: linear-gradient(90deg, #1e3a8a, #003366);
   color: #fff;
   &:hover {
-    background: #2b4fc7;
-    transform: translateY(-1px);
+    background: linear-gradient(90deg, #003366, #1e3a8a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 }
 
 .btn-copiar {
-  background: #f5f5f5;
-  color: #111;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e3a8a;
   &:hover {
-    background: #e5e5e5;
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -124,7 +147,9 @@
 }
 
 .info-codigo h4 {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: #fff;
 }
 
 .info-codigo strong {
@@ -153,13 +178,6 @@
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
 }
 
-.instrucciones h3,
-.validacion h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.8rem;
-}
 
 .instrucciones ol {
   margin-left: 1.5rem;
@@ -168,12 +186,16 @@
 }
 
 .nota {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   background: rgba(255, 255, 255, 0.08);
   border-left: 3px solid #facc15;
-  padding: 0.7rem;
+  padding: 0.8rem;
   border-radius: 8px;
   margin-top: 1rem;
   font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .validacion input {
@@ -187,18 +209,24 @@
 }
 
 .btn-validar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: linear-gradient(90deg, #003366, #1e3a8a);
   color: #fff;
   border: none;
-  padding: 0.7rem;
+  padding: 0.8rem;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.3s;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   &:hover {
     transform: translateY(-2px);
     background: linear-gradient(90deg, #1e3a8a, #003366);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -216,6 +244,8 @@
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
 }
 
-.seguridad h4 {
-  margin-bottom: 0.4rem;
+.seguridad p {
+  margin: 0.5rem 0 0 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
