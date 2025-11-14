@@ -10,4 +10,5 @@ import lombok.Setter;
 public class LoginResponse {
     private String rol;       // "admin" o "socio"
     private String mensaje;
+    private String token;
 }
