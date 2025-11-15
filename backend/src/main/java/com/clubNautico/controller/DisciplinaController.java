@@ -39,5 +39,21 @@ public class DisciplinaController {
         return ResponseEntity.ok(new ApiResponse("Disciplina creada correctamente", dto));
     }
 
+    @PutMapping("/{nombreDisciplinaVieja}")
+    public ResponseEntity<ApiResponse> actualizarDisciplina(
+            @PathVariable String nombreDisciplinaVieja,
+            @RequestBody DisciplinaDTO disciplinaDTO) {
+        Disciplina disciplinaActualizada = disciplinaService.updateDisciplina(disciplinaDTO, nombreDisciplinaVieja);
+        DisciplinaDTO respuesta = disciplinaService.convertirADTO(disciplinaActualizada);
+
+        return ResponseEntity.ok(new ApiResponse("Disciplina actualizada", respuesta));
+    }
+
+    @DeleteMapping("/{nombreDisciplina}")
+    public ResponseEntity<ApiResponse> eliminarDisciplina(@PathVariable String nombreDisciplina) {
+        disciplinaService.eliminarDisciplina(nombreDisciplina);
+        return ResponseEntity.ok(new ApiResponse("Disciplina eliminada Correcatamente", null));
+    }
+
 
 }

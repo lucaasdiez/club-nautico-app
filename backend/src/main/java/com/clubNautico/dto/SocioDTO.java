@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,5 +29,7 @@ public class SocioDTO {
     private EstadoCuota estadoCuota;  // AL_DIA, POR_VENCER, VENCIDA
     private Integer mesesAdeudados;
     private LocalDate ultimoPagado;
+
+    private List<DisciplinaDTO> disciplinas;
 
 }
