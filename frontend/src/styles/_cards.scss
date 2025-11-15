@@ -31,19 +31,18 @@
 }
 
 /* Margen/padding lateral seguro para móviles */
+/* Margen/padding lateral seguro para móviles */
 .cards-summary,
-.main-section,
 .info-container,
-.info-grid {
+.info-grid {  /* 🔹 QUITAR .main-section de aquí */
   width: 100%;
-  padding: 0 1rem; /* nunca toca los bordes */
+  padding: 0 1rem;
   box-sizing: border-box;
 }
-
 /* Ajustes responsive adicionales */
 @media (max-width: 768px) {
   .cards-summary,
-  .main-section,
+  
   .info-container,
   .info-grid {
     padding: 0 0.8rem;
@@ -52,7 +51,7 @@
 
 @media (max-width: 480px) {
   .cards-summary,
-  .main-section,
+  
   .info-container,
   .info-grid {
     padding: 0 0.6rem;

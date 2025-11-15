@@ -248,16 +248,15 @@ footer {
 /* ========================= */
 /* SAFE LOAD ANIMATION */
 /* ========================= */
-
-.main-section {
+/* ✅ DESPUÉS (solo afecta al Home) */
+.home-page .main-section {
   opacity: 0;
   transform: translateY(10px);
 }
 
-.fade-show {
+.home-page .main-section.fade-show {
   animation: fadeIn 0.7s ease forwards;
 }
-
 /* ========================= */
 /* ANIMATION */
 /* ========================= */
