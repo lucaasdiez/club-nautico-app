@@ -1,7 +1,8 @@
 import "./Login.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api.js";
+import { getSocioByUsername } from "../services/sociosService.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -18,32 +19,39 @@ function Login() {
     }
 
     try {
-      // 🔹 Llamada al backend con username en lugar de email
-      const response = await axios.post("http://localhost:8080/api/login", {
+      // 1. Hacer login y obtener el token
+      const response = await api.post("/login", {
         username,
         password,
       });
 
-      const rol = response.data.rol?.toLowerCase();
-      const nombre = response.data.nombre || "Socio"; // nombre del backend o genérico
+      const { rol, mensaje, token } = response.data;
 
-      // 🔹 Guarda datos del usuario en localStorage
-      localStorage.setItem("userName", nombre);
-      localStorage.setItem("userUsername", username);
+      // 2. ✅ GUARDAR EL TOKEN INMEDIATAMENTE (ANTES de cualquier otra llamada)
+      localStorage.setItem("token", token);
       localStorage.setItem("userRole", rol?.toUpperCase());
+      localStorage.setItem("userUsername", username);
 
-      // 🔹 Redirección según rol
-      if (rol === "admin") {
-        navigate("/admin");
-      } else if (rol === "socio") {
+      // 3. ✅ Solo buscar datos adicionales si es SOCIO
+      if (rol?.toLowerCase() === "socio") {
+        const socioResponse = await getSocioByUsername(username);
+        const { nroSocio, nombre, apellido } = socioResponse.data;
+        
+        localStorage.setItem("userName", `${nombre} ${apellido}`);
+        localStorage.setItem("userNroSocio", nroSocio);
+        
         navigate("/home");
+      } else if (rol?.toLowerCase() === "admin") {
+        // Para admin, solo guardamos el username como nombre
+        localStorage.setItem("userName", username);
+        navigate("/admin");
       } else {
         setError("Rol no reconocido. Contactá con soporte.");
       }
     } catch (err) {
       console.error("❌ Error al iniciar sesión:", err);
       if (err.response && err.response.data) {
-        setError(err.response.data);
+        setError(err.response.data); 
       } else {
         setError("Usuario o contraseña incorrectos.");
       }

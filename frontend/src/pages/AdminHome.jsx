@@ -2,6 +2,7 @@ import "./AdminHome.scss";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect } from "react";
+import { Users, Trophy, CreditCard, BarChart3, LogOut, Settings } from "lucide-react";
 
 function AdminHome() {
   const MySwal = withReactContent(Swal);
@@ -15,7 +16,7 @@ function AdminHome() {
     const welcomed = sessionStorage.getItem("adminWelcomed");
     if (!welcomed) {
       MySwal.fire({
-        title: "Bienvenido al Panel Administrativo ⚙️",
+        title: "Bienvenido al Panel Administrativo",
         text: "Gestioná socios, disciplinas y pagos de forma rápida y clara.",
         icon: "info",
         confirmButtonColor: "#1e3a8a",
@@ -30,35 +31,63 @@ function AdminHome() {
 
   return (
     <div className="admin-home">
-      {/* ✅ Logo grande centrado arriba */}
-      <img
-        src="/logo-png-redondo-297x300.png"
-        alt="Logo institucional"
-        className="admin-logo"
-      />
+      <header className="admin-header">
+        <div className="header-content">
+          <div className="logo-section">
+            <img
+              src="/logo-png-redondo-297x300.png"
+              alt="Logo Club Náutico"
+              className="admin-logo-img"
+            />
+            <div>
+              <h1>Panel de Administración</h1>
+              <p className="header-subtitle">Club Náutico</p>
+            </div>
+          </div>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={18} />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </header>
 
       <main className="admin-main">
-        <div className="admin-card">
-          <h1>Panel de Administración</h1>
-          <p>
-            Desde este panel podés gestionar socios, disciplinas, pagos y la
-            información institucional del Club Náutico.
-          </p>
+        <div className="welcome-section">
+          <h2>Bienvenido al sistema de gestión</h2>
+          <p>Seleccioná una opción para comenzar</p>
+        </div>
 
-          <div className="admin-buttons">
-            <button onClick={() => (window.location.href = "/socios")}>
-              👥 Gestionar Socios
-            </button>
-            <button onClick={() => (window.location.href = "#")}>
-              🏆 Disciplinas
-            </button>
-            <button onClick={() => (window.location.href = "#")}>
-              💳 Control de Pagos
-            </button>
-          </div>
+        <div className="admin-grid">
+          <button onClick={() => (window.location.href = "/socios")} className="admin-card">
+            <div className="card-icon">
+              <Users size={32} />
+            </div>
+            <h3>Gestionar Socios</h3>
+            <p>Administrá la información de los socios del club</p>
+          </button>
 
-          <button className="logout-btn" onClick={handleLogout}>
-            Cerrar Sesión
+          <button onClick={() => (window.location.href = "#")} className="admin-card">
+            <div className="card-icon">
+              <Trophy size={32} />
+            </div>
+            <h3>Disciplinas</h3>
+            <p>Gestioná las disciplinas y actividades deportivas</p>
+          </button>
+
+          <button onClick={() => (window.location.href = "#")} className="admin-card">
+            <div className="card-icon">
+              <CreditCard size={32} />
+            </div>
+            <h3>Control de Pagos</h3>
+            <p>Supervisá y registrá los pagos de los socios</p>
+          </button>
+
+          <button onClick={() => (window.location.href = "/chatbot-analytics")} className="admin-card">
+            <div className="card-icon">
+              <BarChart3 size={32} />
+            </div>
+            <h3>Analytics del Chatbot</h3>
+            <p>Visualizá estadísticas del asistente virtual</p>
           </button>
         </div>
       </main>
