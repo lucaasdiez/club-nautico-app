@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,17 +55,36 @@ public class DisciplinaServiceImpl implements DisciplinaService{
     }
 
     @Override
-    public void updateDisciplina(Disciplina disciplinaNueva, String nombreDisciplinaVieja) {
+    public Disciplina updateDisciplina(DisciplinaDTO disciplinaNueva, String nombreDisciplinaVieja) {
         Disciplina disciplina = disciplinaRepository.findByNombre(nombreDisciplinaVieja)
                 .orElseThrow(() -> new RuntimeException("Disciplina no encontrada"));
         disciplina.setNombre(disciplinaNueva.getNombre());
         disciplina.setCupoMaximo(disciplina.getCupoMaximo());
         disciplina.setDescripcion(disciplina.getDescripcion());
-        disciplina.setHorarios(disciplina.getHorarios());
+        List<DisciplinaHorario> nuevosHorarios = disciplinaNueva.getHorarios()
+                .stream()
+                .map(h -> DisciplinaHorario.builder()
+                        .dia(h.getDia())
+                        .horaInicio(h.getHoraInicio())
+                        .horaFin(h.getHoraFin())
+                        .disciplina(disciplina)
+                        .build()
+                )
+                .collect(Collectors.toCollection(ArrayList::new));
+        disciplina.getHorarios().clear();
+        disciplina.getHorarios().addAll(nuevosHorarios);
         disciplina.setPrecioMensual(disciplina.getPrecioMensual());
 
-        disciplinaRepository.save(disciplina);
+        return disciplinaRepository.save(disciplina);
 
+    }
+
+    @Override
+    public void eliminarDisciplina(String nombreDisciplina) {
+        Disciplina disciplina = disciplinaRepository.findByNombre(nombreDisciplina)
+                .orElseThrow(() -> new RuntimeException("Disciplina no encontrada"));
+        disciplina.setEstado(DisciplinaEstado.INACTIVA);
+        disciplinaRepository.save(disciplina);
     }
 
     @Override
