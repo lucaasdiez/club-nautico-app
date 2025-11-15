@@ -5,20 +5,13 @@
   align-items: center;
   font-family: "Inter", sans-serif;
   color: #fff;
-
-  /* 🌅 Fondo con la foto del club + capa negra suave */
   background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
     url("/club-bg.jpg") center/cover no-repeat fixed;
-
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
-
 
 .disciplinas-container {
   flex: 1;
@@ -26,6 +19,7 @@
   justify-content: center;
   align-items: flex-start;
   padding: 2rem;
+  width: 100%;
 }
 
 .disciplinas-content {
@@ -43,6 +37,7 @@
     margin-bottom: 1rem;
     font-size: 1.4rem;
     color: #f3f4f6;
+    text-align: left;
   }
 }
 
@@ -50,7 +45,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2rem;
 }
 
 /* ====== TARJETAS ====== */
@@ -58,11 +52,14 @@
 .card-inscripta {
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-radius: 16px;
   padding: 1.5rem;
   text-align: left;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     transform: translateY(-3px);
@@ -74,6 +71,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.6rem;
+    min-height: 40px;
+
+    h3 {
+      font-size: 1.25rem;
+      color: #fff;
+    }
 
     .estado {
       background: #22c55e;
@@ -82,47 +85,30 @@
       font-weight: 600;
       border-radius: 5px;
       padding: 0.3rem 0.6rem;
-    }
-
-    .badge {
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-
-      &.disponible {
-        background: #22c55e;
-      }
-
-      &.ocupado {
-        background: #b91c1c;
-      }
+      flex-shrink: 0;
     }
   }
 
-  .descripcion {
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    color: #f1f5f9;
-  }
-
+  .descripcion,
   .horario,
   .inscritos {
-    font-size: 0.9rem;
-    margin: 0.3rem 0;
-    color: #e2e8f0;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+    color: #f1f5f9;
   }
 
   .precio {
     font-weight: 700;
-    color: #ffd700;
-    margin-top: 0.5rem;
-    text-align: right;
+    color: #22c55e;   /* ✅ PRECIO EN VERDE */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-align: left;
+    flex-grow: 1;
   }
 
   button {
     width: 100%;
-    margin-top: 1rem;
     padding: 0.8rem;
     border: none;
     border-radius: 8px;
@@ -133,15 +119,22 @@
     &.btn-inscribirse {
       background: linear-gradient(90deg, #1e3a8a, #003366);
       color: white;
+
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      &:disabled {
+        background: #555;
+        cursor: not-allowed;
       }
     }
 
     &.btn-desinscribirse {
       background: #b91c1c;
       color: white;
+
       &:hover {
         background: #a11a1a;
       }
@@ -151,27 +144,230 @@
 
 /* ====== SECCIONES ====== */
 .inscritas-section,
-.disponibles-section,
-.resumen-section {
+.disponibles-section {
   margin-bottom: 2.5rem;
   background: rgba(255, 255, 255, 0.08);
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   border-radius: 16px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-}
-
-.resumen-lista {
-  margin-bottom: 1rem;
-}
-
-.total {
-  font-weight: 700;
-  span {
-    color: #ffd700;
-  }
 }
 
 .no-inscripciones {
   font-style: italic;
   color: #e2e8f0;
+  text-align: left;
+  padding: 1rem 0;
+}
+
+/* ====== BOTONES DE TARJETAS ====== */
+.card-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.card-disciplina button {
+  flex-basis: 0;
+  margin-top: 0;
+
+  &.btn-info {
+    background: #334155;
+    color: white;
+    border: none;
+    flex-grow: 1;
+
+    &:hover {
+      background: #475569;
+      transform: translateY(-2px);
+    }
+  }
+
+  &.btn-inscribirse {
+    flex-grow: 1.5;
+  }
+}
+
+/* ====== SCROLL ====== */
+.scrollable-grid-container {
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 15px;
+  padding-left: 5px;
+  margin-right: -15px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/*
+============================================
+   MODAL — IGUAL A LAS TARJETAS
+============================================
+*/
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  color: #f1f5f9;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  text-align: left;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h2 {
+    color: #fff;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .modal-descripcion {
+    font-size: 1rem;
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 1.5rem;
+  }
+
+  .modal-detalles {
+    margin-bottom: 1.5rem;
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .badge {
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+
+      &.activa {
+        background: #22c55e;
+        color: white;
+      }
+
+      &.inactiva {
+        background: #888;
+        color: white;
+      }
+    }
+  }
+
+  h4 {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .horarios-lista {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 2rem;
+
+    li {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+      font-size: 0.9rem;
+
+      strong {
+        color: #ffd700;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .no-horarios {
+    font-style: italic;
+    color: #e2e8f0;
+    margin-bottom: 2rem;
+  }
+
+  .modal-inscribir-btn {
+    /* ✅ MISMO ESTILO QUE .btn-inscribirse */
+    background: linear-gradient(90deg, #1e3a8a, #003366);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: block;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    padding: 0.8rem 2.5rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    &:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
