@@ -11,6 +11,7 @@ import InfoPersonal from "./pages/InfoPersonal";
 import Acceso from "./pages/Acceso";
 import Socios from "./pages/Socios";
 import Certificados from "./pages/Certificados";
+import ScanQR from "./pages/AdminQR"
 
 // Admin
 import AdminHome from "./pages/AdminHome";
@@ -44,6 +45,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute roleRequired="ADMIN">
         {withWidget(AdminHome)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/admin-qr", 
+    element: (
+      <ProtectedRoute roleRequired="ADMIN">
+        {withWidget(ScanQR)}
       </ProtectedRoute>
     ) 
   },

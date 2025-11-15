@@ -4,12 +4,17 @@ import { Camera, X, CheckCircle } from "lucide-react";
 import "./QRScanner.scss";
 
 function QRScanner({ onScanSuccess, onClose }) {
-  const scannerRef = useRef(null);
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState("");
   const html5QrCodeRef = useRef(null);
+  const isInitialized = useRef(false);
+  const hasScanned = useRef(false); // ✅ NUEVO: Evitar escaneos múltiples
 
   useEffect(() => {
+    // Evitar doble inicialización en React StrictMode
+    if (isInitialized.current) return;
+    isInitialized.current = true;
+
     startScanner();
 
     return () => {
@@ -22,37 +27,62 @@ function QRScanner({ onScanSuccess, onClose }) {
       setScanning(true);
       setError("");
 
-      // Crear instancia del escáner
-      html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+      // Crear instancia del escáner solo si no existe
+      if (!html5QrCodeRef.current) {
+        html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+      }
 
       // Configuración del escáner
       const config = {
-        fps: 10, // Frames por segundo
-        qrbox: { width: 250, height: 250 }, // Tamaño del área de escaneo
+        fps: 5,
+        qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0,
       };
 
-      // Iniciar el escáner con la cámara trasera (si está disponible)
+      // Iniciar el escáner
       await html5QrCodeRef.current.start(
-        { facingMode: "environment" }, // Usar cámara trasera en móviles
+        { facingMode: "environment" },
         config,
         (decodedText, decodedResult) => {
-          // Cuando se escanea exitosamente
-          console.log("QR escaneado:", decodedText);
+          // ✅ Si ya procesamos, NO hacer nada (ni log)
+          if (hasScanned.current) {
+            return;
+          }
+
+          console.log("✅ QR escaneado UNA VEZ:", decodedText);
           
-          // Detener el escáner
-          stopScanner();
+          // ✅ Marcar INMEDIATAMENTE
+          hasScanned.current = true;
           
-          // Llamar al callback con el código escaneado
+          // ✅ LLAMAR AL CALLBACK PRIMERO (antes de detener)
+          console.log("📞 Llamando a onScanSuccess con:", decodedText);
           onScanSuccess(decodedText);
+          
+          // ✅ LUEGO detener el escáner
+          if (html5QrCodeRef.current) {
+            console.log("🛑 Deteniendo escáner...");
+            // Pausar inmediatamente
+            html5QrCodeRef.current.pause(true);
+            
+            // Stop completo de forma asíncrona
+            html5QrCodeRef.current.stop()
+              .then(() => {
+                console.log("🛑 Escáner detenido completamente");
+                html5QrCodeRef.current.clear();
+                html5QrCodeRef.current = null;
+                setScanning(false);
+              })
+              .catch(err => {
+                console.error("Error deteniendo:", err);
+              });
+          }
         },
         (errorMessage) => {
-          // Errores de escaneo (normal cuando no hay QR en vista)
-          // No los mostramos porque son continuos
+          // Errores normales de escaneo - no mostrar
         }
       );
     } catch (err) {
-      console.error("Error al iniciar escáner:", err);
+      console.error("❌ Error al iniciar escáner:", err);
       setError(
         "No se pudo acceder a la cámara. Asegurate de dar permisos en tu navegador."
       );
@@ -63,8 +93,12 @@ function QRScanner({ onScanSuccess, onClose }) {
   const stopScanner = async () => {
     if (html5QrCodeRef.current) {
       try {
-        await html5QrCodeRef.current.stop();
+        const state = html5QrCodeRef.current.getState();
+        if (state === 2) { // 2 = SCANNING
+          await html5QrCodeRef.current.stop();
+        }
         html5QrCodeRef.current.clear();
+        html5QrCodeRef.current = null;
       } catch (err) {
         console.error("Error al detener escáner:", err);
       }
@@ -74,6 +108,8 @@ function QRScanner({ onScanSuccess, onClose }) {
 
   const handleClose = async () => {
     await stopScanner();
+    isInitialized.current = false;
+    hasScanned.current = false; // ✅ Resetear el flag
     onClose();
   };
 
@@ -97,7 +133,7 @@ function QRScanner({ onScanSuccess, onClose }) {
             </div>
           )}
 
-          <div id="qr-reader" ref={scannerRef} className="qr-reader"></div>
+          <div id="qr-reader" className="qr-reader"></div>
 
           {scanning && !error && (
             <div className="scanner-instructions">
