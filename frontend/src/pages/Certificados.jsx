@@ -196,10 +196,17 @@ function Certificados() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="page-background">
       <Navbar />
 
       <div className="certificados-container page-container animate-fade">
+=======
+    <div className="certificados-page">
+      <Navbar />
+
+      <div className="certificados-container">
+>>>>>>> master
         <div className="certificados-left">
           <h3>
             <i className="fa-solid fa-file-arrow-up"></i> Subir Parte Médico
