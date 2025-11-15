@@ -1,6 +1,7 @@
 package com.clubNautico.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.clubNautico.enums.EstadoCuota;
@@ -63,4 +64,7 @@ public class Socio extends Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoCuota estadoCuota;
+
+    @OneToMany(mappedBy = "socio", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inscripcion> inscripciones = new ArrayList<>();
 }

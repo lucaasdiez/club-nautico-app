@@ -7,8 +7,13 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.clubNautico.dto.DisciplinaDTO;
+import com.clubNautico.dto.DisciplinaHorarioDTO;
 import com.clubNautico.dto.SocioDTO;
 import com.clubNautico.enums.EstadoCuota;
+import com.clubNautico.enums.InscripcionEstado;
+import com.clubNautico.model.Disciplina;
+import com.clubNautico.model.Inscripcion;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -40,12 +45,24 @@ public class SocioServiceImpl implements SocioService {
     }
 
     @Override
-    public Socio actualizarSocio(String nroSocio, SocioDTO socio) {
-        return socioRepository.findByNroSocio(nroSocio)
-                .map(socioExistente -> updateSocioExistente(socioExistente, socio))
-                .map(socioRepository::save)
-                .orElseThrow(() -> new NoSuchElementException("Socio no encontrado"));
+    public Socio actualizarSocio(String nroSocio, SocioDTO socioDTO) {
+        Socio socio = socioRepository.findByNroSocio(nroSocio)
+                .orElseThrow(() -> new RuntimeException("Socio no encontrado"));
+
+        socio.setUsername(socioDTO.getUsername());
+        socio.setDni(socioDTO.getDni());
+        socio.setNombre(socioDTO.getNombre());
+        socio.setApellido(socioDTO.getApellido());
+        socio.setEmail(socioDTO.getEmail());
+        socio.setTelefono(socioDTO.getTelefono());
+
+        if (socioDTO.getPassword() != null && !socioDTO.getPassword().isBlank()) {
+            socio.setPassword(passwordEncoder.encode(socioDTO.getPassword()));
+        }
+
+        return socioRepository.save(socio);
     }
+
 
     @Override
     public Socio createSocio(SocioDTO socio) {
@@ -131,7 +148,28 @@ public class SocioServiceImpl implements SocioService {
 
     @Override
     public SocioDTO convertirADTO(Socio socio) {
-        return modelMapper.map(socio, SocioDTO.class);
+        SocioDTO socioDTO= modelMapper.map(socio, SocioDTO.class);
+        if(socio.getInscripciones() != null && !socio.getInscripciones().isEmpty()) {
+            List<DisciplinaDTO> disciplinaDTOS = socio.getInscripciones().stream()
+                    .filter(inscripcion -> inscripcion.getEstado() == InscripcionEstado.ACTIVA)
+                    .map(Inscripcion::getDisciplina)
+                    .map(this::convertirDisciplinaADTO)
+                    .collect(Collectors.toList());
+            socioDTO.setDisciplinas(disciplinaDTOS);
+        }
+        return socioDTO;
+    }
+
+    private DisciplinaDTO convertirDisciplinaADTO(Disciplina disciplina) {
+        DisciplinaDTO disciplinaDTO = modelMapper.map(disciplina, DisciplinaDTO.class);
+        if (disciplina.getHorarios() != null) {
+            List<DisciplinaHorarioDTO> horarioDTOs = disciplina.getHorarios().stream()
+                    .map(horario -> modelMapper.map(horario, DisciplinaHorarioDTO.class))
+                    .collect(Collectors.toList());
+            disciplinaDTO.setHorarios(horarioDTOs);
+        }
+
+        return disciplinaDTO;
     }
 
     @Override

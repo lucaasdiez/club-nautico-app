@@ -43,6 +43,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/login", "/api/socios/crear").permitAll() // Login y Registro
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger
                         .requestMatchers("/archivos/archivo/descargar/**").permitAll()
+                        .requestMatchers("/api/inscripciones/**").hasRole("SOCIO")
+                        .requestMatchers(HttpMethod.POST, "/api/disciplinas/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/disciplinas/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/disciplinas/**").hasRole("ADMIN")
 
                         // 4. Todas las demás rutas deben estar autenticadas
                         .anyRequest().authenticated()
