@@ -2,15 +2,32 @@
 
 .admin-home {
   min-height: 100vh;
-  background: linear-gradient(135deg, #b91c1c 0%, #1e3a8a 100%);
+  display: flex;
+  flex-direction: column;
   font-family: "Inter", sans-serif;
-  color: #fff;
+
+  /* MISMO FONDO QUE HOME */
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("/club-bg.jpg") center/cover no-repeat fixed;
 }
 
+/* ======================== */
+/* HEADER ESTILO NAVBAR */
+/* ======================== */
 .admin-header {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    135deg,
+    rgba(30, 58, 138, 0.65),
+    rgba(185, 28, 28, 0.65)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
   padding: 1.5rem 2rem;
   position: sticky;
   top: 0;
@@ -74,6 +91,9 @@
   }
 }
 
+/* ======================== */
+/* CONTENIDO */
+/* ======================== */
 .admin-main {
   max-width: 1400px;
   margin: 0 auto;
@@ -99,15 +119,37 @@
   }
 }
 
+
 .admin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);  /* siempre 3 por fila en escritorio */
+}
 
-  @media (max-width: 768px) {
+/* 3 columnas en notebook/chico */
+@media (max-width: 1200px) {
+  .admin-grid {
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+  }
+}
+
+/* 2 columnas en tablet */
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+/* 1 columna en móvil */
+@media (max-width: 600px) {
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 }
+
+/* ======================== */
+/* CARD */
+/* ======================== */
 
 .admin-card {
   background: rgba(255, 255, 255, 0.12);
@@ -157,6 +199,9 @@
   }
 }
 
+/* ======================== */
+/* RESPONSIVE HEADER */
+/* ======================== */
 @media (max-width: 768px) {
   .admin-header {
     padding: 1rem 1.5rem;

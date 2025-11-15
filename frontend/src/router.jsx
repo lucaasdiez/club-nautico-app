@@ -12,7 +12,7 @@ import Acceso from "./pages/Acceso";
 import Socios from "./pages/Socios";
 import Certificados from "./pages/Certificados";
 import ScanQR from "./pages/AdminQR"
-
+import AdminDisciplinas from "./pages/AdminDisciplinas";
 // Admin
 import AdminHome from "./pages/AdminHome";
 import ChatbotAnalytics from "./pages/ChatbotAnalytics"; // <-- Importado
@@ -61,6 +61,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute roleRequired="ADMIN">
         {withWidget(Socios)}
+      </ProtectedRoute>
+    ) 
+  },
+  { 
+    path: "/admin/disciplinas", 
+    element: (
+      <ProtectedRoute roleRequired="ADMIN">
+        {withWidget(AdminDisciplinas)}
       </ProtectedRoute>
     ) 
   },
