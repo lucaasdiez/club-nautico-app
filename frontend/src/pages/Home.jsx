@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import '../styles/_container.scss';
 function Home() {
   const MySwal = withReactContent(Swal);
 
@@ -35,11 +35,11 @@ useEffect(() => {
 
 
   return (
-    <div className="home-page ">
+    <div className="home-page">
       {/* ✅ Navbar visible arriba */}
       <Navbar />
 
-      <div className="home-container">
+      <div className="page-container">
         <div className="home-content">
           {/* Tarjetas resumen */}
           <div className="cards-summary">

@@ -2,7 +2,7 @@
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 2200; /* 🔹 Siempre encima de todo */
 
   /* ✨ Fondo degradado rojo-azul translúcido */
   background: linear-gradient(
@@ -12,10 +12,7 @@
   );
   backdrop-filter: blur(18px);
 
-  /* Eliminamos la barra inferior */
   border-bottom: none;
-
-  /* Sombra suave roja y azul */
   box-shadow: 0 4px 20px rgba(185, 28, 28, 0.2),
               0 4px 20px rgba(30, 58, 138, 0.2);
 
@@ -30,6 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
   }
 
   .navbar-logo {
@@ -66,6 +64,7 @@
     display: flex;
     gap: 1.5rem;
     margin: 0;
+    z-index: 2100; /* 🔹 Encima del z-index de cards y contenedores */
 
     li {
       color: #ffffff;
@@ -104,16 +103,78 @@
     }
   }
 
+  /* ===== HAMBURGUESA ===== */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 22px;
+    cursor: pointer;
+
+    span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
   @media (max-width: 850px) {
     .navbar-container {
       flex-direction: column;
       gap: 0.7rem;
     }
 
-    .navbar-links {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+    .navbar-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.5rem;
+    }
+
+  .navbar-links {
+    position: fixed; // 🔹 Cambiar de absolute a fixed
+    top: 70px; // Ajustá según la altura real de tu navbar
+    left: 0;
+    right: 0;
+    background: rgba(30, 58, 138, 0.98); // 🔹 Más opaco
+    backdrop-filter: blur(14px);
+    flex-direction: column;
+    gap: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s ease;
+    z-index: 9999; // 🔹 Valor más alto
+
+    &.active {
+      transform: scaleY(1);
+      pointer-events: auto; // 🔹 Agregar esto
+    }
+
+    li {
+      padding: 1rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      pointer-events: auto; // 🔹 Asegurar interacción
     }
   }
+
+  .hamburger {
+    display: flex;
+    z-index: 10000; // 🔹 Más alto que el menú
+    position: relative; // 🔹 Agregar esto
+  }
+}
 }

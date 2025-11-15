@@ -1,40 +1,38 @@
-/* ========================= */
-/* PAGOS PAGE - usando overlay global */
-/* ========================= */
-@import '../styles/global.scss'; // importar las clases globales
-
+@import '../styles/global.scss'; // overlay global y variables
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import '../styles/_cards';
+@import '../styles/_container';
+/* Página completa */
 .pagos-page {
-  /* Solo los estilos específicos de esta página */
-  background-image: url("/club-bg.jpg");
+  @extend .page-background;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "Inter", sans-serif;
   color: #fff;
-  position: relative; // para que el overlay funcione
-  z-index: 1;
-}
-
-.pagos-page {
-  @extend .page-background; /* hereda overlay azul + blur */
-
-  /* imagen específica de esta página */
-  background-image: url("/club-bg.jpg");
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Inter", sans-serif;
-  color: #fff;
-}
-
-.pagos-container {
   width: 100%;
-  max-width: 1200px;
-  margin-top: 6rem;
-  padding: 2rem;
+  min-height: 100vh;
+  overflow-x: hidden; /* evita scroll horizontal */
+
+  
 }
 
+/* Contenedor central */
+.pagos-container {
+  padding: 2rem 0;
+  flex: 1;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem 0;
+  }
+}
+
+/* Animación de fade */
 .animate-fade {
   animation: fadeInUp 0.9s ease;
 }
@@ -58,7 +56,7 @@
 .card {
   flex: 1;
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px); /* blur unificado */
+  backdrop-filter: blur(20px);
   border-radius: 14px;
   padding: 1.2rem;
   text-align: center;
@@ -85,19 +83,21 @@
   }
 }
 
-/* Sección principal */
+/* Sección principal: panel izquierdo/derecho */
 .main-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  width: 100%;
   align-items: start;
+  box-sizing: border-box;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
   }
 }
 
-/* Panel izquierdo - fijo */
+/* Panel izquierdo */
 .info-card {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
@@ -105,14 +105,14 @@
   padding: 2rem;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
   animation: fadeInUp 0.9s ease;
-  min-height: 520px; /* Fijo y alineado */
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: hidden; /* sin scroll */
+  overflow: hidden;
 }
 
-/* Panel derecho - con scroll */
+/* Panel derecho con scroll propio */
 .disciplines-card {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
@@ -135,7 +135,7 @@
   border-radius: 8px;
 }
 
-/* Lista del historial */
+/* Lista de historial */
 .historial-lista {
   display: flex;
   flex-direction: column;
@@ -144,7 +144,7 @@
   margin-top: 1rem;
 }
 
-/* Ítems de pago */
+/* Items de pago */
 .pago-item {
   display: flex;
   justify-content: space-between;
@@ -212,5 +212,23 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .cards-summary {
+    flex-direction: column;
+  }
+
+  .info-card,
+  .disciplines-card {
+    min-height: auto;
+    max-height: none;
+  }
+
+  .pagos-container {
+    margin-top: 1rem;
+    padding: 1rem;
   }
 }

@@ -3,7 +3,7 @@ import "./Acceso.scss";
 import QRious from "qrious";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
-
+import '../styles/_container.scss';
 function Acceso() {
   const qrRef = useRef(null);
   const [codigo, setCodigo] = useState("");
@@ -58,9 +58,9 @@ function Acceso() {
   };
 
   return (
-    <div className="acceso-page page-background">
+    <div className="page-background ">
       <Navbar />
-      <div className="acceso-container">
+      <div className="page-container animate-fade">
         {/* Panel Izquierdo */}
         <div className="panel-izquierdo">
           <h3>📱 Tu Código QR de Acceso</h3>

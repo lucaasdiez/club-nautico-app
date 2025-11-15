@@ -1,0 +1,67 @@
+/* ========================= */
+/* GLOBAL PAGE CONTAINERS    */
+/* ========================= */
+
+/* Todos los contenedores principales de página */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 1.5rem auto 0 auto; /* separa del navbar y centra */
+  padding: 0 1rem;            /* espacio lateral seguro */
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* separación entre cards internas */
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+    padding: 0 0.8rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 0.8rem;
+    padding: 0 0.5rem;
+    gap: 0.8rem;
+  }
+}
+
+/* 🔹 Contenedor para layouts de GRID (2 columnas, etc.) */
+.page-container-grid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 1.5rem auto 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  display: grid;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+    padding: 0 0.8rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 0.8rem;
+    padding: 0 0.5rem;
+    gap: 0.8rem;
+  }
+}
+/* Animación fadeInUp global */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Clase reusable para cualquier contenedor o card */
+.animate-fade {
+  animation: fadeInUp 0.7s ease forwards;
+}

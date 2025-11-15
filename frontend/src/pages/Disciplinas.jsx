@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import '../styles/_container.scss';
 function Disciplinas() {
   const MySwal = withReactContent(Swal);
   const [usuario, setUsuario] = useState("");
@@ -166,10 +166,11 @@ function Disciplinas() {
   );
 
   return (
-    <div className="disciplinas-page page-background">
+    <div className="page-background">
       <Navbar />
-      <div className="disciplinas-container">
-        <div className="disciplinas-content">
+<div className="page-container disciplinas-container animate-fade">
+  <div className="disciplinas-content">
+
           <h1>Gestión de Disciplinas</h1>
 
           {/* === Sección de inscritas === */}
@@ -266,17 +267,3 @@ function Disciplinas() {
 }
 
 export default Disciplinas;
-
-
-// Aviso: Para poder hacer la prueba de las disciplinas se deben hacer los siguientes pasos:
-/* 
-  1. Ir a la terminal y pararse dentro de la rama /server
-  2. Dentro de la rama, ejectutar los siguientes comandos:
-    npm init -y
-    npm install express cors
-    node server.js
-  3. Una vez hecho esto, esperan a que levante y al final diga: ✅ Servidor corriendo en http://localhost:8080
-  4. Cuando esten dentro de la pagina, abran la consola con F12 y van a "Console", ahi dentro escriben el siguiente comando:
-    localStorage.setItem("userEmail", "paz@nautico.com");
-  5. Después presioná Enter, recargá la página (Ctrl + R) y ya vas a poder acceder al /disciplinas sin iniciar sesión.
-*/

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Certificados.scss";
 import Swal from "sweetalert2";
-
+import '../styles/_container.scss';
 function Certificados() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [discipline, setDiscipline] = useState("tenis");
@@ -175,10 +175,10 @@ function Certificados() {
   };
 
   return (
-    <div className="certificados-page page-background">
+    <div className="page-background">
       <Navbar />
 
-      <div className="certificados-container">
+      <div className="certificados-container page-container animate-fade">
         <div className="certificados-left">
           <h3>
             <i className="fa-solid fa-file-arrow-up"></i> Subir Parte Médico

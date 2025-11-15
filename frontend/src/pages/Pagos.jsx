@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import '../styles/_container.scss';
 function Pagos() {
   const MySwal = withReactContent(Swal);
   const [historial, setHistorial] = useState([
@@ -60,11 +60,11 @@ function Pagos() {
   };
 
   return (
-    <div className="pagos-page page-background">
+    <div className="page-background">
       <Navbar />
+<div className="page-container animate-fade">
+  <div className="pagos-content">
 
-      <div className="pagos-container animate-fade">
-        <div className="pagos-content">
           <h1 className="titulo-principal">Gestión de Pagos</h1>
 
           {/* Cards resumen */}

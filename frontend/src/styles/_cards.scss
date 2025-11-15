@@ -1,0 +1,75 @@
+/* ========================= */
+/* GLOBAL CARDS STYLES       */
+/* ========================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+.card,
+.info-card1,
+.info-card2,
+.disciplines-card,
+.info-item {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  padding: 1rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  width: 100%;
+  transition: all 0.25s ease;
+}
+
+.card:hover,
+.info-card1:hover,
+.info-card2:hover,
+.disciplines-card:hover,
+.info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.33);
+}
+
+/* Margen/padding lateral seguro para móviles */
+.cards-summary,
+.main-section,
+.info-container,
+.info-grid {
+  width: 100%;
+  padding: 0 1rem; /* nunca toca los bordes */
+  box-sizing: border-box;
+}
+
+/* Ajustes responsive adicionales */
+@media (max-width: 768px) {
+  .cards-summary,
+  .main-section,
+  .info-container,
+  .info-grid {
+    padding: 0 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-summary,
+  .main-section,
+  .info-container,
+  .info-grid {
+    padding: 0 0.6rem;
+  }
+}
+/* Animación de entrada similar al navbar */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 0.7s ease forwards;
+}

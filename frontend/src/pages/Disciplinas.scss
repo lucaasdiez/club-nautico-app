@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import '../styles/_cards';
+@import '../styles/_container';
+
 .disciplinas-page {
   min-height: 100vh;
   display: flex;
@@ -5,28 +9,48 @@
   align-items: center;
   font-family: "Inter", sans-serif;
   color: #fff;
+  position: relative;
+  overflow: hidden;
 
-  /* 🌅 Fondo con la foto del club + capa negra suave */
+  /* 🌅 Fondo con la foto del club + overlay oscuro */
   background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
+    linear-gradient(rgba(13, 31, 60, 0.6), rgba(13, 31, 60, 0.6)),
     url("/club-bg.jpg") center/cover no-repeat fixed;
-
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-}
 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+    //eliminar mas adelante
+            &.navbar {
+      z-index: 9999 !important;
+    }
+  }
+}
 
 .disciplinas-container {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
+  padding: 2rem 0;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem 0;
+  }
 }
+
 
 .disciplinas-content {
   width: 100%;
@@ -37,12 +61,22 @@
     font-size: 1.9rem;
     margin-bottom: 2rem;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 500px) {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
   }
 
   h2 {
     margin-bottom: 1rem;
     font-size: 1.4rem;
     color: #f3f4f6;
+
+    @media (max-width: 500px) {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
   }
 }
 
@@ -82,6 +116,11 @@
       font-weight: 600;
       border-radius: 5px;
       padding: 0.3rem 0.6rem;
+
+      @media (max-width: 500px) {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+      }
     }
 
     .badge {
@@ -97,6 +136,11 @@
       &.ocupado {
         background: #b91c1c;
       }
+
+      @media (max-width: 500px) {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+      }
     }
   }
 
@@ -104,6 +148,10 @@
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
     color: #f1f5f9;
+
+    @media (max-width: 500px) {
+      font-size: 0.85rem;
+    }
   }
 
   .horario,
@@ -111,6 +159,10 @@
     font-size: 0.9rem;
     margin: 0.3rem 0;
     color: #e2e8f0;
+
+    @media (max-width: 500px) {
+      font-size: 0.8rem;
+    }
   }
 
   .precio {
@@ -118,6 +170,10 @@
     color: #ffd700;
     margin-top: 0.5rem;
     text-align: right;
+
+    @media (max-width: 500px) {
+      font-size: 0.9rem;
+    }
   }
 
   button {
@@ -133,6 +189,7 @@
     &.btn-inscribirse {
       background: linear-gradient(90deg, #1e3a8a, #003366);
       color: white;
+
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -142,9 +199,15 @@
     &.btn-desinscribirse {
       background: #b91c1c;
       color: white;
+
       &:hover {
         background: #a11a1a;
       }
+    }
+
+    @media (max-width: 500px) {
+      padding: 0.7rem;
+      font-size: 0.9rem;
     }
   }
 }
@@ -158,6 +221,10 @@
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 500px) {
+    padding: 1rem;
+  }
 }
 
 .resumen-lista {
@@ -166,6 +233,7 @@
 
 .total {
   font-weight: 700;
+
   span {
     color: #ffd700;
   }

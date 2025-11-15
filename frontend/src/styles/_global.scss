@@ -22,5 +22,9 @@
   > * {
     position: relative; // hijos sobre el overlay
     z-index: 1;
+        // 🔹 Fix global para el navbar en todas las páginas
+    &.navbar {
+      z-index: 9999 !important;
   }
+}
 }

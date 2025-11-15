@@ -1,60 +1,106 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import '../styles/_cards';
+@import '../styles/_container';
 
+/* ========================= */
+/* PAGE + OVERLAY            */
+/* ========================= */
 .info-personal-page {
   min-height: 100vh;
-  /* 🌅 Fondo con la foto del club + capa negra suave */
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
-    url("/club-bg.jpg") center/cover no-repeat fixed;
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   font-family: "Inter", sans-serif;
   color: #fff;
-  overflow: hidden; /* ✅ elimina scroll */
+  overflow: hidden;
+  position: relative;
+
+  background:
+    linear-gradient(rgba(13, 31, 60, 0.6), rgba(13, 31, 60, 0.6)),
+    url("/club-bg.jpg") center/cover no-repeat fixed;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    z-index: 0;
+    pointer-events: none; // 🔹 Soluciona el problema de interacción
+  }
+
+  > * {
+    
+    position: relative;
+    z-index: 1;
+     //eliminar mas adelante
+        &.navbar {
+      z-index: 9999 !important;
+    }
+  }
 }
 
-/* contenedor principal */
+.page-container.info-container {
+  padding-top: 2rem; /* separa del navbar */
+  padding-bottom: 2rem;
+  justify-content: center; /* centra verticalmente si el contenedor es flex */
+  align-items: center;     /* centra horizontalmente */
+}
+
+/* ========================= */
+/* CONTENEDOR CENTRAL        */
+/* ========================= */
 .info-container {
-  flex: 1;
   width: 100%;
+  max-width: 1200px;   // igual que el home
+  margin: 0 auto;      // centra horizontalmente
   display: flex;
   justify-content: center;
-  align-items: center; /* ✅ centra verticalmente */
+  align-items: center;
   padding: 2rem;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem;
+  }
 }
 
-/* tarjeta central */
+/* ========================= */
+/* TARJETA PERSONALIZADA      */
+/* ========================= */
 .info-card2 {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
-  border-radius: 20px;
-  padding: 1rem;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 700px;
+  width: 100%;         // ocupa todo el contenedor
+  max-width: 700px;    // límite máximo
+  padding: 2rem;
   text-align: center;
-  animation: fadeIn 0.8s ease;
+  z-index: 1;
 
   h1 {
     font-size: 1.8rem;
     margin-bottom: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 0.6rem;
+
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1.5rem 1rem;
   }
 }
 
-/* grid de datos */
+/* ========================= */
+/* GRID DE DATOS             */
+/* ========================= */
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,13 +111,16 @@
   }
 }
 
-/* ítems individuales */
+/* ========================= */
+/* ITEMS INDIVIDUALES        */
+/* ========================= */
 .info-item {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1rem 1.2rem;
   text-align: left;
   transition: all 0.25s ease;
+  z-index: 1;
 
   &:hover {
     background: rgba(255, 255, 255, 0.18);
@@ -83,28 +132,24 @@
     font-size: 0.9rem;
     opacity: 0.85;
     margin-bottom: 0.3rem;
+
+    @media (max-width: 500px) {
+      font-size: 0.85rem;
+    }
   }
 
   span {
     font-weight: 600;
     font-size: 1.1rem;
     color: #fff;
+
+    @media (max-width: 500px) {
+      font-size: 1rem;
+    }
   }
 
   .activo {
     color: #22c55e;
     font-weight: 700;
   }
-}
-
-/* animación de aparición */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+} // 🔹 Esta llave faltaba
