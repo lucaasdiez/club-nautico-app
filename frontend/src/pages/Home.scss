@@ -19,7 +19,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(13, 31, 60, 0.5); /* un poco más transparente */
+    background: rgba(13, 31, 60, 0.5);
     backdrop-filter: blur(6px);
     z-index: 0;
     pointer-events: none;
@@ -38,15 +38,22 @@
 /* ========================= */
 /* MAIN CONTAINER            */
 /* ========================= */
-.home-content {
+.home-container {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.home-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
   align-items: center;
-  padding: 2rem 1rem;
-  box-sizing: border-box;
+  position: relative;
+  z-index: 2; /* sobre overlay */
 }
 
 /* ========================= */
@@ -57,8 +64,36 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   width: 100%;
-  justify-items: stretch; /* fuerza que todas las cards tengan la misma anchura */
-  align-items: stretch;   /* fuerza misma altura */
+  justify-items: stretch;
+  align-items: stretch;
+
+  .card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+
+    .label {
+      font-size: 0.8rem;
+      color: #d9e3f0;
+      margin-bottom: 0.3rem;
+    }
+
+    .value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+
+      &.active {
+        color: #22c55e;
+      }
+
+      &.inactive {
+        color: #f43f5e;
+      }
+    }
+  }
 }
 
 /* ========================= */
@@ -70,11 +105,32 @@
   gap: 2rem;
   width: 100%;
   margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.7s ease forwards;
 }
 
 /* ========================= */
 /* PROFILE CARD              */
 /* ========================= */
+.info-card1,
+.disciplines-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  color: #fff;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ffd700;
+  }
+}
+
 .profile {
   display: flex;
   align-items: center;
@@ -114,9 +170,6 @@
   }
 }
 
-/* ========================= */
-/* DETAILS                   */
-/* ========================= */
 .details {
   line-height: 1.4;
   font-size: 0.9rem;
@@ -134,6 +187,14 @@
     font-size: 0.85rem;
     color: #d9e3f0;
     margin-bottom: 0.8rem;
+  }
+
+  .disciplines-list-container {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
   }
 
   .discipline-item {
@@ -216,17 +277,8 @@
 }
 
 /* ========================= */
-/* SAFE LOAD ANIMATION       */
+/* ANIMATIONS                */
 /* ========================= */
-.home-page .main-section {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.home-page .main-section.fade-show {
-  animation: fadeIn 0.7s ease forwards;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

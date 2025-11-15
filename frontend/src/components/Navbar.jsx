@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect, useState } from "react";
-import { useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -11,9 +10,6 @@ function Navbar() {
   const MySwal = withReactContent(Swal);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 🔹 Alerta de bienvenida solo una vez por sesión
-
-  // 🔹 Mostrar alerta de bienvenida solo una vez por sesión
   useEffect(() => {
     const hasWelcomed = localStorage.getItem("hasWelcomed");
     const currentPath = location.pathname;
@@ -39,7 +35,6 @@ function Navbar() {
     }
   }, [location.pathname]);
 
-  // 🔹 Cerrar sesión con confirmación
   const handleLogout = async () => {
     const result = await MySwal.fire({
       title: "¿Deseás cerrar sesión?",
@@ -67,7 +62,6 @@ function Navbar() {
         showConfirmButton: false,
       });
 
-      // 🔹 Limpia datos de sesión
       localStorage.removeItem("hasWelcomed");
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userRole");
@@ -85,14 +79,25 @@ function Navbar() {
           <span>Club Náutico</span>
         </div>
 
-        <ul className="navbar-links">
-          <li onClick={() => navigate("/home")}>Inicio</li>
-          <li onClick={() => navigate("/perfil")}>Mi Perfil</li>
-          <li onClick={() => navigate("/disciplinas")}>Disciplinas</li>
-          <li onClick={() => navigate("/pagos")}>Pagos</li>
-          <li onClick={() => navigate("/acceso")}>Acceso</li>
-          <li onClick={() => navigate("/certificados")}>Certificados</li>
-          <li className="logout" onClick={handleLogout}>
+        {/* BOTÓN HAMBURGUESA */}
+        <div
+          className={`hamburger ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        {/* LINKS */}
+        <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
+          <li onClick={() => { navigate("/home"); setMenuOpen(false); }}>Inicio</li>
+          <li onClick={() => { navigate("/perfil"); setMenuOpen(false); }}>Mi Perfil</li>
+          <li onClick={() => { navigate("/disciplinas"); setMenuOpen(false); }}>Disciplinas</li>
+          <li onClick={() => { navigate("/pagos"); setMenuOpen(false); }}>Pagos</li>
+          <li onClick={() => { navigate("/acceso"); setMenuOpen(false); }}>Acceso</li>
+          <li onClick={() => { navigate("/certificados"); setMenuOpen(false); }}>Certificados</li>
+          <li className="logout" onClick={() => { handleLogout(); setMenuOpen(false); }}>
             Cerrar sesión
           </li>
         </ul>

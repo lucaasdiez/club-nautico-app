@@ -1,19 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
 
-// ... (Todo tu CSS de .disciplinas-admin-page, .table, etc. va aquí arriba sin cambios)
-// ...
-
 .disciplinas-admin-page {
   min-height: 100vh;
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
-    url("/club-bg.jpg") center/cover no-repeat fixed;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url("/club-bg.jpg") center/cover no-repeat fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,25 +19,25 @@
   object-fit: contain;
   margin-top: 3rem;
   margin-bottom: 2rem;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
   animation: fadeInDown 0.8s ease;
 }
 
 .disciplinas-admin-card {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255,255,255,0.12);
   backdrop-filter: blur(16px);
   border-radius: 20px;
   padding: 2.5rem 3rem;
   max-width: 950px;
   width: 95%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
   animation: fadeInUp 0.9s ease;
 
   h1 {
     font-size: 1.8rem;
     margin-bottom: 1.8rem;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
 }
 
@@ -67,13 +56,13 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
   transition: all 0.25s ease;
-  &:hover {
-    background: #1da34e;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  }
+}
+.btn-crear:hover { 
+  background: #1da34e; 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3); 
 }
 
 .status-badge {
@@ -87,51 +76,29 @@
   &.proxima { background: #eab308; }
 }
 
-.table-wrapper {
-  overflow-x: auto;
-  margin-bottom: 2rem;
-}
+.table-wrapper { overflow-x: auto; margin-bottom: 2rem; }
 
 table {
   width: 100%;
   border-collapse: collapse;
   color: #fff;
   text-align: left;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255,255,255,0.05);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
   font-size: 0.95rem;
 }
 
-thead {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-}
+thead { background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); }
 
-th, td {
-  padding: 0.9rem 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  vertical-align: middle;
-}
+th, td { padding: 0.9rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.15); vertical-align: middle; }
 
-th {
-  font-weight: 600;
-  font-size: 1rem;
-  text-transform: uppercase;
-}
+th { font-weight: 600; font-size: 1rem; text-transform: uppercase; }
 
-tbody tr {
-  transition: background 0.2s ease-in-out;
-  &:hover { background: rgba(255, 255, 255, 0.1); }
-}
+tbody tr:hover { background: rgba(255,255,255,0.1); }
 
-.no-data {
-  text-align: center;
-  padding: 1rem;
-  font-style: italic;
-  color: #eee;
-}
+.no-data { text-align: center; padding: 1rem; font-style: italic; color: #eee; }
 
 .back-btn {
   background: linear-gradient(90deg, #1e3a8a, #003366);
@@ -142,71 +109,23 @@ tbody tr {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: all 0.25s ease;
-  &:hover {
-    background: linear-gradient(90deg, #003366, #1e3a8a);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  }
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+.back-btn:hover { 
+  background: linear-gradient(90deg,#003366,#1e3a8a); 
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35); 
 }
 
-.acciones-header {
-  text-align: center;
-  width: 220px;
-}
+.acciones-header { text-align: center; width: 220px; }
+.acciones-cell { text-align: center; white-space: nowrap; }
+.acciones-cell button { margin: 0 0.3rem; min-width: 90px; padding: 0.7rem 1.1rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.btn-edit { background: linear-gradient(90deg,#1e3a8a,#003366); color:white; }
+.btn-edit:hover { transform: translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+.btn-delete { background:#b91c1c; color:white; }
+.btn-delete:hover { background:#a11a1a; transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.4); }
 
-.acciones-cell {
-  text-align: center;
-  white-space: nowrap;
-  button {
-    border: none;
-    padding: 0.7rem 1.1rem;
-    font-size: 0.9rem;
-    min-width: 90px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    margin: 0 0.3rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  .btn-edit {
-    background: linear-gradient(90deg, #1e3a8a, #003366);
-    color: white;
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    }
-  }
-  .btn-delete {
-    background: #b91c1c;
-    color: white;
-    &:hover {
-      background: #a11a1a;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    }
-  }
-}
-
-/* --- ANIMACIONES --- */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/*
-============================================
-   MODAL DE CREACIÓN/EDICIÓN
-============================================
-*/
-
-/* --- Fondo del Modal --- */
+/* --- MODAL UNIFICADO --- */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -214,47 +133,28 @@ tbody tr {
   width: 100%;
   height: 100%;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.5);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
-  
-  /* 🔥 --- CAMBIO AQUÍ --- 🔥 */
-  align-items: center;    /* Vuelve a centrarlo verticalmente */
-  padding: 2rem 1rem;     /* Un padding general */
-  overflow-y: auto;       /* ESTA es la línea mágica que faltaba */
+  align-items: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
 }
 
-/* --- Contenido del Modal --- */
 .modal-content {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255,255,255,0.12);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  color: #f1f5f9;
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 2rem;
   width: 100%;
-  max-width: 800px; 
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
   text-align: left;
-  
-  /* Esto asegura que el modal NUNCA sea más alto que la pantalla */
-  max-height: 90vh; 
-  /* Y si el formulario es muy largo, el scroll aparece AQUÍ DENTRO */
-  overflow-y: auto; 
-  
-  /* Esto es para que el modal se encoja si el contenido es poco */
-  flex-shrink: 0; 
-
-  h2 {
-    color: #fff;
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
+  box-sizing: border-box;
 }
 
 .modal-close-btn {
@@ -263,165 +163,65 @@ tbody tr {
   right: 1rem;
   background: transparent;
   border: none;
-  cursor: pointer;
   color: #ccc;
   padding: 0.5rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
-  &:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* --- Estilos del Formulario --- */
-.create-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  h4 {
-    color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 0.5rem;
-    margin: 0.5rem 0 0.5rem;
-  }
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-
-  .full-width {
-    grid-column: 1 / -1; 
-  }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  
-  label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #e2e8f0;
-  }
-
-  input[type="text"],
-  input[type="number"],
-  input[type="time"],
-  textarea,
-  select {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    color: #fff;
-    font-family: "Inter", sans-serif;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-
-    &:focus {
-      outline: none;
-      border-color: #f5b100; 
-      box-shadow: 0 0 0 2px rgba(245, 177, 0, 0.5);
-    }
-  }
-
-  textarea {
-    resize: vertical;
-  }
-}
-
-/* --- Editor de Horarios --- */
-.horarios-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 8px;
-  /* El scroll interno del editor de horarios se quita */
-}
-
-.horario-item {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 0.75rem;
-  align-items: flex-end;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.75rem;
-  border-radius: 6px;
-}
-
-.btn-remove-horario {
-  background: #b91c1c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  width: 40px;
-  height: 40px;
-  font-weight: 700;
-  font-size: 1.5rem;
   cursor: pointer;
-  transition: background 0.2s ease;
-  padding: 0;
+}
+.modal-close-btn:hover { color: #fff; background: rgba(255,255,255,0.15); transform: scale(1.1); }
 
-  &:hover {
-    background: #a11a1a;
-  }
+.create-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; }
+.form-group.full-width { grid-column: 1/-1; }
+input, select, textarea { padding: 0.5rem; border-radius: 8px; border: none; outline: none; background: rgba(255,255,255,0.05); color: white; font-size: 0.95rem; }
+textarea { resize: none; }
+
+.horarios-editor { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; }
+.horario-item { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.5rem; align-items: end; }
+.btn-remove-horario { background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.2rem; width: 32px; height: 32px; }
+.btn-remove-horario:hover { background: #dc2626; }
+
+.btn-add-horario { background: #22c55e; color: white; border: none; border-radius: 8px; padding: 0.6rem 1rem; cursor: pointer; font-weight: 600; width: fit-content; }
+.btn-add-horario:hover { background: #16a34a; transform: translateY(-2px); }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
+.modal-actions button { padding: 0.7rem 1.3rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+.btn-cancel { background: #64748b; color: white; }
+.btn-cancel:hover { background: #475569; transform: translateY(-2px); }
+.btn-submit-create { background: linear-gradient(90deg,#1e3a8a,#003366); color: white; }
+.btn-submit-create:hover { transform: translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1200px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) { 
+  .form-grid { grid-template-columns: 1fr; } 
+  .horario-item { grid-template-columns: 1fr 1fr auto; } 
+}
+@media (max-width: 600px) {
+  .disciplinas-admin-logo { width: 100px; height: 100px; margin-top: 2rem; margin-bottom: 1.5rem; }
+  .disciplinas-admin-card { width: 95%; padding: 1.5rem; }
+  .table-wrapper { overflow-x: auto; }
+  .header-actions { flex-direction: column; gap: 0.5rem; align-items: center; }
+  .btn-crear { width: 100%; }
+  .horario-item { grid-template-columns: 1fr 1fr; }
+  .btn-remove-horario { width: 35px; height: 35px; font-size: 1.2rem; }
+  .modal-actions { flex-direction: column-reverse; gap: 0.5rem; }
+  .modal-actions button { width: 100%; }
 }
 
-.btn-add-horario {
-  background: #334155;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  margin-top: 0.5rem;
+/* Animaciones suaves */
+@keyframes fadeInUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0);} }
+@keyframes fadeInDown { from { opacity:0; transform: translateY(-20px);} to {opacity:1; transform:translateY(0);} }
 
-  &:hover {
-    background: #475569;
-  }
-}
-
-/* --- Botones de Acción del Modal --- */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-
-  button {
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    padding: 0.8rem 1.5rem;
-  }
-
-  .btn-cancel {
-    background: #555;
-    color: white;
-    &:hover {
-      background: #777;
-    }
-  }
-
-  .btn-submit-create {
-    background: linear-gradient(90deg, #1e3a8a, #003366);
-    color: white;
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
+/* --- MODAL RESPONSIVE MÓVIL --- */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    margin: 0 auto;
+    left: auto;
+    transform: none;
   }
 }

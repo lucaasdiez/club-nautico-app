@@ -2,9 +2,8 @@ import "./AdminHome.scss";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect } from "react";
-import { Users, Trophy, CreditCard, BarChart3, LogOut, Settings, ScanQrCode } from "lucide-react";
-import Navbar from "../components/Navbar"; 
-
+import { Users, Trophy, CreditCard, BarChart3, ScanQrCode } from "lucide-react";
+import AdminNavbar from "../components/AdminNavbar"; // Navbar minimalista
 
 function AdminHome() {
   const MySwal = withReactContent(Swal);
@@ -32,26 +31,9 @@ function AdminHome() {
   }, []);
 
   return (
-    <div className="admin-home">
-      <header className="admin-header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img
-              src="/logo-png-redondo-297x300.png"
-              alt="Logo Club Náutico"
-              className="admin-logo-img"
-            />
-            <div>
-              <h1>Panel de Administración</h1>
-              <p className="header-subtitle">Club Náutico</p>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-      </header>
+    <div className="page-background">
+      {/* Navbar minimalista */}
+      <AdminNavbar onLogout={handleLogout} />
 
       <main className="admin-main">
         <div className="welcome-section">
@@ -68,11 +50,7 @@ function AdminHome() {
             <p>Administrá la información de los socios del club</p>
           </button>
 
-<<<<<<< HEAD
-          <button onClick={() => (window.location.href = "#")} className="admin-card">
-=======
           <button onClick={() => (window.location.href = "/admin/disciplinas")} className="admin-card">
->>>>>>> master
             <div className="card-icon">
               <Trophy size={32} />
             </div>
@@ -86,10 +64,7 @@ function AdminHome() {
             </div>
             <h3>Control de Pagos</h3>
             <p>Supervisá y registrá los pagos de los socios</p>
-<<<<<<< HEAD
-=======
             <p>PROXIMAMENTE</p>
->>>>>>> master
           </button>
 
           <button onClick={() => (window.location.href = "/chatbot-analytics")} className="admin-card">
@@ -99,8 +74,6 @@ function AdminHome() {
             <h3>Analytics del Chatbot</h3>
             <p>Visualizá estadísticas del asistente virtual</p>
           </button>
-<<<<<<< HEAD
-=======
 
           <button onClick={() => (window.location.href = "/admin-qr")} className="admin-card">
             <div className="card-icon">
@@ -109,7 +82,6 @@ function AdminHome() {
             <h3>Escanear QR</h3>
             <p>Validá un Acceso</p>
           </button>
->>>>>>> master
         </div>
       </main>
     </div>

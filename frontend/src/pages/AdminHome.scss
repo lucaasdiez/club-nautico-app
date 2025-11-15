@@ -8,10 +8,7 @@
 
   /* MISMO FONDO QUE HOME */
   background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
     url("/club-bg.jpg") center/cover no-repeat fixed;
 }
 
@@ -27,7 +24,6 @@
   );
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-
   padding: 1.5rem 2rem;
   position: sticky;
   top: 0;
@@ -40,6 +36,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .logo-section {
@@ -91,12 +88,9 @@
   }
 }
 
-<<<<<<< HEAD
-=======
 /* ======================== */
 /* CONTENIDO */
 /* ======================== */
->>>>>>> master
 .admin-main {
   max-width: 1400px;
   margin: 0 auto;
@@ -122,50 +116,13 @@
   }
 }
 
-<<<<<<< HEAD
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-
-  @media (max-width: 768px) {
-=======
-
 .admin-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(3, 1fr);  /* siempre 3 por fila en escritorio */
+  grid-template-columns: repeat(3, 1fr);
 }
 
-/* 3 columnas en notebook/chico */
-@media (max-width: 1200px) {
-  .admin-grid {
-    grid-template-columns: repeat(3, minmax(260px, 1fr));
-  }
-}
-
-/* 2 columnas en tablet */
-@media (max-width: 900px) {
-  .admin-grid {
-    grid-template-columns: repeat(2, minmax(260px, 1fr));
-  }
-}
-
-/* 1 columna en móvil */
-@media (max-width: 600px) {
-  .admin-grid {
->>>>>>> master
-    grid-template-columns: 1fr;
-  }
-}
-
-<<<<<<< HEAD
-=======
-/* ======================== */
-/* CARD */
-/* ======================== */
-
->>>>>>> master
+/* CARD ESTILO */
 .admin-card {
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(12px);
@@ -214,19 +171,37 @@
   }
 }
 
-<<<<<<< HEAD
-=======
 /* ======================== */
-/* RESPONSIVE HEADER */
+/* RESPONSIVE */
 /* ======================== */
->>>>>>> master
-@media (max-width: 768px) {
+
+/* Tablets grandes / notebooks */
+@media (max-width: 1200px) {
+  .admin-grid {
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+  }
+}
+
+/* Tablets / pantallas medianas */
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
   .admin-header {
     padding: 1rem 1.5rem;
 
     .header-content {
       flex-direction: column;
       align-items: flex-start;
+      gap: 0.8rem;
     }
 
     .logo-section h1 {

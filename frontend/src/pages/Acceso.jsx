@@ -61,7 +61,7 @@ function Acceso() {
       setCodigoData({
         token,
         expiraEn,
-        generado: new Date().toLocaleString()
+        generado: new Date().toLocaleString(),
       });
 
       new QRious({
@@ -93,64 +93,82 @@ function Acceso() {
   };
 
   return (
-    <div className="acceso-page">
+    <div className="acceso-page page-background">
       <Navbar />
-      <div className="acceso-container">
-        <div className="qr-card">
-          <div className="card-header">
-            <QrCode size={32} />
-            <div>
-              <h2>Tu Código QR de Acceso</h2>
-              <p className="subtitulo">Presentá este código en la entrada del club</p>
-            </div>
+      <div className="acceso-container ">
+        {/* PANEL IZQUIERDO */}
+        <div className="panel-izquierdo">
+          <h3>
+            <QrCode size={24} />
+            Tu Código QR de Acceso
+          </h3>
+          <p className="subtitulo">Presentá este código en la entrada del club</p>
+
+          <canvas ref={qrRef}></canvas>
+
+          <div className="estado">
+            <p>
+              <Clock size={16} /> {tiempoRestante ? `Expira en: ${tiempoRestante}` : ""}
+            </p>
+            <span className={tiempoRestante === "Código expirado" ? "expirado" : "valido"}>
+              {tiempoRestante === "Código expirado" ? "Expirado" : "Válido"}
+            </span>
           </div>
 
-          <div className="qr-wrapper">
-            <canvas ref={qrRef}></canvas>
+          <div className="acciones">
+            <button
+              className="btn-generar"
+              onClick={generarNuevoCodigo}
+              disabled={loading}
+            >
+              <RefreshCw size={18} className={loading ? "spinning" : ""} />
+              {loading ? "Generando..." : "Generar Nuevo Código"}
+            </button>
           </div>
 
-          {tiempoRestante && (
-            <div className="tiempo-expiracion">
-              <Clock size={18} />
-              <span>Expira en: {tiempoRestante}</span>
-            </div>
-          )}
-
-          <button
-            onClick={generarNuevoCodigo}
-            className="btn-generar"
-            disabled={loading}
-          >
-            <RefreshCw size={20} className={loading ? "spinning" : ""} />
-            {loading ? "Generando..." : "Generar Nuevo Código"}
-          </button>
-
-          <div className="info-socio">
-            <div className="info-item">
-              <span className="label">Socio:</span>
-              <span className="value">{getUserName()}</span>
-            </div>
-            <div className="info-item">
-              <span className="label">Número:</span>
-              <span className="value">#{getNroSocio()}</span>
-            </div>
+          <div className="info-codigo">
+            <h4>Información del socio</h4>
+            <p>
+              <strong>Socio:</strong> {getUserName()}
+            </p>
+            <p>
+              <strong>Número:</strong> #{getNroSocio()}
+            </p>
             {codigoData && (
               <>
-                <div className="info-item">
-                  <span className="label">Generado:</span>
-                  <span className="value">{codigoData.generado}</span>
-                </div>
-                <div className="info-item">
-                  <span className="label">Expira:</span>
-                  <span className="value">{new Date(codigoData.expiraEn).toLocaleString()}</span>
-                </div>
+                <p>
+                  <strong>Generado:</strong> {codigoData.generado}
+                </p>
+                <p>
+                  <strong>Expira:</strong>{" "}
+                  {new Date(codigoData.expiraEn).toLocaleString()}
+                </p>
               </>
             )}
           </div>
 
-          <div className="seguridad-info">
-            <Shield size={18} />
+          <div className="seguridad">
+            <Shield size={16} />
             <p>Este código es único y personal. No lo compartas con nadie.</p>
+          </div>
+        </div>
+
+        {/* PANEL DERECHO */}
+        <div className="panel-derecho">
+          <div className="instrucciones">
+            <h3>Instrucciones</h3>
+            <ol>
+              <li>Presenta tu código QR al ingresar al club.</li>
+              <li>El código tiene una validez limitada, revisa el tiempo restante.</li>
+              <li>No compartas tu código con otros socios.</li>
+            </ol>
+          </div>
+
+          <div className="validacion">
+            <h3>Validación manual</h3>
+            <p>Si el lector de QR falla, podés ingresar el código manualmente:</p>
+            <input type="text" placeholder="Ingresar código de acceso" />
+            <button className="btn-validar">Validar Código</button>
           </div>
         </div>
       </div>
@@ -161,8 +179,12 @@ function Acceso() {
         }
 
         @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </div>
