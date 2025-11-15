@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect } from "react";
 import { Users, Trophy, CreditCard, BarChart3, LogOut, Settings, ScanQrCode } from "lucide-react";
+import Navbar from "../components/Navbar"; 
+
 
 function AdminHome() {
   const MySwal = withReactContent(Swal);
@@ -66,7 +68,7 @@ function AdminHome() {
             <p>Administrá la información de los socios del club</p>
           </button>
 
-          <button onClick={() => (window.location.href = "#")} className="admin-card">
+          <button onClick={() => (window.location.href = "/admin/disciplinas")} className="admin-card">
             <div className="card-icon">
               <Trophy size={32} />
             </div>
@@ -80,6 +82,7 @@ function AdminHome() {
             </div>
             <h3>Control de Pagos</h3>
             <p>Supervisá y registrá los pagos de los socios</p>
+            <p>PROXIMAMENTE</p>
           </button>
 
           <button onClick={() => (window.location.href = "/chatbot-analytics")} className="admin-card">
