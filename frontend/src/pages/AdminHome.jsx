@@ -2,17 +2,11 @@ import "./AdminHome.scss";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useEffect } from "react";
-import { Users, Trophy, CreditCard, BarChart3, LogOut, Settings, ScanQrCode } from "lucide-react";
-import Navbar from "../components/Navbar"; 
-
+import { Users, Trophy, CreditCard, BarChart3, LogOut, ScanQrCode } from "lucide-react";
+import AdminNavbar from "../components/AdminNavbar"; // 🔹 Nuevo navbar
 
 function AdminHome() {
   const MySwal = withReactContent(Swal);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
 
   useEffect(() => {
     const welcomed = sessionStorage.getItem("adminWelcomed");
@@ -33,25 +27,8 @@ function AdminHome() {
 
   return (
     <div className="admin-home">
-      <header className="admin-header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img
-              src="/logo-png-redondo-297x300.png"
-              alt="Logo Club Náutico"
-              className="admin-logo-img"
-            />
-            <div>
-              <h1>Panel de Administración</h1>
-              <p className="header-subtitle">Club Náutico</p>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-      </header>
+      {/* 🔹 Navbar de administración */}
+      <AdminNavbar />
 
       <main className="admin-main">
         <div className="welcome-section">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./ChatbotAnalytics.scss";
+import AdminNavbar from "../components/AdminNavbar"; // 🔹 Importamos AdminNavbar
 import {
   obtenerEstadisticas,
   obtenerPreguntasFrecuentes,
@@ -133,25 +134,8 @@ function ChatbotAnalytics() {
 
   return (
     <div className="chatbot-analytics">
-      <header className="analytics-top-header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img
-              src="/logo-png-redondo-297x300.png"
-              alt="Logo Club Náutico"
-              className="analytics-logo-img"
-            />
-            <div>
-              <h1>Analytics del Chatbot</h1>
-              <p className="header-subtitle">Club Náutico</p>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-      </header>
+  {/* 🔹 Usamos AdminNavbar */}
+      <AdminNavbar />
 
       <div className="analytics-actions">
         <button className="btn-refresh" onClick={cargarDatos}>

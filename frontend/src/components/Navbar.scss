@@ -51,6 +51,7 @@
     }
   }
 
+  /* 🔹 Navbar links */
   .navbar-links {
     list-style: none;
     display: flex;
@@ -93,19 +94,67 @@
     }
   }
 
-  @media (max-width: 850px) {
-    .navbar-container {
-      flex-direction: column;
-      gap: 0.7rem;
+  /* 🔹 Botón hamburguesa */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
     }
 
-    .navbar-links {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+    &.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    &.open span:nth-child(2) {
+      opacity: 0;
+    }
+    &.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+
+@media (max-width: 850px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(185, 28, 28, 0.95));
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0; // quitar padding
+    align-items: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+
+    &.active {
+      padding: 1rem 0; // agrega padding al abrir
+      max-height: 1000px; // un número muy grande para que se ajuste al contenido
+    }
+
+    li {
+      width: 100%;
+      text-align: center;
+      font-size: 1.1rem;
+
+      &::after {
+        display: none;
+      }
     }
   }
 }
+
 
 /* ✨ Animación de entrada */
 @keyframes fadeInDown {
@@ -117,4 +166,5 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
 }

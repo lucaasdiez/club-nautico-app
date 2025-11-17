@@ -2,9 +2,21 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import QRScanner from "../components/QRScanner/QRScanner";
 import Swal from "sweetalert2";
-import { CheckCircle, Shield, AlertCircle, XCircle, Clock, User, Hash, Calendar, QrCode, LogOut, ArrowLeft } from "lucide-react";
+import {
+  CheckCircle,
+  Shield,
+  AlertCircle,
+  XCircle,
+  Clock,
+  User,
+  Hash,
+  Calendar,
+  QrCode,
+  ArrowLeft,
+} from "lucide-react";
 import { validarCodigoAcceso } from "../services/codigoAccesoService";
 import "./AdminQR.scss";
+import AdminNavbar from "../components/AdminNavbar"; // 🔹 Importamos AdminNavbar
 
 function AdminQR() {
   const navigate = useNavigate();
@@ -13,31 +25,14 @@ function AdminQR() {
   const isValidating = useRef(false);
 
   const validarCodigo = async (codigoInput) => {
-    console.log("🔍 validarCodigo() llamada");
+    if (isValidating.current) return;
 
-    if (isValidating.current) {
-      console.log("⏸️ Validación en progreso, ignorando...");
-      return;
-    }
-
-    const codigo = codigoInput;
-    console.log("🔑 Código a validar:", codigo);
-
-    if (!codigo) {
-      console.log("⚠️ Código vacío");
-      return;
-    }
+    if (!codigoInput) return;
 
     try {
       isValidating.current = true;
-      console.log("🔒 isValidating = true");
-
-      console.log("🌐 Llamando al backend...");
-      const response = await validarCodigoAcceso(codigo);
-      console.log("📥 Respuesta recibida:", response);
-
+      const response = await validarCodigoAcceso(codigoInput);
       const validacionData = response.data;
-      console.log("📊 Datos de validación:", validacionData);
 
       const nuevaValidacion = {
         timestamp: new Date().toLocaleString(),
@@ -51,44 +46,28 @@ function AdminQR() {
       setUltimasValidaciones(prev => [nuevaValidacion, ...prev].slice(0, 10));
 
       if (validacionData.valido) {
-        console.log("✅ Código VÁLIDO");
         Swal.fire({
           icon: "success",
           title: "✅ Acceso Autorizado",
-          html: `
-            <div style="text-align: left; padding: 20px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #16a34a;">
-              <div style="margin-bottom: 15px;">
-                <p style="margin: 10px 0; font-size: 16px;"><strong>👤 Socio:</strong> ${validacionData.socioNombre}</p>
-                <p style="margin: 10px 0; font-size: 16px;"><strong>#️⃣ Número:</strong> ${validacionData.socioNumero}</p>
-                <p style="margin: 10px 0; font-size: 16px;"><strong>📋 Estado:</strong> <span style="color: #16a34a;">${validacionData.mensaje}</span></p>
-                ${validacionData.expiraEn ? `<p style="margin: 10px 0; font-size: 14px; color: #666;"><strong>⏰ Código expira:</strong> ${new Date(validacionData.expiraEn).toLocaleString()}</p>` : ''}
-              </div>
-              <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 6px; text-align: center;">
-                <p style="font-size: 24px; margin: 0; color: #16a34a;">✓ INGRESO AUTORIZADO</p>
-              </div>
-            </div>
-          `,
+          html: `<div style="text-align: left; padding: 20px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #16a34a;">
+                  <p><strong>👤 Socio:</strong> ${validacionData.socioNombre}</p>
+                  <p><strong>#️⃣ Número:</strong> ${validacionData.socioNumero}</p>
+                  <p><strong>📋 Estado:</strong> <span style="color: #16a34a;">${validacionData.mensaje}</span></p>
+                  ${validacionData.expiraEn ? `<p><strong>⏰ Expira:</strong> ${new Date(validacionData.expiraEn).toLocaleString()}</p>` : ''}
+                </div>`,
           confirmButtonColor: "#16a34a",
           confirmButtonText: "✓ Autorizar Ingreso",
           width: 600,
         });
       } else {
-        console.log("❌ Código INVÁLIDO");
         Swal.fire({
           icon: "error",
           title: "❌ Acceso Denegado",
-          html: `
-            <div style="text-align: left; padding: 20px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #dc2626;">
-              <div style="margin-bottom: 15px;">
-                <p style="margin: 10px 0; font-size: 16px;"><strong>⚠️ Motivo:</strong> <span style="color: #dc2626;">${validacionData.mensaje}</span></p>
-                ${validacionData.socioNombre ? `<p style="margin: 10px 0; font-size: 16px;"><strong>👤 Socio:</strong> ${validacionData.socioNombre}</p>` : ''}
-                ${validacionData.socioNumero ? `<p style="margin: 10px 0; font-size: 16px;"><strong>#️⃣ Número:</strong> ${validacionData.socioNumero}</p>` : ''}
-              </div>
-              <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 6px; text-align: center;">
-                <p style="font-size: 24px; margin: 0; color: #dc2626;">✗ INGRESO DENEGADO</p>
-              </div>
-            </div>
-          `,
+          html: `<div style="text-align: left; padding: 20px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #dc2626;">
+                  <p><strong>⚠️ Motivo:</strong> <span style="color: #dc2626;">${validacionData.mensaje}</span></p>
+                  ${validacionData.socioNombre ? `<p><strong>👤 Socio:</strong> ${validacionData.socioNombre}</p>` : ''}
+                  ${validacionData.socioNumero ? `<p><strong>#️⃣ Número:</strong> ${validacionData.socioNumero}</p>` : ''}
+                </div>`,
           confirmButtonColor: "#dc2626",
           confirmButtonText: "Entendido",
           width: 600,
@@ -96,7 +75,6 @@ function AdminQR() {
       }
 
     } catch (error) {
-      console.error("💥 Error al validar código:", error);
       Swal.fire({
         icon: "error",
         title: "Error de validación",
@@ -106,71 +84,28 @@ function AdminQR() {
     } finally {
       setTimeout(() => {
         isValidating.current = false;
-        console.log("🔓 isValidating = false");
       }, 1000);
     }
   };
 
-  const abrirEscaner = () => {
-    setShowScanner(true);
-  };
+  const abrirEscaner = () => setShowScanner(true);
 
   const handleScanSuccess = async (codigoEscaneado) => {
-    console.log("📱 Código recibido del escáner:", codigoEscaneado);
-
     setShowScanner(false);
-
     setTimeout(async () => {
-      console.log("🔍 Intentando validar código...");
-
-      if (!isValidating.current) {
-        console.log("🚀 Llamando a validarCodigo()...");
-        await validarCodigo(codigoEscaneado);
-      } else {
-        console.log("⏸️ Ya hay una validación en progreso");
-      }
+      if (!isValidating.current) await validarCodigo(codigoEscaneado);
     }, 300);
   };
 
-  const handleBack = () => {
-    navigate("/admin");
-  };
+  const handleBack = () => navigate("/admin");
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userRole");
-    window.location.href = "/";
-  };
-
-  const getIconoEstado = (valido) => {
-    if (valido) {
-      return <CheckCircle className="icono-valido" size={20} />;
-    } else {
-      return <XCircle className="icono-invalido" size={20} />;
-    }
-  };
+  const getIconoEstado = (valido) =>
+    valido ? <CheckCircle className="icono-valido" size={20} /> : <XCircle className="icono-invalido" size={20} />;
 
   return (
     <div className="admin-qr-page">
-      <header className="admin-qr-header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img
-              src="/logo-png-redondo-297x300.png"
-              alt="Logo Club Náutico"
-              className="admin-logo-img"
-            />
-            <div>
-              <h1>Validación de Accesos</h1>
-              <p className="header-subtitle">Club Náutico</p>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-      </header>
+      {/* 🔹 Usamos AdminNavbar */}
+      <AdminNavbar />
 
       <div className="admin-qr-container">
         <div className="content-grid">
@@ -243,25 +178,20 @@ function AdminQR() {
                     key={index}
                     className={`validacion-item ${validacion.valido ? 'valido' : 'invalido'}`}
                   >
-                    <div className="validacion-icono">
-                      {getIconoEstado(validacion.valido)}
-                    </div>
+                    <div className="validacion-icono">{getIconoEstado(validacion.valido)}</div>
                     <div className="validacion-info">
                       <div className="info-principal">
                         <span className="socio-nombre">
-                          <User size={16} />
-                          {validacion.socioNombre}
+                          <User size={16} /> {validacion.socioNombre}
                         </span>
                         <span className="socio-numero">
-                          <Hash size={16} />
-                          {validacion.socioNumero}
+                          <Hash size={16} /> {validacion.socioNumero}
                         </span>
                       </div>
                       <div className="info-secundaria">
                         <span className="mensaje">{validacion.mensaje}</span>
                         <span className="timestamp">
-                          <Calendar size={14} />
-                          {validacion.timestamp}
+                          <Calendar size={14} /> {validacion.timestamp}
                         </span>
                       </div>
                     </div>
@@ -294,10 +224,7 @@ function AdminQR() {
       </div>
 
       {showScanner && (
-        <QRScanner
-          onScanSuccess={handleScanSuccess}
-          onClose={() => setShowScanner(false)}
-        />
+        <QRScanner onScanSuccess={handleScanSuccess} onClose={() => setShowScanner(false)} />
       )}
     </div>
   );
